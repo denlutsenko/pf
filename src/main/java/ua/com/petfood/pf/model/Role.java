@@ -1,10 +1,18 @@
 package ua.com.petfood.pf.model;
 
+import javax.persistence.*;
 
-public class Role {
-    private Long id;
+@Entity
+@Table(name = "pf_roles")
+public class Role extends PersistentEntity<Long>{
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name")
     private RoleName name = RoleName.ANONYMOUS;
-    private Status status = Status.ACTIVE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="status")
+    private UserStatus status = UserStatus.ACTIVE;
 
     public Role() {
     }
@@ -25,11 +33,11 @@ public class Role {
         this.name = name;
     }
 
-    public Status getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 }

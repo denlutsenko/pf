@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/")
-public class AuthenticationRestControllerV1 {
+public class AuthenticationController {
 
     @GetMapping
     public ResponseEntity test() {

@@ -2,9 +2,9 @@ package ua.com.petfood.pf.security.jwt;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import ua.com.petfood.pf.model.Employee;
+import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.Role;
-import ua.com.petfood.pf.model.Status;
+import ua.com.petfood.pf.model.UserStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,23 +14,23 @@ public final class JwtEmployeeFactory {
     public JwtEmployeeFactory() {
     }
 
-    public static JwtEmployee create(Employee employee) {
+    public static JwtEmployee create(User user) {
         return new JwtEmployee(
-                employee.getId(),
-                employee.getEmail(),
-                employee.getFirstName(),
-                employee.getLastName(),
-                employee.getEmail(),
-                employee.getPassword(),
-                mapToGrantedAuthorities(employee.getRole()),
-                employee.getStatus().equals(Status.ACTIVE),
-                employee.getUpdated()
+                user.getId(),
+                user.getEmail(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPassword(),
+                mapToGrantedAuthorities(user.getRole()),
+                user.getUserStatus().equals(UserStatus.ACTIVE),
+                user.getUpdated()
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(Role employeeRole) {
+    private static List<GrantedAuthority> mapToGrantedAuthorities(Role userRole) {
         List<GrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority(employeeRole.getName().toString()));
+        list.add(new SimpleGrantedAuthority(userRole.getName().toString()));
         return list;
     }
 }
