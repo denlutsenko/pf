@@ -2,10 +2,9 @@ package ua.com.petfood.pf.model;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "pf_orders")
@@ -14,10 +13,7 @@ public class Order extends PersistentEntity<Long>{
     @ManyToOne
     private User user;
 
-    private Long amount;
-
-    @OneToMany
-    private List<SKUItem> orderedItems;
+    private BigDecimal orderAmount;
 
     private LocalDateTime orderTime;
 
@@ -41,20 +37,12 @@ public class Order extends PersistentEntity<Long>{
         this.user = user;
     }
 
-    public Long getAmount() {
-        return amount;
+    public BigDecimal getOrderAmount() {
+        return orderAmount;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public List<SKUItem> getOrderedItems() {
-        return orderedItems;
-    }
-
-    public void setOrderedItems(List<SKUItem> orderedItems) {
-        this.orderedItems = orderedItems;
+    public void setOrderAmount(BigDecimal orderAmount) {
+        this.orderAmount = orderAmount;
     }
 
     public LocalDateTime getOrderTime() {

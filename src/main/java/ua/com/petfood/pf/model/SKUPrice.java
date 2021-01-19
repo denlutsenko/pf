@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "pf_sku_prices")
@@ -12,7 +13,9 @@ public class SKUPrice extends PersistentEntity<Long> {
     private SKUItem skuItem;
     @ManyToOne
     private Vendor vendor;
-    private Long priceInKop;
+
+    private BigDecimal basePrice;
+    private BigDecimal sellingPrice;
 
     public SKUPrice() {
         //Hibernate needs a default constructor
@@ -34,11 +37,19 @@ public class SKUPrice extends PersistentEntity<Long> {
         this.vendor = vendor;
     }
 
-    public Long getPriceInKop() {
-        return priceInKop;
+    public BigDecimal getBasePrice() {
+        return basePrice;
     }
 
-    public void setPriceInKop(Long priceInKop) {
-        this.priceInKop = priceInKop;
+    public void setBasePrice(BigDecimal basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 }

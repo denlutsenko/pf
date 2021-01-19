@@ -31,7 +31,6 @@ public class SKUItem extends PersistentEntity<Long> {
     private Boolean forGreatBonesAndJoints;
     private Boolean forSensitiveDigestion;
     private Integer bestBeforeMonths;
-    private Integer priceInKops;
 
     public SKUItem() {
         //Hibernate needs a default constructor
@@ -195,13 +194,5 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setBestBeforeMonths(Integer bestBeforeMonths) {
         this.bestBeforeMonths = bestBeforeMonths;
-    }
-
-    public Integer getPriceInKops() {
-        return priceInKops;
-    }
-
-    public void setPriceInKops(Integer priceInKops) {
-        this.priceInKops = priceInKops;
     }
 }
