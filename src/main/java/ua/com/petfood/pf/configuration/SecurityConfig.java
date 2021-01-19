@@ -18,7 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
 
     private static final String NO_TOKEN_ENDPOINT = "/";
-    private static final String ANONYMOUS_ENDPOINT = "";
+    private static final String NO_TOKEN_ENDPOINT1 = "/user/initialUser/create";
+
+    private static final String ANONYMOUS_ENDPOINT = "/user/testCallAnonOnly";
     private static final String USER_ENDPOINT = "";
     private static final String ADMIN_ENDPOINT = "";
 
@@ -42,6 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(NO_TOKEN_ENDPOINT).permitAll()
+                .antMatchers(NO_TOKEN_ENDPOINT1).permitAll()
+                .antMatchers(ANONYMOUS_ENDPOINT).hasAuthority("ANONYMOUS")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

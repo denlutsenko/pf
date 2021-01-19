@@ -8,7 +8,7 @@ public class Role extends PersistentEntity<Long>{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private RoleName name = RoleName.ANONYMOUS;
+    private RoleName name;
 
     @Enumerated(EnumType.STRING)
     @Column(name="status")

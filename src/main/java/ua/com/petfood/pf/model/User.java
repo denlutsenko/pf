@@ -54,6 +54,12 @@ public class User extends PersistentEntity<Long> {
         //Hibernate needs a default constructor
     }
 
+    public User(Role role, String email, @Size(max = 350) String password) {
+        this.role = role;
+        this.email = email;
+        this.password = password;
+    }
+
     public UserStatus getUserStatus() {
         return userStatus;
     }
