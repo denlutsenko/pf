@@ -18,13 +18,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
 
     //Any request are permitted
-    private static final String NO_TOKEN_ENDPOINT = "/";
-    private static final String NO_TOKEN_ENDPOINT1 = "/user/initialUser/create";
+    private static final String NO_TOKEN_ENDPOINT_INDEX = "/";
+    private static final String NO_TOKEN_ENDPOINT_API = "/api/**";
+
     //Only ANONYMOUS role requests are permitted
-    private static final String ANONYMOUS_USER_ENDPOINT = "/user/testCallAnonOnly";
-    private static final String ANONYMOUS_ENDPOINT = "/anon/**";
+    private static final String ANONYMOUS_ENDPOINT = "/anon**";
+
     //Only USER role requests are permitted
-    private static final String USER_ENDPOINT = "/api/**";
+    private static final String USER_ENDPOINT = "/user/**";
+
     //Only ADMIN role requests are permitted
     private static final String ADMIN_ENDPOINT = "/admin/**";
 
@@ -47,12 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(NO_TOKEN_ENDPOINT).permitAll()
-                .antMatchers(NO_TOKEN_ENDPOINT1).permitAll()
-                .antMatchers(ANONYMOUS_USER_ENDPOINT).hasRole("ANONYMOUS")
-                .antMatchers(ANONYMOUS_ENDPOINT).hasRole("ANONYMOUS")
-                .antMatchers(USER_ENDPOINT).hasRole("USER")
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .antMatchers(NO_TOKEN_ENDPOINT_INDEX).permitAll()
+                .antMatchers(NO_TOKEN_ENDPOINT_API).permitAll()
+                .antMatchers(ANONYMOUS_ENDPOINT).hasAuthority("ANONYMOUS")
+                .antMatchers(USER_ENDPOINT).hasAuthority("USER")
+                .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

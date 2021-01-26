@@ -1,5 +1,6 @@
 package ua.com.petfood.pf.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class PersistentEntity<ID extends Serializable> implements Persistable<ID
 
   @Override
   @Transient
+  @JsonIgnore
   public boolean isNew() {
     return null == getId();
   }

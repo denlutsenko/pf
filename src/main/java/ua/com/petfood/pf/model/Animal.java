@@ -6,9 +6,8 @@ import javax.persistence.*;
 @Table(name = "pf_animals")
 public class Animal extends PersistentEntity<Long> {
 
-    @Column(name = "category")
-    @Enumerated(EnumType.STRING)
-    private AnimalCategory category;
+    @OneToOne
+    private AnimalCategory animalCategory;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
@@ -18,6 +17,8 @@ public class Animal extends PersistentEntity<Long> {
 
     @Column(name = "age")
     private Integer age;
+
+    private String size;
 
     public Animal() {
         //Hibernate needs a default constructor
@@ -31,12 +32,12 @@ public class Animal extends PersistentEntity<Long> {
         this.id = id;
     }
 
-    public AnimalCategory getCategory() {
-        return category;
+    public AnimalCategory getAnimalCategory() {
+        return animalCategory;
     }
 
-    public void setCategory(AnimalCategory category) {
-        this.category = category;
+    public void setAnimalCategory(AnimalCategory animalCategory) {
+        this.animalCategory = animalCategory;
     }
 
     public User getUser() {
@@ -61,5 +62,13 @@ public class Animal extends PersistentEntity<Long> {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 }

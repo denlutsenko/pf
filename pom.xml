@@ -98,7 +98,7 @@
     </dependencies>
 
     <build>
-        <finalName>petfood</finalName>
+        <finalName>pf</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

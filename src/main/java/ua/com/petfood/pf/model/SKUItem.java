@@ -1,9 +1,6 @@
 package ua.com.petfood.pf.model;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pf_sku_items")
@@ -15,15 +12,29 @@ public class SKUItem extends PersistentEntity<Long> {
     private String manufacturer;
     private String brand;
     private String title;
-    @Enumerated(EnumType.STRING)
+
+    @OneToOne
     private AnimalCategory animalCategory;
+
     @Enumerated(EnumType.STRING)
     private Group petGroup;
-    @Enumerated(EnumType.STRING)
+
+    @OneToOne
     private FoodType foodType;
+
     private Integer packageWeightKilos;
-    @Enumerated(EnumType.STRING)
-    private AdultPetSize adultPetSize;
+    /*
+    Will be used only for dos SKU:
+        DEFAULT_VALUE ("0"), kg
+        SMALL ("0 - 2.00"), kg
+        MIDDLE ("2.01 - 10.00"), kg
+        BIG ("10.01 - 32.00"), kg
+        HUGE ("32.01 - 99.99"); kg
+
+    This field for 'Cat', 'Fish' etc. will be empty or some default value
+     */
+    private String animalSize;
+
     private Boolean grainLess;
     private Boolean forPregnant;
     private Boolean forCastrated;
@@ -132,14 +143,6 @@ public class SKUItem extends PersistentEntity<Long> {
         this.packageWeightKilos = packageWeightKilos;
     }
 
-    public AdultPetSize getAdultPetSize() {
-        return adultPetSize;
-    }
-
-    public void setAdultPetSize(AdultPetSize adultPetSize) {
-        this.adultPetSize = adultPetSize;
-    }
-
     public Boolean getGrainLess() {
         return grainLess;
     }
@@ -194,5 +197,13 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setBestBeforeMonths(Integer bestBeforeMonths) {
         this.bestBeforeMonths = bestBeforeMonths;
+    }
+
+    public String getAnimalSize() {
+        return animalSize;
+    }
+
+    public void setAnimalSize(String animalSize) {
+        this.animalSize = animalSize;
     }
 }

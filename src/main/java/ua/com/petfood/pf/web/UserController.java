@@ -1,9 +1,11 @@
 package ua.com.petfood.pf.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
 import ua.com.petfood.pf.service.UserService;
@@ -13,7 +15,6 @@ import java.util.Map;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/user")
 public class UserController {
     private UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -24,7 +25,7 @@ public class UserController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping(value = "/initialUser/create")
+    @PostMapping(value = "/api/initialUser/create")
     public ResponseEntity createAnonUser() {
         User user = userService.createAnonUser();
         String email = user.getEmail();
@@ -36,8 +37,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(value = "/testCallAnonOnly")
-    public ResponseEntity testCallForAnon(){
+    @GetMapping(value = "/anon/testCallAnonOnly")
+    public ResponseEntity testCallForAnon() {
         return ResponseEntity.ok().build();
     }
 
