@@ -42,6 +42,7 @@ public class SKUItem extends PersistentEntity<Long> {
     private Boolean forGreatBonesAndJoints;
     private Boolean forSensitiveDigestion;
     private Integer bestBeforeMonths;
+    private String image;
 
     public SKUItem() {
         //Hibernate needs a default constructor
@@ -205,5 +206,13 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setAnimalSize(String animalSize) {
         this.animalSize = animalSize;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }
