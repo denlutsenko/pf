@@ -2,6 +2,7 @@ package ua.com.petfood.pf.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.repository.AnimalCategoryRepository;
 import ua.com.petfood.pf.service.AnimalCategoryService;
@@ -24,5 +25,16 @@ public class AnimalCategoryServiceServiceImpl implements AnimalCategoryService {
     @Override
     public List<AnimalCategory> getAnimalCategories() {
         return Optional.of(animalCategoryRepository.findAll()).orElseGet(Collections::emptyList);
+    }
+
+    @Override
+    public AnimalCategory getAnimalCategoryById(final long id) {
+
+        AnimalCategory animalCategory = animalCategoryRepository.findById(id).orElse(null);
+        if (animalCategory != null) {
+            return animalCategory;
+        } else {
+            throw new NotFoundException("Animal not found");
+        }
     }
 }

@@ -9,9 +9,10 @@ public class SKUItem extends PersistentEntity<Long> {
     private String eanCode;
     private Integer amountInPackage;
     private String originCountry;
+    //производитель
     private String manufacturer;
     private String brand;
-    private String title;
+    private String skuName;
 
     @OneToOne
     private AnimalCategory animalCategory;
@@ -22,7 +23,8 @@ public class SKUItem extends PersistentEntity<Long> {
     @OneToOne
     private FoodType foodType;
 
-    private Integer packageWeightKilos;
+    private double packageWeightKilos;
+
     /*
     Will be used only for dos SKU:
         DEFAULT_VALUE ("0"), kg
@@ -34,6 +36,7 @@ public class SKUItem extends PersistentEntity<Long> {
     This field for 'Cat', 'Fish' etc. will be empty or some default value
      */
     private String animalSize;
+    private String taste;
 
     private Boolean grainLess;
     private Boolean forPregnant;
@@ -46,14 +49,6 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public SKUItem() {
         //Hibernate needs a default constructor
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getPackageCode() {
@@ -104,12 +99,12 @@ public class SKUItem extends PersistentEntity<Long> {
         this.brand = brand;
     }
 
-    public String getTitle() {
-        return title;
+    public String getSkuName() {
+        return skuName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSkuName(String skuName) {
+        this.skuName = skuName;
     }
 
     public AnimalCategory getAnimalCategory() {
@@ -136,12 +131,28 @@ public class SKUItem extends PersistentEntity<Long> {
         this.foodType = foodType;
     }
 
-    public Integer getPackageWeightKilos() {
+    public double getPackageWeightKilos() {
         return packageWeightKilos;
     }
 
-    public void setPackageWeightKilos(Integer packageWeightKilos) {
+    public void setPackageWeightKilos(double packageWeightKilos) {
         this.packageWeightKilos = packageWeightKilos;
+    }
+
+    public String getAnimalSize() {
+        return animalSize;
+    }
+
+    public void setAnimalSize(String animalSize) {
+        this.animalSize = animalSize;
+    }
+
+    public String getTaste() {
+        return taste;
+    }
+
+    public void setTaste(String taste) {
+        this.taste = taste;
     }
 
     public Boolean getGrainLess() {
@@ -198,14 +209,6 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setBestBeforeMonths(Integer bestBeforeMonths) {
         this.bestBeforeMonths = bestBeforeMonths;
-    }
-
-    public String getAnimalSize() {
-        return animalSize;
-    }
-
-    public void setAnimalSize(String animalSize) {
-        this.animalSize = animalSize;
     }
 
     public String getImage() {

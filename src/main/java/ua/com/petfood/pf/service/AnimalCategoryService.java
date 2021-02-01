@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AnimalCategoryService {
     List<AnimalCategory> getAnimalCategories();
+    AnimalCategory getAnimalCategoryById(long id);
 }

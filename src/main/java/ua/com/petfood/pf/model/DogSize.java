@@ -9,8 +9,6 @@ import javax.persistence.Table;
 @Table(name = "pf_dog_sizes")
 public class DogSize extends PersistentEntity<Long> {
     private String name;
-
-    @JsonIgnore
     private String short_name;
     private double min_weight_kg;
     private double max_weight_kg;

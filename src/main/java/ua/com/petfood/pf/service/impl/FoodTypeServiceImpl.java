@@ -2,6 +2,7 @@ package ua.com.petfood.pf.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.FoodType;
 import ua.com.petfood.pf.repository.FoodTypeRepository;
 import ua.com.petfood.pf.service.FoodTypeService;
@@ -23,5 +24,15 @@ public class FoodTypeServiceImpl implements FoodTypeService {
     @Override
     public List<FoodType> getFoodTypes() {
         return Optional.of(foodTypeRepository.findAll()).orElseGet(Collections::emptyList);
+    }
+
+    @Override
+    public FoodType getFoodTypeById(Long id) {
+        FoodType foodType = foodTypeRepository.findById(id).orElse(null);
+        if(foodType != null){
+            return foodType;
+        }else{
+            throw new NotFoundException("Food type not found");
+        }
     }
 }

@@ -4,9 +4,9 @@ public class QuestionnaireDto {
     private Long petCategoryId;
     private String name;
     private int age;
-    private Long adultWeightId;
+    private String adultDogSize;
     private Long preferableFoodId;
-    private Long purchaseFrequencyId;
+    private int purchaseFrequencyId;
     private int recommendedMealAmount;
 
     public QuestionnaireDto() {
@@ -36,12 +36,12 @@ public class QuestionnaireDto {
         this.age = age;
     }
 
-    public Long getAdultWeightId() {
-        return adultWeightId;
+    public String getAdultDogSize() {
+        return adultDogSize;
     }
 
-    public void setAdultWeightId(Long adultWeightId) {
-        this.adultWeightId = adultWeightId;
+    public void setAdultDogSize(String adultDogSize) {
+        this.adultDogSize = adultDogSize;
     }
 
     public Long getPreferableFoodId() {
@@ -52,11 +52,11 @@ public class QuestionnaireDto {
         this.preferableFoodId = preferableFoodId;
     }
 
-    public Long getPurchaseFrequencyId() {
+    public int getPurchaseFrequencyId() {
         return purchaseFrequencyId;
     }
 
-    public void setPurchaseFrequencyId(Long purchaseFrequencyId) {
+    public void setPurchaseFrequencyId(int purchaseFrequencyId) {
         this.purchaseFrequencyId = purchaseFrequencyId;
     }
 
