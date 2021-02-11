@@ -16,7 +16,9 @@ public class DailyFoodAmountServiceImpl implements DailyFoodAmountService {
     }
 
     @Override
-    public int getDailyFoodAmountForDog(String petCategory, String adultPetSize, String animalAgeType, String foodType) {
+    public Integer getDailyFoodAmountForDog(final String petCategory, final String adultPetSize,
+                                            final String animalAgeType, final String foodType) {
+
         return dailyFoodAmountRepository.findFoodAmount(petCategory, adultPetSize, animalAgeType, foodType);
     }
 

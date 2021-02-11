@@ -12,6 +12,8 @@ import ua.com.petfood.pf.repository.UserRepository;
 import ua.com.petfood.pf.service.RoleService;
 import ua.com.petfood.pf.service.UserService;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     private static final String DEFAULT_TMP_PASSWORD = "PASSWORD";
@@ -43,12 +45,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String email) {
-     User user = userRepository.findByEmail(email);
-
-        if (user == null) {
-            throw new NotFoundException("User with username: " + email + " not found");
-        }
-
-        return user;
+        return Optional.ofNullable(userRepository.findByEmail(email)).orElseThrow(()-> new NotFoundException("user not found"));
     }
 }

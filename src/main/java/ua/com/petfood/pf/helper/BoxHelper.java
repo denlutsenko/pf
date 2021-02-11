@@ -1,6 +1,7 @@
 package ua.com.petfood.pf.helper;
 
 import org.springframework.stereotype.Component;
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.Group;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDto;
@@ -20,75 +21,28 @@ import static ua.com.petfood.pf.helper.constants.Constants.*;
 public class BoxHelper {
 
     private FoodTypeService foodTypeService;
-    private AnimalCategoryService animalCategoryService;
     private DailyFoodAmountService dailyFoodAmountService;
 
     public BoxHelper(final FoodTypeService foodTypeService,
-                     final AnimalCategoryService animalCategoryService,
                      final DailyFoodAmountService dailyFoodAmountService) {
         this.foodTypeService = foodTypeService;
-        this.animalCategoryService = animalCategoryService;
         this.dailyFoodAmountService = dailyFoodAmountService;
     }
 
+    // норма еды в день для животного
+    public int adjustFoodAmountForOneDay(final String animalCategory, final String adultAnimalSize,
+                                         final String animalAgeType, final String preferableFood) {
 
-
-    public Map<String, Object> adjustDataForDog(final String animalCategory,
-                                                              final QuestionnaireDto questDto) {
-        Map<String, Object> result = new HashMap<>();
-
-        String preferableFood = defineFoodType(questDto.getPreferableFoodId());
-        String animalAgeType = defineAnimalAgeType(questDto.getAge());
-        int dailyFoodAmount = calculateFoodAmountForOneDay(animalCategory, questDto.getAdultDogSize(), animalAgeType,
+        Integer result = dailyFoodAmountService.getDailyFoodAmountForDog(animalCategory, adultAnimalSize, animalAgeType,
                 preferableFood);
-        int purchaseFrequency = definePurchasingFrequency(questDto.getPurchaseFrequencyId());
-        double severalDaysFoodAmount = calculateFoodAmountForSeveralDaysInKilos(purchaseFrequency, dailyFoodAmount);
-
-        result.put(PREFERABLE_FOOD, preferableFood);
-        result.put(ANIMAL__AGE_TYPE, animalAgeType);
-        result.put(PURCHASE_FREQUENCY, purchaseFrequency);
-        result.put(SEVERAL_DAYS_FOOD_AMOUNT, severalDaysFoodAmount);
-
+        if (result == null) {
+            throw new NotFoundException("Can't find daily food amount value");
+        }
 
         return result;
     }
 
-
-    private Map<String, List<SKUItem>> calculateRecommendedBoxForCat() {
-        return null;
-    }
-
-
-    private Map<String, List<SKUItem>> calculateRecommendedBoxForFish() {
-        return null;
-    }
-
-    private Map<String, List<SKUItem>> calculateRecommendedBoxForRodent() {
-        return null;
-    }
-
-
-    private Map<String, List<SKUItem>> calculateRecommendedBoxForBird() {
-        return null;
-    }
-
-
-    private Map<String, List<SKUItem>> calculateRecommendedBoxForReptile() {
-        return null;
-    }
-
-    // норма еды в день для животного
-    private int calculateFoodAmountForOneDay(final String animalCategory, final String adultAnimalSize,
-                                             final String animalAgeType, final String preferableFood) {
-        if (DOG.equalsIgnoreCase(animalCategory)) {
-            return dailyFoodAmountService.getDailyFoodAmountForDog(animalCategory, adultAnimalSize, animalAgeType,
-                    preferableFood);
-        } else {
-            return dailyFoodAmountService.getDailyFoodAmountForCat();
-        }
-    }
-
-    private double calculateFoodAmountForSeveralDaysInKilos(final int days, final int dailyFoodAmount) {
+    public double adjustFoodAmountForSeveralDaysInKilos(final int days, final int dailyFoodAmount) {
         BigDecimal dayDecimal = new BigDecimal(days);
         BigDecimal dailyFoodAmountDecimal = new BigDecimal(dailyFoodAmount);
 
@@ -98,9 +52,8 @@ public class BoxHelper {
         return divide.doubleValue();
     }
 
-
     // возраст животного
-    private String defineAnimalAgeType(int age) {
+    public String adjustAnimalAgeType(int age) {
         if (age >= 0 && age <= 12) {
             return Group.BABY.name();
         } else if (age >= 13 && age <= 72) {
@@ -111,12 +64,12 @@ public class BoxHelper {
     }
 
     // частота покупки
-    private int definePurchasingFrequency(final int purchaseFrequencyId) {
+    public int definePurchasingFrequency(final int purchaseFrequencyId) {
         return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
     }
 
     // тип корма (сухой, жидкий, смешанный)
-    private String defineFoodType(final Long id) {
+    public String adjustPreferableFood(final Long id) {
         return foodTypeService.getFoodTypeById(id).getType();
     }
 }

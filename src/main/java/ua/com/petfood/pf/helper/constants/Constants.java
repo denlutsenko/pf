@@ -19,10 +19,10 @@ public class Constants {
     public static final String MAIL_PATH = "@mail.com";
 
 
-
     //OTHER
-    public static final  String PREFERABLE_FOOD = "preferableFood";
-    public static final  String ANIMAL__AGE_TYPE = "animalAgeType";
-    public static final  String PURCHASE_FREQUENCY = "purchaseFrequency";
-    public static final  String SEVERAL_DAYS_FOOD_AMOUNT = "severalDaysFoodAmount";
+    public static final String PREFERABLE_FOOD = "preferableFood";
+    public static final String ANIMAL__AGE_TYPE = "animalAgeType";
+    public static final String PURCHASE_FREQUENCY = "purchaseFrequency";
+    public static final String SEVERAL_DAYS_FOOD_AMOUNT = "severalDaysFoodAmount";
+    public static final String UNDERSCORE = "_";
 }

@@ -11,5 +11,5 @@ public interface DailyFoodAmountRepository extends JpaRepository<DailyFoodAmount
             "AND adult_pet_size = ? \n" +
             "AND animal_age_type = ? \n" +
             "AND food_type = ?", nativeQuery = true)
-    int findFoodAmount(String petCategory, String adultPetSize, String animalAgeType, String foodType);
+    Integer findFoodAmount(String petCategory, String adultPetSize, String animalAgeType, String foodType);
 }

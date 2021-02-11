@@ -1,26 +1,37 @@
 package ua.com.petfood.pf.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "pf_sku_items")
 public class SKUItem extends PersistentEntity<Long> {
+    @JsonIgnore
     private String packageCode;
+    @JsonIgnore
     private String eanCode;
+    @JsonIgnore
     private Integer amountInPackage;
     private String originCountry;
     //производитель
     private String manufacturer;
     private String brand;
     private String skuName;
+    private String taste;
+    @Column(columnDefinition="TEXT")
+    private String description;
+
 
     @OneToOne
     private AnimalCategory animalCategory;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Group petGroup;
 
     @OneToOne
+    @JsonIgnore
     private FoodType foodType;
 
     private double packageWeightKilos;
@@ -35,15 +46,23 @@ public class SKUItem extends PersistentEntity<Long> {
 
     This field for 'Cat', 'Fish' etc. will be empty or some default value
      */
+    @JsonIgnore
     private String animalSize;
-    private String taste;
-
+    @JsonIgnore
     private Boolean grainLess;
+    @JsonIgnore
     private Boolean forPregnant;
+    @JsonIgnore
     private Boolean forCastrated;
+    @JsonIgnore
     private Boolean forGreatFurAndSkin;
+    @JsonIgnore
     private Boolean forGreatBonesAndJoints;
+    @JsonIgnore
     private Boolean forSensitiveDigestion;
+    @JsonIgnore
+    private Boolean bestseller;
+    @JsonIgnore
     private Integer bestBeforeMonths;
     private String image;
 
@@ -217,5 +236,22 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Boolean getBestseller() {
+        return bestseller;
+    }
+
+    public void setBestseller(Boolean bestseller) {
+        this.bestseller = bestseller;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
