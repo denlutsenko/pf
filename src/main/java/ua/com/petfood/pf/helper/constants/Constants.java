@@ -25,4 +25,8 @@ public class Constants {
     public static final String PURCHASE_FREQUENCY = "purchaseFrequency";
     public static final String SEVERAL_DAYS_FOOD_AMOUNT = "severalDaysFoodAmount";
     public static final String UNDERSCORE = "_";
+
+    public static final String  ANIMAL_CATEGORIES = "animalCategories";
+    public static final String  FOOD_TYPES = "foodTypes";
+    public static final String  DOG_SIZE = "dogSize";
 }

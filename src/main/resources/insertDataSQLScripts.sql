@@ -47,6 +47,13 @@ INSERT INTO pf_daily_food_amount (pet_category, adult_pet_size, animal_age_type,
 ('собака', 'XL', 'ADULT', 'жидкий', 270),
 ('собака', 'XL', 'OLD', 'жидкий', 290);
 
+INSERT INTO pf_daily_food_amount (pet_category, animal_age_type, food_type, food_amount) VALUES
+('кот', 'BABY', 'сухой', 35),
+('кот', 'ADULT', 'сухой', 27),
+('кот', 'OLD', 'сухой', 28),
+('кот', 'BABY', 'жидкий', 18),
+('кот', 'ADULT', 'жидкий', 15),
+('кот', 'OLD', 'жидкий', 42);
 
 
 INSERT INTO pf_sku_items (amount_in_package, animal_size, brand, ean_code, package_weight_kilos, pet_group, sku_name, taste, animal_category_id, food_type_id, grain_less, for_pregnant, for_castrated, for_great_fur_and_skin, for_great_bones_and_joints, for_sensitive_digestion, best_before_months, bestseller, description ) VALUES
@@ -267,5 +274,61 @@ INSERT INTO pf_sku_items (amount_in_package, animal_size, brand, ean_code, packa
 (5, 'XL', 'Brit', '0000000000008', 1.5, 'OLD', 'Жидкий корм для собак', 'Вкус индейки', 1, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
 (5, 'XL', 'Brit', '0000000000009', 1.5, 'OLD', 'Жидкий корм для собак', 'Вкус морепродуктов', 1, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here');
 
+
+INSERT INTO pf_sku_items (amount_in_package, brand, ean_code, package_weight_kilos, pet_group, sku_name, taste, animal_category_id, food_type_id, grain_less, for_pregnant, for_castrated, for_great_fur_and_skin, for_great_bones_and_joints, for_sensitive_digestion, best_before_months, bestseller, description ) VALUES
+(5, 'Purina', '0000000000001', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000002', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус индейки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000003', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус морковки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000004', 1, 'ADULT', 'Сухой корм для котов', 'Вкус ветчины', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000005', 1, 'ADULT', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000006', 1, 'ADULT', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000007', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000008', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус индейки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000009', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000010', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000011', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус индейки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000012', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000013', 1, 'ADULT', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000014', 1, 'ADULT', 'Сухой корм для котов', 'Вкус ветчины', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000015', 1, 'ADULT', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000016', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус ветчины', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000017', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000018', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000001', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000002', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус индейки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000003', 0.5, 'BABY', 'Сухой корм для котов', 'Вкус морковки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000004', 1, 'ADULT', 'Сухой корм для котов', 'Вкус ветчины', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000005', 1, 'ADULT', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000006', 1, 'ADULT', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000007', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус курицы', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000008', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус индейки', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000009', 1.5, 'OLD', 'Сухой корм для котов', 'Вкус морепродуктов', 2, 1, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000001', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000002', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус индейки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000003', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус морковки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000004', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус ветчины', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000005', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000006', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000007', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000008', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус индейки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Purina', '0000000000009', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000010', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000011', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус индейки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000012', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000013', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000014', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус ветчины', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000015', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000016', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус ветчины', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000017', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Royal Canin', '0000000000018', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000001', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000002', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус индейки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000003', 0.5, 'BABY', 'Жидкий корм для котов', 'Вкус морковки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000004', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус ветчины', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000005', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000006', 1, 'ADULT', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000007', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус курицы', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000008', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус индейки', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here'),
+(5, 'Brit', '0000000000009', 1.5, 'OLD', 'Жидкий корм для котов', 'Вкус морепродуктов', 2, 2, false,  false,  false,  false,  false,  false,  false, false, 'description here');
 
 
