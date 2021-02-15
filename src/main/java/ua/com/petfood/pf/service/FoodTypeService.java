@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface FoodTypeService {
     List<FoodType> getFoodTypes();
-    FoodType getFoodTypeById(Long id);
+    String getFoodTypeByCode(int id);
 }

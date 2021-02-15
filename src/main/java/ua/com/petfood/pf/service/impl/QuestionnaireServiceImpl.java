@@ -2,8 +2,9 @@ package ua.com.petfood.pf.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.com.petfood.pf.helper.BoxHelper;
+import ua.com.petfood.pf.helper.BoxCalculatorHelper;
 import ua.com.petfood.pf.model.AnimalCategory;
+import ua.com.petfood.pf.model.FoodType;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDto;
 import ua.com.petfood.pf.service.*;
@@ -21,7 +22,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private AnimalCategoryService animalCategoryService;
     private FoodTypeService foodTypeService;
     private DogSizeService dogSizeService;
-    private BoxHelper boxHelper;
+    private BoxCalculatorHelper boxHelper;
     private SKUItemService skuItemService;
 
     @Autowired
@@ -29,7 +30,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             final AnimalCategoryService animalCategoryService,
             final FoodTypeService foodTypeService,
             final DogSizeService dogSizeService,
-            final BoxHelper boxHelper,
+            final BoxCalculatorHelper boxHelper,
             final SKUItemService skuItemService) {
         this.animalCategoryService = animalCategoryService;
         this.foodTypeService = foodTypeService;
@@ -47,6 +48,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
                 "dogSize", dogSizeService.getDogSizes());
     }
 
+    @Override
     public Map<String, List<SKUItem>> calculateRecommendedBoxes(final QuestionnaireDto questDto) {
         Map<String, List<SKUItem>> result = new HashMap<>();
         AnimalCategory animalCategory = animalCategoryService.getAnimalCategoryById(questDto.getPetCategoryId());
@@ -55,7 +57,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         if (DOG.equalsIgnoreCase(animalCategory.getName())) {
             result = calculateRecommendedBoxForDog(questDto, animalCategory);
         } else if (CAT.equalsIgnoreCase(animalCategory.getName())) {
-            //  result = calculateRecommendedBoxForCat();
+//              result = calculateRecommendedBoxForCat();
         } else {
             // result = calculateRecommendedBoxForOther();
         }
@@ -64,45 +66,75 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private Map<String, List<SKUItem>> calculateRecommendedBoxForDog(final QuestionnaireDto questDto,
                                                                      final AnimalCategory animalCategory) {
+        Map<String, List<SKUItem>> result = new HashMap<>();
+
         Long preferableFoodId = questDto.getPreferableFoodId();
-        String preferableFood = boxHelper.adjustPreferableFood(preferableFoodId);
+        String preferableFood = boxHelper.adjustPreferableFood(preferableFoodId.intValue());
         String animalAgeType = boxHelper.adjustAnimalAgeType(questDto.getAge());
         String adultDogSize = questDto.getAdultDogSize();
-        int dailyFoodAmount = boxHelper.adjustFoodAmountForOneDay(animalCategory.getName(), adultDogSize,
-                animalAgeType, preferableFood);
         int purchaseFrequency = boxHelper.definePurchasingFrequency(questDto.getPurchaseFrequencyId());
-        double severalDaysFoodAmountKilos = boxHelper.adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency,
-                dailyFoodAmount);
+        List<String> skuBrandsByPetCategory = skuItemService.getSkuBrandsByPetCategory(animalCategory.getId());
 
-        return createRecommendedBoxes(animalCategory.getId(), animalAgeType,
-                preferableFoodId, adultDogSize, severalDaysFoodAmountKilos, purchaseFrequency);
-    }
-
-    private Map<String, List<SKUItem>> createRecommendedBoxes(final Long animalCategoryId,
-                                                              final String animalAgeType,
-                                                              final Long preferableFoodId,
-                                                              final String adultDogSize,
-                                                              final double severalDaysFoodAmountKilos,
-                                                              final int purchaseFrequency) {
-        Map<String, List<SKUItem>> result = new HashMap<>();
-        List<String> skuBrands = skuItemService.getSkuBrandsByPetCategory(animalCategoryId);
-
-        for (String brand : skuBrands) {
-            double closestSKUWeight = skuItemService.findClosestSKUWeight(brand, severalDaysFoodAmountKilos,
-                    animalAgeType, preferableFoodId, adultDogSize);
-
-            SKUItem skuItem = skuItemService.findRecommendedSKUItemForDog(animalCategoryId, brand,
-                    animalAgeType, preferableFoodId, adultDogSize, closestSKUWeight, true);
-
-            if (skuItem == null) {
-                skuItem = skuItemService.findRecommendedSKUItemForDog(animalCategoryId, brand,
-                        animalAgeType, preferableFoodId, adultDogSize, closestSKUWeight, false);
+        if (preferableFood == null) {
+            for (String brand : skuBrandsByPetCategory) {
+                result.put(brand, calculateRecommendedBoxWithMixedItems(animalCategory, adultDogSize, animalAgeType,
+                        purchaseFrequency, brand));
             }
-            result.put(String.valueOf(purchaseFrequency).concat(UNDERSCORE).concat(brand),
-                    adjustRecommendedSKUWeight(severalDaysFoodAmountKilos, skuItem));
+        } else {
+            int dailyFoodAmount = boxHelper.adjustFoodAmountForOneDay(animalCategory.getName(), adultDogSize,
+                    animalAgeType, preferableFood);
+            double severalDaysFoodAmountKilos = boxHelper.adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency,
+                    dailyFoodAmount);
+
+            for (String brand : skuBrandsByPetCategory) {
+                result.put(brand, createRecommendedBox(animalCategory.getId(), animalAgeType,
+                        preferableFoodId, adultDogSize, severalDaysFoodAmountKilos, brand));
+            }
         }
 
         return result;
+    }
+
+    private List<SKUItem> calculateRecommendedBoxWithMixedItems(final AnimalCategory animalCategory,
+                                                                final String adultDogSize, final String animalAgeType,
+                                                                final int purchaseFrequency, String brand) {
+        List<SKUItem> result = new ArrayList<>();
+        for (FoodType foodType : foodTypeService.getFoodTypes()) {
+            Long foodTypeId = foodType.getId() != null ? foodType.getId() : 1L;
+
+            String preferableFood = boxHelper.adjustPreferableFood(foodTypeId.intValue());
+            int dailyFoodAmount = boxHelper.adjustFoodAmountForOneDay(animalCategory.getName(), adultDogSize,
+                    animalAgeType, preferableFood);
+            double severalDaysFoodAmountKilos = boxHelper.adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency,
+                    dailyFoodAmount) / 2;
+            List<SKUItem> recommendedMixedBox = createRecommendedBox(animalCategory.getId(), animalAgeType, foodTypeId,
+                    adultDogSize, severalDaysFoodAmountKilos, brand);
+
+            result.addAll(recommendedMixedBox);
+        }
+        return result;
+    }
+
+
+    private List<SKUItem> createRecommendedBox(final Long animalCategoryId,
+                                               final String animalAgeType,
+                                               final Long preferableFoodId,
+                                               final String adultDogSize,
+                                               final double severalDaysFoodAmountKilos,
+                                               String brand) {
+
+        double closestSKUWeight = skuItemService.findClosestSKUWeight(brand, severalDaysFoodAmountKilos,
+                animalAgeType, preferableFoodId, adultDogSize);
+
+        SKUItem skuItem = skuItemService.findRecommendedSKUItemForDog(animalCategoryId, brand,
+                animalAgeType, preferableFoodId, adultDogSize, closestSKUWeight, true);
+
+        if (skuItem == null) {
+            skuItem = skuItemService.findRecommendedSKUItemForDog(animalCategoryId, brand,
+                    animalAgeType, preferableFoodId, adultDogSize, closestSKUWeight, false);
+        }
+
+        return adjustRecommendedSKUWeight(severalDaysFoodAmountKilos, skuItem);
     }
 
     private List<SKUItem> adjustRecommendedSKUWeight(final double targetWeight, final SKUItem skuItem) {

@@ -8,6 +8,7 @@ import javax.persistence.Table;
 public class FoodType extends PersistentEntity<Long> {
 
     private String type;
+    private int code;
 
     public FoodType() {
     }
@@ -18,5 +19,13 @@ public class FoodType extends PersistentEntity<Long> {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 }

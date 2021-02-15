@@ -18,13 +18,13 @@ import java.util.Map;
 import static ua.com.petfood.pf.helper.constants.Constants.*;
 
 @Component
-public class BoxHelper {
+public class BoxCalculatorHelper {
 
     private FoodTypeService foodTypeService;
     private DailyFoodAmountService dailyFoodAmountService;
 
-    public BoxHelper(final FoodTypeService foodTypeService,
-                     final DailyFoodAmountService dailyFoodAmountService) {
+    public BoxCalculatorHelper(final FoodTypeService foodTypeService,
+                               final DailyFoodAmountService dailyFoodAmountService) {
         this.foodTypeService = foodTypeService;
         this.dailyFoodAmountService = dailyFoodAmountService;
     }
@@ -69,8 +69,8 @@ public class BoxHelper {
     }
 
     // тип корма (сухой, жидкий, смешанный)
-    public String adjustPreferableFood(final Long id) {
-        return foodTypeService.getFoodTypeById(id).getType();
+    public String adjustPreferableFood(final int code) {
+        return foodTypeService.getFoodTypeByCode(code);
     }
 }
 

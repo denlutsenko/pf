@@ -27,12 +27,7 @@ public class FoodTypeServiceImpl implements FoodTypeService {
     }
 
     @Override
-    public FoodType getFoodTypeById(Long id) {
-        FoodType foodType = foodTypeRepository.findById(id).orElse(null);
-        if(foodType != null){
-            return foodType;
-        }else{
-            throw new NotFoundException("Food type not found");
-        }
+    public String getFoodTypeByCode(int code) {
+        return foodTypeRepository.findFoodTypeByCode(code);
     }
 }

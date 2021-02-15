@@ -10,6 +10,8 @@ public interface DailyFoodAmountRepository extends JpaRepository<DailyFoodAmount
             "WHERE pet_category = ? \n" +
             "AND adult_pet_size = ? \n" +
             "AND animal_age_type = ? \n" +
-            "AND food_type = ?", nativeQuery = true)
+            "AND food_type = ? LIMIT 1", nativeQuery = true)
     Integer findFoodAmount(String petCategory, String adultPetSize, String animalAgeType, String foodType);
 }
+
+
