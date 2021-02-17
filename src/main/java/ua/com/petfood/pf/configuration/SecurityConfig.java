@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //Any request are permitted
     private static final String NO_TOKEN_ENDPOINT_INDEX = "/";
     private static final String NO_TOKEN_ENDPOINT_API = "/api/**";
+    private static final String NO_TOKEN_ENDPOINT_IMG = "/img/**";
 
     //Only ANONYMOUS role requests are permitted
     private static final String ANONYMOUS_ENDPOINT = "/anon**";
@@ -51,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(NO_TOKEN_ENDPOINT_INDEX).permitAll()
                 .antMatchers(NO_TOKEN_ENDPOINT_API).permitAll()
+                .antMatchers(NO_TOKEN_ENDPOINT_IMG).permitAll()
                 .antMatchers(ANONYMOUS_ENDPOINT).hasAuthority("ANONYMOUS")
                 .antMatchers(USER_ENDPOINT).hasAuthority("USER")
                 .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
