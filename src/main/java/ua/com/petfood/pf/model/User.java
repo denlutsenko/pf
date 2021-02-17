@@ -3,14 +3,18 @@ package ua.com.petfood.pf.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
 @Table(name = "pf_users")
-public class User extends PersistentEntity<Long> {
+public class User extends PersistentEntity<Long> implements UserDetails {
 
     @JsonIgnore
     @Column(name = "status")
@@ -49,6 +53,13 @@ public class User extends PersistentEntity<Long> {
     @Column(name = "phone")
     private String phone;
 
+    private boolean enabled;
+
+    private Date lastPasswordResetDate;
+
+    @Transient
+    private Collection<? extends GrantedAuthority> authorities;
+
 
     public User() {
         //Hibernate needs a default constructor
@@ -58,6 +69,29 @@ public class User extends PersistentEntity<Long> {
         this.role = role;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
     public UserStatus getUserStatus() {
@@ -139,4 +173,32 @@ public class User extends PersistentEntity<Long> {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(final boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(final Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(final Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+
 }

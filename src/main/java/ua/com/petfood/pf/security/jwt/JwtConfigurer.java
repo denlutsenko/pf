@@ -8,6 +8,7 @@ import ua.com.petfood.pf.filter.JwtTokenFilter;
 
 
 public class JwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+
     private JwtTokenProvider jwtTokenProvider;
 
     public JwtConfigurer(JwtTokenProvider jwtTokenProvider) {
