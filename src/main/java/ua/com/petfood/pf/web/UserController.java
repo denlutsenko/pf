@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class UserController {
     private UserService userService;
     private final JwtTokenProvider jwtTokenProvider;

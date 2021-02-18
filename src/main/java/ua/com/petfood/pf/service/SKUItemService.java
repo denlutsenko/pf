@@ -11,10 +11,15 @@ public interface SKUItemService {
     SKUItem findRecommendedSKUItemForCat(Long animalCategoryId, String brand, String dogAdultType, Long foodTypeId,
             double skuWeightKilos, boolean bestseller);
 
+    SKUItem findRecommendedSKUItemForOthers(Long animalCategoryId, String brand, double skuWeightKilos,
+            boolean bestseller);
+
     Double findClosestSKUWeightForDog(String brand, double weight, String animalAgeType, Long preferableFoodId,
             String adultDogSize);
 
     Double findClosestSKUWeightForCat(String brand, double weight, String animalAgeType, Long preferableFoodId);
+
+    Double findClosestSKUWeightForOthers(Long animalCategoryId, double severalDaysFoodAmountKilos, String brand);
 
     List<String> getSkuBrandsByPetCategory(Long petCategoryId);
 }

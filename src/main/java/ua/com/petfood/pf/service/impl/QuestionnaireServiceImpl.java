@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import ua.com.petfood.pf.helper.BoxCalculatorForCatHelper;
 import ua.com.petfood.pf.helper.BoxCalculatorForDogHelper;
+import ua.com.petfood.pf.helper.BoxCalculatorForOthersHelper;
 import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDto;
@@ -31,16 +32,19 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private DogSizeService dogSizeService;
     private BoxCalculatorForDogHelper boxCalculatorForDogHelper;
     private BoxCalculatorForCatHelper boxCalculatorForCatHelper;
+    private BoxCalculatorForOthersHelper boxCalculatorForOthersHelper;
 
     public QuestionnaireServiceImpl(final AnimalCategoryService animalCategoryService,
             final FoodTypeService foodTypeService, final DogSizeService dogSizeService,
             final BoxCalculatorForDogHelper boxCalculatorForDogHelper,
-            final BoxCalculatorForCatHelper boxCalculatorForCatHelper) {
+            final BoxCalculatorForCatHelper boxCalculatorForCatHelper,
+            final BoxCalculatorForOthersHelper boxCalculatorForOthersHelper) {
         this.animalCategoryService = animalCategoryService;
         this.foodTypeService = foodTypeService;
         this.dogSizeService = dogSizeService;
         this.boxCalculatorForDogHelper = boxCalculatorForDogHelper;
         this.boxCalculatorForCatHelper = boxCalculatorForCatHelper;
+        this.boxCalculatorForOthersHelper = boxCalculatorForOthersHelper;
     }
 
     @Autowired
@@ -62,7 +66,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         } else if(CAT.equalsIgnoreCase(animalCategory.getName())) {
             result = boxCalculatorForCatHelper.calculateRecommendedBoxForCat(questDto, animalCategory);
         } else {
-            // result = calculateRecommendedBoxForOther();
+             result = boxCalculatorForOthersHelper.calculateRecommendedBoxForOther(questDto, animalCategory);
         }
 
         return result;

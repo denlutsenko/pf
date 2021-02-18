@@ -20,7 +20,7 @@ import static ua.com.petfood.pf.helper.constants.Constants.SEVEN_DAYS_FREQUENCY;
 import static ua.com.petfood.pf.helper.constants.Constants.THIRTY_DAYS_FREQUENCY;
 
 @Component
-public class BoxCalculatorForCatHelper {
+public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
 
     private FoodTypeService foodTypeService;
     private DailyFoodAmountService dailyFoodAmountService;
@@ -84,7 +84,7 @@ public class BoxCalculatorForCatHelper {
             final Long preferableFoodId, final double severalDaysFoodAmountKilos, String brand) {
 
         double closestSKUWeight = skuItemService
-                .findClosestSKUWeightForCat(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId);
+                .findClosestSKUWeightForCat(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId); //TODO почему нет категории животного ???
 
         SKUItem skuItem = skuItemService
                 .findRecommendedSKUItemForCat(animalCategoryId, brand, animalAgeType, preferableFoodId,
@@ -99,19 +99,6 @@ public class BoxCalculatorForCatHelper {
         return adjustRecommendedSKUWeight(severalDaysFoodAmountKilos, skuItem);
     }
 
-    private List<SKUItem> adjustRecommendedSKUWeight(final double targetWeight, final SKUItem skuItem) {
-        List<SKUItem> result = new ArrayList<>();
-        result.add(skuItem);
-        double currentWeight = skuItem.getPackageWeightKilos();
-
-        while(currentWeight < targetWeight) {
-            result.add(skuItem);
-            currentWeight += skuItem.getPackageWeightKilos();
-        }
-
-        return result;
-    }
-
     // норма еды в день для животного
     private int adjustFoodAmountForOneDay(final String animalCategory, final String animalAgeType,
             final String preferableFood) {
@@ -119,32 +106,6 @@ public class BoxCalculatorForCatHelper {
         return Optional.ofNullable(
                 dailyFoodAmountService.getDailyFoodAmountForCat(animalCategory, animalAgeType, preferableFood))
                 .orElseThrow(() -> new NotFoundException("Can't find daily food amount value"));
-    }
-
-    private double adjustFoodAmountForSeveralDaysInKilos(final int days, final int dailyFoodAmount) {
-        BigDecimal dayDecimal = new BigDecimal(days);
-        BigDecimal dailyFoodAmountDecimal = new BigDecimal(dailyFoodAmount);
-
-        BigDecimal divide = dayDecimal.multiply(dailyFoodAmountDecimal)
-                .divide(BigDecimal.valueOf(1000), 2, RoundingMode.HALF_UP);
-
-        return divide.doubleValue();
-    }
-
-    // возраст животного
-    private String adjustAnimalAgeType(int age) {
-        if(age >= 0 && age <= 12) {
-            return Group.BABY.name();
-        } else if(age >= 13 && age <= 72) {
-            return Group.ADULT.name();
-        } else {
-            return Group.OLD.name();
-        }
-    }
-
-    // частота покупки
-    private int definePurchasingFrequency(final int purchaseFrequencyId) {
-        return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
     }
 
     // тип корма (сухой, жидкий, смешанный)

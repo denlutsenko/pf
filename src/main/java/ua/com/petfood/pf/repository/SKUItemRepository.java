@@ -34,6 +34,15 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
     SKUItem getRecommendedSKUItemForCat(Long animalCategoryId, String brand, String petGroup, Long foodTypeId,
             boolean bestseller, double packageWeightKilos);
 
+    //OTHERS
+    @Query(value = "SELECT * FROM pf_sku_items \n" +
+            "WHERE animal_category_id = ?1 \n" +
+            "AND brand = ?2 \n" +
+            "AND package_weight_kilos = ?3 \n" +
+            "AND bestseller = ?4 LIMIT 1", nativeQuery = true)
+    SKUItem getRecommendedSKUItemForOthers(Long animalCategoryId, String brand, double skuWeightKilos,
+            boolean bestseller);
+
 
     //DOG Find the closest and LARGEST value similar to SKU weight in kilos in either direction:
     @Query(value = "SELECT package_weight_kilos FROM pf_sku_items " +
@@ -56,6 +65,24 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
             "ORDER BY package_weight_kilos LIMIT 1", nativeQuery = true)
     Double findClosestAndLargestSkuWeightForCat(String brand, double weight, String pet_group, Long food_type_id);
 
+
+    //OTHERS Find the closest and LARGEST value similar to SKU weight in kilos in either direction:
+    @Query(value = "SELECT package_weight_kilos FROM pf_sku_items " +
+            "animal_category_id =?1 " +
+            "AND package_weight_kilos >= ?2 " +
+            "AND brand = ?3 " +
+            "ORDER BY package_weight_kilos LIMIT 1", nativeQuery = true)
+    Double findClosestAndLargestSkuWeightForOthers(Long animalCategoryId, double severalDaysFoodAmountKilos,
+            String brand);
+
+    //OTHERS Find the closest and LESSER value similar to SKU weight in kilos in either direction:
+    @Query(value = "SELECT package_weight_kilos FROM pf_sku_items " +
+            "animal_category_id =?1 " +
+            "AND package_weight_kilos <= ?2 " +
+            "AND brand = ?3 " +
+            "ORDER BY package_weight_kilos DESC LIMIT 1", nativeQuery = true)
+    Double findClosestAndLesserSkuWeightForOthers(Long animalCategoryId, double severalDaysFoodAmountKilos,
+            String brand);
 
     //DOG Find the closest and LESSER value similar to SKU weight in kilos in either direction:
     @Query(value = "SELECT package_weight_kilos FROM pf_sku_items " +

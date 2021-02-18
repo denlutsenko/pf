@@ -24,7 +24,7 @@ import java.util.Optional;
 import static ua.com.petfood.pf.helper.constants.Constants.*;
 
 @Component
-public class BoxCalculatorForDogHelper {
+public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
     private FoodTypeService foodTypeService;
     private DailyFoodAmountService dailyFoodAmountService;
     private SKUItemService skuItemService;
@@ -91,11 +91,11 @@ public class BoxCalculatorForDogHelper {
 
     private List<SKUItem> createRecommendedBox(final Long animalCategoryId, final String animalAgeType,
             final Long preferableFoodId, final String adultDogSize, final double severalDaysFoodAmountKilos,
-            String brand) {
+            final String brand) {
 
         double closestSKUWeight = skuItemService
                 .findClosestSKUWeightForDog(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId,
-                        adultDogSize);
+                        adultDogSize); //TODO почему нет категории животного ???
         SKUItem skuItem = skuItemService
                 .findRecommendedSKUItemForDog(animalCategoryId, brand, animalAgeType, preferableFoodId, adultDogSize,
                         closestSKUWeight, true);
@@ -109,19 +109,6 @@ public class BoxCalculatorForDogHelper {
         return adjustRecommendedSKUWeight(severalDaysFoodAmountKilos, skuItem);
     }
 
-    private List<SKUItem> adjustRecommendedSKUWeight(final double targetWeight, final SKUItem skuItem) {
-        List<SKUItem> result = new ArrayList<>();
-        result.add(skuItem);
-        double currentWeight = skuItem.getPackageWeightKilos();
-
-        while(currentWeight < targetWeight) {
-            result.add(skuItem);
-            currentWeight += skuItem.getPackageWeightKilos();
-        }
-
-        return result;
-    }
-
     // норма еды в день для животного
     private int adjustFoodAmountForOneDay(final String animalCategory, final String adultAnimalSize,
             final String animalAgeType, final String preferableFood) {
@@ -129,32 +116,6 @@ public class BoxCalculatorForDogHelper {
         return Optional.ofNullable(dailyFoodAmountService
                 .getDailyFoodAmountForDog(animalCategory, adultAnimalSize, animalAgeType, preferableFood))
                 .orElseThrow(() -> new NotFoundException("Can't find daily food amount value"));
-    }
-
-    private double adjustFoodAmountForSeveralDaysInKilos(final int days, final int dailyFoodAmount) {
-        BigDecimal dayDecimal = new BigDecimal(days);
-        BigDecimal dailyFoodAmountDecimal = new BigDecimal(dailyFoodAmount);
-
-        BigDecimal divide = dayDecimal.multiply(dailyFoodAmountDecimal)
-                .divide(BigDecimal.valueOf(1000), 2, RoundingMode.HALF_UP);
-
-        return divide.doubleValue();
-    }
-
-    // возраст животного
-    private String adjustAnimalAgeType(int age) {
-        if(age >= 0 && age <= 12) {
-            return Group.BABY.name();
-        } else if(age >= 13 && age <= 72) {
-            return Group.ADULT.name();
-        } else {
-            return Group.OLD.name();
-        }
-    }
-
-    // частота покупки
-    private int definePurchasingFrequency(final int purchaseFrequencyId) {
-        return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
     }
 
     // тип корма (сухой, жидкий, смешанный)

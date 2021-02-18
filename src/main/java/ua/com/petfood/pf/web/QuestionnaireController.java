@@ -10,7 +10,7 @@ import ua.com.petfood.pf.service.QuestionnaireService;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping(value = "/anon")
 public class QuestionnaireController {
 

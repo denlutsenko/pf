@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping(value = "/")
 public class AuthenticationController {
 
