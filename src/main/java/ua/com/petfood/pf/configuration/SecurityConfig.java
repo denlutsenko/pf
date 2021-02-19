@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String NO_TOKEN_ENDPOINT_API = "/api/**";
 
     //Only ANONYMOUS role requests are permitted
-    private static final String ANONYMOUS_ENDPOINT = "/anon**";
+    private static final String ANONYMOUS_ENDPOINT = "/anon/**";
 
     //Only USER role requests are permitted
     private static final String USER_ENDPOINT = "/user/**";
