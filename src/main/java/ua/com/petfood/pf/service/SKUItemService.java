@@ -22,4 +22,6 @@ public interface SKUItemService {
     Double findClosestSKUWeightForOthers(Long animalCategoryId, double severalDaysFoodAmountKilos, String brand);
 
     List<String> getSkuBrandsByPetCategory(Long petCategoryId);
+
+    List<SKUItem> getSKUItemsByAnimalCategoryID(Long animalCategoryId);
 }

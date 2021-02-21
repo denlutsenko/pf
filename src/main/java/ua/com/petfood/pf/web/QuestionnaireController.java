@@ -3,11 +3,9 @@ package ua.com.petfood.pf.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDto;
 import ua.com.petfood.pf.service.QuestionnaireService;
-
-import java.util.List;
+import ua.com.petfood.pf.service.SKUItemService;
 
 @RestController
 //@CrossOrigin
@@ -15,15 +13,22 @@ import java.util.List;
 public class QuestionnaireController {
 
     private QuestionnaireService questionnaireService;
+    private SKUItemService skuItemService;
 
     @Autowired
-    public QuestionnaireController(QuestionnaireService questionnaireService) {
+    public QuestionnaireController(QuestionnaireService questionnaireService, SKUItemService skuItemService) {
         this.questionnaireService = questionnaireService;
+        this.skuItemService = skuItemService;
     }
 
     @GetMapping(value = "/questions/catalogs/all")
     ResponseEntity getCatalogsForQuestionnaire() {
         return ResponseEntity.ok(questionnaireService.getAllCatalogsForQuestionnaire());
+    }
+
+    @GetMapping(value = "/items/get/{id}")
+    ResponseEntity getLineItemsForAnimalCategoryById(@PathVariable(name = "id") Long animalCategoryId) {
+        return ResponseEntity.ok(skuItemService.getSKUItemsByAnimalCategoryID(animalCategoryId));
     }
 
     @PostMapping(value = "/meal/recommend")

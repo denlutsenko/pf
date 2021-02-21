@@ -107,4 +107,6 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
 
     @Query(value = "SELECT DISTINCT(brand) FROM pf_sku_items WHERE animal_category_id = ?", nativeQuery = true)
     List<String> findSKUBrandsByPetCategory(Long petCategoryId);
+
+    List<SKUItem> findSKULineItemsByAnimalCategoryId(Long animalCategoryId);
 }
