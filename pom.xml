@@ -23,6 +23,17 @@
         <java.version>11</java.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>repository</id>
+            <url>https://github.com/liqpay/sdk-java/raw/repository</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Spring -->
         <dependency>
@@ -95,6 +106,11 @@
             <version>20180813</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.liqpay</groupId>
+            <artifactId>liqpay-sdk</artifactId>
+            <version>0.7-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
