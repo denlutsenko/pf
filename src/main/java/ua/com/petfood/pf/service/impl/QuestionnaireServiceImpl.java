@@ -6,7 +6,6 @@ import static ua.com.petfood.pf.helper.constants.Constants.DOG;
 import static ua.com.petfood.pf.helper.constants.Constants.DOG_SIZE;
 import static ua.com.petfood.pf.helper.constants.Constants.FOOD_TYPES;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import ua.com.petfood.pf.helper.BoxCalculatorForCatHelper;
 import ua.com.petfood.pf.helper.BoxCalculatorForDogHelper;
 import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.SKUItem;
-import ua.com.petfood.pf.model.dto.QuestionnaireDto;
+import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
 import ua.com.petfood.pf.service.AnimalCategoryService;
 import ua.com.petfood.pf.service.AnimalService;
 import ua.com.petfood.pf.service.DogSizeService;
@@ -55,7 +54,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
-    public Map<String, List<SKUItem>> calculateRecommendedBoxes(final QuestionnaireDto questDto, final String token) {
+    public Map<String, List<SKUItem>> calculateRecommendedBoxes(final QuestionnaireDTO questDto, final String token) {
         Map<String, List<SKUItem>> result;
         AnimalCategory animalCategory = animalCategoryService.getAnimalCategoryById(questDto.getPetCategoryId());
 

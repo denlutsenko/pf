@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "sku_item_amount")
-public class SKUItemAmount extends PersistentEntity<Long> {
+public class OrderSKUItemAmount extends PersistentEntity<Long> {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", nullable = false)
@@ -17,7 +17,7 @@ public class SKUItemAmount extends PersistentEntity<Long> {
     @Column(name = "quantity")
     private Integer quantity;
 
-    public SKUItemAmount() {
+    public OrderSKUItemAmount() {
     }
 
     public Order getOrder() {

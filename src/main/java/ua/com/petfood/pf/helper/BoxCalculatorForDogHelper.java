@@ -5,23 +5,17 @@ import org.springframework.stereotype.Component;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.FoodType;
-import ua.com.petfood.pf.model.Group;
 import ua.com.petfood.pf.model.SKUItem;
-import ua.com.petfood.pf.model.dto.QuestionnaireDto;
-import ua.com.petfood.pf.service.AnimalCategoryService;
+import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
 import ua.com.petfood.pf.service.DailyFoodAmountService;
 import ua.com.petfood.pf.service.FoodTypeService;
 import ua.com.petfood.pf.service.SKUItemService;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import static ua.com.petfood.pf.helper.constants.Constants.*;
 
 @Component
 public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
@@ -36,7 +30,7 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
         this.skuItemService = skuItemService;
     }
 
-    public Map<String, List<SKUItem>> calculateRecommendedBoxForDog(final QuestionnaireDto questDto,
+    public Map<String, List<SKUItem>> calculateRecommendedBoxForDog(final QuestionnaireDTO questDto,
             final AnimalCategory animalCategory) {
         Map<String, List<SKUItem>> result = new HashMap<>();
 

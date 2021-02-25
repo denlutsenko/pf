@@ -7,7 +7,7 @@ import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.User;
-import ua.com.petfood.pf.model.dto.QuestionnaireDto;
+import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
 import ua.com.petfood.pf.repository.AnimalRepository;
 import ua.com.petfood.pf.service.AnimalService;
 import ua.com.petfood.pf.service.UserService;
@@ -28,7 +28,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public Animal createAndSaveAnimal(final QuestionnaireDto questionnaireDto, final AnimalCategory animalCategory,
+    public Animal createAndSaveAnimal(final QuestionnaireDTO questionnaireDto, final AnimalCategory animalCategory,
             final String bearerToken) {
         String email = userHelper.getUserEmailFromToken(bearerToken);
         User user = userService.findByUsername(email);

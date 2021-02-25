@@ -1,6 +1,6 @@
 package ua.com.petfood.pf.model.dto;
 
-public class QuestionnaireDto {
+public class QuestionnaireDTO {
     private Long petCategoryId;
     private String name;
     private  String subCategoryName;
@@ -10,7 +10,7 @@ public class QuestionnaireDto {
     private int purchaseFrequencyId;
     private int recommendedMealAmount;
 
-    public QuestionnaireDto() {
+    public QuestionnaireDTO() {
     }
 
     public Long getPetCategoryId() {
