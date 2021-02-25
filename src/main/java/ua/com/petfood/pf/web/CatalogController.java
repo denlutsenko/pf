@@ -19,9 +19,8 @@ public class CatalogController {
         this.skuItemService = skuItemService;
     }
 
-    @GetMapping(value = "/items/get/{id}")
+    @GetMapping(value = "/catalog/get/{id}")
     ResponseEntity getLineItemsForAnimalCategoryById(@PathVariable(name = "id") Long animalCategoryId) {
         return ResponseEntity.ok(skuItemService.getSKUItemsByAnimalCategoryID(animalCategoryId));
     }
-
 }

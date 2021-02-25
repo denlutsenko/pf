@@ -1,10 +1,11 @@
 package ua.com.petfood.pf.model;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pf_orders")
@@ -15,7 +16,7 @@ public class Order extends PersistentEntity<Long>{
 
     private BigDecimal orderAmount;
 
-    private LocalDateTime orderTime;
+    private Date orderTime;
 
     public Order() {
         //Hibernate needs a default constructor
@@ -45,11 +46,11 @@ public class Order extends PersistentEntity<Long>{
         this.orderAmount = orderAmount;
     }
 
-    public LocalDateTime getOrderTime() {
+    public Date getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
+    public void setOrderTime(final Date orderTime) {
         this.orderTime = orderTime;
     }
 }
