@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 
 import ua.com.petfood.pf.helper.BoxCalculatorForCatHelper;
 import ua.com.petfood.pf.helper.BoxCalculatorForDogHelper;
-import ua.com.petfood.pf.helper.BoxCalculatorForOthersHelper;
 import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDto;
 import ua.com.petfood.pf.service.AnimalCategoryService;
+import ua.com.petfood.pf.service.AnimalService;
 import ua.com.petfood.pf.service.DogSizeService;
 import ua.com.petfood.pf.service.FoodTypeService;
 import ua.com.petfood.pf.service.QuestionnaireService;
@@ -28,27 +28,25 @@ import ua.com.petfood.pf.service.QuestionnaireService;
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private AnimalCategoryService animalCategoryService;
+    private AnimalService animalService;
     private FoodTypeService foodTypeService;
     private DogSizeService dogSizeService;
     private BoxCalculatorForDogHelper boxCalculatorForDogHelper;
     private BoxCalculatorForCatHelper boxCalculatorForCatHelper;
-    private BoxCalculatorForOthersHelper boxCalculatorForOthersHelper;
 
     public QuestionnaireServiceImpl(final AnimalCategoryService animalCategoryService,
-            final FoodTypeService foodTypeService, final DogSizeService dogSizeService,
-            final BoxCalculatorForDogHelper boxCalculatorForDogHelper,
-            final BoxCalculatorForCatHelper boxCalculatorForCatHelper,
-            final BoxCalculatorForOthersHelper boxCalculatorForOthersHelper) {
+            final AnimalService animalService, final FoodTypeService foodTypeService,
+            final DogSizeService dogSizeService, final BoxCalculatorForDogHelper boxCalculatorForDogHelper,
+            final BoxCalculatorForCatHelper boxCalculatorForCatHelper) {
         this.animalCategoryService = animalCategoryService;
         this.foodTypeService = foodTypeService;
         this.dogSizeService = dogSizeService;
         this.boxCalculatorForDogHelper = boxCalculatorForDogHelper;
         this.boxCalculatorForCatHelper = boxCalculatorForCatHelper;
-        this.boxCalculatorForOthersHelper = boxCalculatorForOthersHelper;
+        this.animalService = animalService;
     }
 
     @Autowired
-
     @Override
     public Map<String, Object> getAllCatalogsForQuestionnaire() {
 
@@ -57,8 +55,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
-    public Map<String, List<SKUItem>> calculateRecommendedBoxes(final QuestionnaireDto questDto) {
-        Map<String, List<SKUItem>> result = new HashMap<>();
+    public Map<String, List<SKUItem>> calculateRecommendedBoxes(final QuestionnaireDto questDto, final String token) {
+        Map<String, List<SKUItem>> result;
         AnimalCategory animalCategory = animalCategoryService.getAnimalCategoryById(questDto.getPetCategoryId());
 
         if(DOG.equalsIgnoreCase(animalCategory.getName())) {
@@ -66,8 +64,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         } else if(CAT.equalsIgnoreCase(animalCategory.getName())) {
             result = boxCalculatorForCatHelper.calculateRecommendedBoxForCat(questDto, animalCategory);
         } else {
-             result = boxCalculatorForOthersHelper.calculateRecommendedBoxForOther(questDto, animalCategory);
+            result = null;
         }
+        animalService.createAndSaveAnimal(questDto, animalCategory, token);
 
         return result;
     }

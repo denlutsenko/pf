@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User findByUsername(String email) {
-        return Optional.ofNullable(userRepository.findByEmail(email)).orElseThrow(()-> new NotFoundException("user not found"));
+        return Optional.ofNullable(userRepository.findByEmail(email))
+                .orElseThrow(() -> new NotFoundException("user not found"));
     }
 
     @Override

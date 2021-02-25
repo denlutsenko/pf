@@ -15,6 +15,8 @@ public class Animal extends PersistentEntity<Long> {
     @Column(name = "name")
     private String name;
 
+    private String subCategoryName;
+
     @Column(name = "age")
     private Integer age;
 
@@ -22,6 +24,16 @@ public class Animal extends PersistentEntity<Long> {
 
     public Animal() {
         //Hibernate needs a default constructor
+    }
+
+    public Animal(final AnimalCategory animalCategory, final User user, final String name, String subCategoryName,
+            Integer age, String size) {
+        this.animalCategory = animalCategory;
+        this.user = user;
+        this.name = name;
+        this.subCategoryName = subCategoryName;
+        this.age = age;
+        this.size = size;
     }
 
     public Long getId() {
@@ -70,5 +82,13 @@ public class Animal extends PersistentEntity<Long> {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    private String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    private void setSubCategoryName(final String subCategoryName) {
+        this.subCategoryName = subCategoryName;
     }
 }

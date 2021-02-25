@@ -65,15 +65,19 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    private String getUsername(String token) {
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String resolveToken(HttpServletRequest req) {
-        String bearerToken = req.getHeader(AUTHORIZATION);
+        return resolveToken(req.getHeader(AUTHORIZATION));
+    }
+
+    public String resolveToken(final String bearerToken){
         if (bearerToken != null && bearerToken.startsWith(BEARER)) {
             return bearerToken.substring(TOKEN_SUBSTRING);
         }
+
         return null;
     }
 

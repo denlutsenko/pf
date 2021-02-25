@@ -8,5 +8,5 @@ import java.util.Map;
 
 public interface QuestionnaireService {
     Map<String,Object> getAllCatalogsForQuestionnaire();
-    Map<String, List<SKUItem>> calculateRecommendedBoxes(QuestionnaireDto questDto);
+    Map<String, List<SKUItem>> calculateRecommendedBoxes(QuestionnaireDto questDto, String token);
 }

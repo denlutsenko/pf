@@ -3,6 +3,7 @@ package ua.com.petfood.pf.model.dto;
 public class QuestionnaireDto {
     private Long petCategoryId;
     private String name;
+    private  String subCategoryName;
     private int age;
     private String adultDogSize;
     private Long preferableFoodId;
@@ -66,5 +67,13 @@ public class QuestionnaireDto {
 
     public void setRecommendedMealAmount(int recommendedMealAmount) {
         this.recommendedMealAmount = recommendedMealAmount;
+    }
+
+    public String getSubCategoryName() {
+        return subCategoryName;
+    }
+
+    public void setSubCategoryName(final String subCategoryName) {
+        this.subCategoryName = subCategoryName;
     }
 }

@@ -1,13 +1,31 @@
 package ua.com.petfood.pf.helper;
 
-import org.springframework.stereotype.Service;
-
 import static ua.com.petfood.pf.helper.constants.Constants.MAIL_PATH;
 
-@Service
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import ua.com.petfood.pf.exception.NotFoundException;
+import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
+
+@Component
 public class UserHelper {
 
+    private final JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    public UserHelper(final JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    public String getUserEmailFromToken(String bearerToken) {
+        String token = jwtTokenProvider.resolveToken(bearerToken);
+
+        return Optional.ofNullable(jwtTokenProvider.getUsername(token))
+                .orElseThrow(() -> new NotFoundException("user email not found"));
+    }
 
     public String createTmpEmailForAnonUser() {
         return String.valueOf(System.currentTimeMillis()).concat(MAIL_PATH);

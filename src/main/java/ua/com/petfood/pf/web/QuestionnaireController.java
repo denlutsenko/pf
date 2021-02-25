@@ -1,5 +1,7 @@
 package ua.com.petfood.pf.web;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,8 @@ public class QuestionnaireController {
     }
 
     @PostMapping(value = "/meal/recommend")
-    ResponseEntity getRecommendedBoxes(@RequestBody QuestionnaireDto questionnaireDto) {
-        return ResponseEntity.ok(questionnaireService.calculateRecommendedBoxes(questionnaireDto));
+    ResponseEntity getRecommendedBoxes(@RequestHeader(AUTHORIZATION) String token,
+            @RequestBody QuestionnaireDto questionnaireDto) {
+        return ResponseEntity.ok(questionnaireService.calculateRecommendedBoxes(questionnaireDto, token));
     }
 }
