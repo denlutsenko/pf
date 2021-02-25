@@ -94,4 +94,9 @@ public class SKUItemServiceImpl implements SKUItemService {
 
         return skuItemRepository.findSKUBrandsByPetCategory(petCategoryId);
     }
+
+    @Override
+    public List<SKUItem> getSKUItemsByAnimalCategoryID(Long animalCategoryId) {
+        return skuItemRepository.findSKULineItemsByAnimalCategoryId(animalCategoryId);
+    }
 }
