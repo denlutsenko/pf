@@ -6,4 +6,6 @@ import ua.com.petfood.pf.model.User;
 public interface OrderService {
 
     Order createOrder(User user);
+
+    Order saveOrder(Order order);
 }
