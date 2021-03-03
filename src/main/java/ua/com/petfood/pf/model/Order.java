@@ -9,10 +9,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "pf_orders")
-public class Order extends PersistentEntity<Long>{
+public class Order extends PersistentEntity<Long> {
 
     @ManyToOne
     private User user;
+
+    //TODO Add id Animal One-to-One
 
     private BigDecimal orderAmount;
 
