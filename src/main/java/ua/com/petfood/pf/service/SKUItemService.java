@@ -1,8 +1,9 @@
 package ua.com.petfood.pf.service;
 
-import ua.com.petfood.pf.model.SKUItem;
-
 import java.util.List;
+
+import ua.com.petfood.pf.model.SKUItem;
+import ua.com.petfood.pf.model.SKUPrice;
 
 public interface SKUItemService {
     SKUItem findRecommendedSKUItemForDog(Long animalCategoryId, String brand, String dogAdultType, Long foodTypeId,
@@ -24,4 +25,6 @@ public interface SKUItemService {
     List<String> getSkuBrandsByPetCategory(Long petCategoryId);
 
     List<SKUItem> getSKUItemsByAnimalCategoryID(Long animalCategoryId);
+
+    List<SKUPrice> getSKUItemsWithPricesByAnimalCategory(Long animalCategoryId);
 }

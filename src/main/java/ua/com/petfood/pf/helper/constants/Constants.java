@@ -9,15 +9,12 @@ public class Constants {
     public final static String BIRD = "Птица";
     public final static String REPTILE = "Рептилия";
 
-
     // PURCHASING FREQUENCY
     public static final int SEVEN_DAYS_FREQUENCY = 7;
     public static final int THIRTY_DAYS_FREQUENCY = 30;
 
-
     //USER
     public static final String MAIL_PATH = "@mail.com";
-
 
     //OTHER
     public static final String PREFERABLE_FOOD = "preferableFood";
@@ -25,8 +22,11 @@ public class Constants {
     public static final String PURCHASE_FREQUENCY = "purchaseFrequency";
     public static final String SEVERAL_DAYS_FOOD_AMOUNT = "severalDaysFoodAmount";
     public static final String UNDERSCORE = "_";
+    public static final String ANIMAL = "animal";
 
-    public static final String  ANIMAL_CATEGORIES = "animalCategories";
-    public static final String  FOOD_TYPES = "foodTypes";
-    public static final String  DOG_SIZE = "dogSize";
+    public static final String ANIMAL_CATEGORIES = "animalCategories";
+    public static final String FOOD_TYPES = "foodTypes";
+    public static final String DOG_SIZE = "dogSize";
+    public static final String RECOMMENDED_BOXES = "recommendedBoxes";
+    public static final String PRICE_LIST = "priceList";
 }

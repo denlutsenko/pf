@@ -1,6 +1,13 @@
 package ua.com.petfood.pf.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pf_animals")
@@ -9,6 +16,7 @@ public class Animal extends PersistentEntity<Long> {
     @OneToOne
     private AnimalCategory animalCategory;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 

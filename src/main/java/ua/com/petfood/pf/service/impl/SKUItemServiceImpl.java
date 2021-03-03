@@ -1,23 +1,27 @@
 package ua.com.petfood.pf.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.SKUItem;
+import ua.com.petfood.pf.model.SKUPrice;
 import ua.com.petfood.pf.repository.SKUItemRepository;
 import ua.com.petfood.pf.service.SKUItemService;
-
-import java.util.List;
+import ua.com.petfood.pf.service.SKUPriceService;
 
 @Service
 public class SKUItemServiceImpl implements SKUItemService {
 
-    private SKUItemRepository skuItemRepository;
+    private final SKUItemRepository skuItemRepository;
+    private final SKUPriceService skuPriceService;
 
     @Autowired
-    public SKUItemServiceImpl(SKUItemRepository skuItemRepository) {
+    public SKUItemServiceImpl(SKUItemRepository skuItemRepository, SKUPriceService skuPriceService) {
         this.skuItemRepository = skuItemRepository;
+        this.skuPriceService = skuPriceService;
     }
 
     @Override
@@ -40,8 +44,8 @@ public class SKUItemServiceImpl implements SKUItemService {
     }
 
     @Override
-    public SKUItem findRecommendedSKUItemForOthers(Long animalCategoryId, String brand,
-            double skuWeightKilos, boolean bestseller){
+    public SKUItem findRecommendedSKUItemForOthers(Long animalCategoryId, String brand, double skuWeightKilos,
+            boolean bestseller) {
         return skuItemRepository.getRecommendedSKUItemForOthers(animalCategoryId, brand, skuWeightKilos, bestseller);
     }
 
@@ -98,5 +102,10 @@ public class SKUItemServiceImpl implements SKUItemService {
     @Override
     public List<SKUItem> getSKUItemsByAnimalCategoryID(Long animalCategoryId) {
         return skuItemRepository.findSKULineItemsByAnimalCategoryId(animalCategoryId);
+    }
+
+    @Override
+    public List<SKUPrice> getSKUItemsWithPricesByAnimalCategory(Long animalCategoryId) {
+        return skuPriceService.findSKUItemsWithPricesByAnimalCategory(animalCategoryId);
     }
 }

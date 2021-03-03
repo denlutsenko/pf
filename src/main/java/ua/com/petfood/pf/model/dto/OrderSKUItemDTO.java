@@ -5,7 +5,10 @@ public class OrderSKUItemDTO {
     private Long skuItemId;
     private int quantity;
 
-    public OrderSKUItemDTO(){}
+    // TODO добавить id животного
+
+    public OrderSKUItemDTO() {
+    }
 
     public Long getSkuItemId() {
         return skuItemId;

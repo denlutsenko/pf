@@ -15,7 +15,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Autowired
-    private OrderServiceImpl(final OrderRepository orderRepository) {
+    private OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
