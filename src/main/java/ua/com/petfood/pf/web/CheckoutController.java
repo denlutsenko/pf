@@ -32,7 +32,9 @@ public class CheckoutController {
     public ResponseEntity postCheckoutAndPlaceOrder(@RequestHeader(AUTHORIZATION) String token, @RequestBody List<OrderSKUItemDTO> orderSKUItemDTOList) {
         BigDecimal totalOrderPrice = priceService.calculateTotalOrderPrice(orderSKUItemDTOList);
         Order order = orderService.saveOrder(token, totalOrderPrice);
-        //OrderSKUItemAmount should be implemented here
+
+
+
         return ResponseEntity.ok(Map.of(totalOrderPrice, orderSKUItemDTOList));
     }
 }
