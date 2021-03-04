@@ -108,4 +108,10 @@ public class SKUItemServiceImpl implements SKUItemService {
     public List<SKUPrice> getSKUItemsWithPricesByAnimalCategory(Long animalCategoryId) {
         return skuPriceService.findSKUItemsWithPricesByAnimalCategory(animalCategoryId);
     }
+
+    @Override
+    public SKUItem findSKUItemById(Long id) {
+        return skuItemRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
 }

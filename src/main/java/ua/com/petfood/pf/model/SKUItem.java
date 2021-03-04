@@ -69,8 +69,20 @@ public class SKUItem extends PersistentEntity<Long> {
     private String largeImgPath;
     private String imgName;
 
+    @OneToMany
+    @JsonIgnore
+    private OrderSKUItemAmount orderSKUItemAmount;
+
     public SKUItem() {
         //Hibernate needs a default constructor
+    }
+
+    public OrderSKUItemAmount getOrderSKUItemAmount() {
+        return orderSKUItemAmount;
+    }
+
+    public void setOrderSKUItemAmount(OrderSKUItemAmount orderSKUItemAmount) {
+        this.orderSKUItemAmount = orderSKUItemAmount;
     }
 
     public String getPackageCode() {

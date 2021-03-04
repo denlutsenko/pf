@@ -27,4 +27,6 @@ public interface SKUItemService {
     List<SKUItem> getSKUItemsByAnimalCategoryID(Long animalCategoryId);
 
     List<SKUPrice> getSKUItemsWithPricesByAnimalCategory(Long animalCategoryId);
+
+    SKUItem findSKUItemById(Long id);
 }
