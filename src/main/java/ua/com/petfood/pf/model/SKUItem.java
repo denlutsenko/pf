@@ -3,6 +3,7 @@ package ua.com.petfood.pf.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "pf_sku_items")
@@ -71,17 +72,17 @@ public class SKUItem extends PersistentEntity<Long> {
 
     @OneToMany
     @JsonIgnore
-    private OrderSKUItemAmount orderSKUItemAmount;
+    private List<OrderSKUItemAmount> orderSKUItemAmount;
 
     public SKUItem() {
         //Hibernate needs a default constructor
     }
 
-    public OrderSKUItemAmount getOrderSKUItemAmount() {
+    public List<OrderSKUItemAmount> getOrderSKUItemAmount() {
         return orderSKUItemAmount;
     }
 
-    public void setOrderSKUItemAmount(OrderSKUItemAmount orderSKUItemAmount) {
+    public void setOrderSKUItemAmount(List<OrderSKUItemAmount> orderSKUItemAmount) {
         this.orderSKUItemAmount = orderSKUItemAmount;
     }
 
