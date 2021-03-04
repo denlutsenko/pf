@@ -11,15 +11,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import ua.com.petfood.pf.model.SKUPrice;
-import ua.com.petfood.pf.repository.SKUPriceRepository;
-import ua.com.petfood.pf.service.SKUPriceService;
-
 @Service
 public class SKUPriceServiceImpl implements SKUPriceService {
 
@@ -48,6 +39,7 @@ public class SKUPriceServiceImpl implements SKUPriceService {
                 .map(OrderSKUItemDTO::getSkuItemId)
                 .collect(Collectors.toList()));
         BigDecimal totalPrice = new BigDecimal("0.0");
+
         for (OrderSKUItemDTO dto : dtos) {
             Long skuItemId = dto.getSkuItemId();
             int quantity = dto.getQuantity();
@@ -58,6 +50,7 @@ public class SKUPriceServiceImpl implements SKUPriceService {
         }
         return totalPrice;
     }
+
     public List<SKUPrice> findSKUItemsWithPricesByAnimalCategory(final Long animalCategoryId) {
 
         return skuPriceRepository.findSkuPricesByPetCategory(animalCategoryId);

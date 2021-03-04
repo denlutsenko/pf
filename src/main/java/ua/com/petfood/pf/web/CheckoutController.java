@@ -9,17 +9,18 @@ import ua.com.petfood.pf.service.OrderService;
 import ua.com.petfood.pf.service.SKUPriceService;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/anon")
 public class CheckoutController {
 
-    private SKUPriceService priceService;
-    private OrderService orderService;
+    private final SKUPriceService priceService;
+    private final OrderService orderService;
 
     @Autowired
     public CheckoutController(SKUPriceService priceService, OrderService orderService) {
@@ -28,13 +29,9 @@ public class CheckoutController {
     }
 
     @PostMapping(value = "/checkout/placeOrder")
-    ResponseEntity postCheckoutAndPlaceOrder(@RequestBody List<OrderSKUItemDTO> orderSKUItemDTOList) {
+    public ResponseEntity postCheckoutAndPlaceOrder(@RequestHeader(AUTHORIZATION) String token, @RequestBody List<OrderSKUItemDTO> orderSKUItemDTOList) {
         BigDecimal totalOrderPrice = priceService.calculateTotalOrderPrice(orderSKUItemDTOList);
-        Order order = new Order();
-        order.setOrderTime(new Date());
-        order.setOrderAmount(totalOrderPrice);
-        order.setUser(null);
-        orderService.saveOrder(order);
+        Order order = orderService.saveOrder(token, totalOrderPrice);
         //OrderSKUItemAmount should be implemented here
         return ResponseEntity.ok(Map.of(totalOrderPrice, orderSKUItemDTOList));
     }
