@@ -64,7 +64,10 @@ public class SKUItem extends PersistentEntity<Long> {
     private Boolean bestseller;
     @JsonIgnore
     private Integer bestBeforeMonths;
-    private String image;
+
+    private String smallImgPath;
+    private String largeImgPath;
+    private String imgName;
 
     public SKUItem() {
         //Hibernate needs a default constructor
@@ -230,14 +233,6 @@ public class SKUItem extends PersistentEntity<Long> {
         this.bestBeforeMonths = bestBeforeMonths;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Boolean getBestseller() {
         return bestseller;
     }
@@ -253,5 +248,29 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSmallImgPath() {
+        return smallImgPath;
+    }
+
+    public void setSmallImgPath(final String smallImgPath) {
+        this.smallImgPath = smallImgPath;
+    }
+
+    public String getLargeImgPath() {
+        return largeImgPath;
+    }
+
+    public void setLargeImgPath(final String largeImgPath) {
+        this.largeImgPath = largeImgPath;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(final String imgName) {
+        this.imgName = imgName;
     }
 }

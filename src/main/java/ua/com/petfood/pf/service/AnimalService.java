@@ -7,4 +7,6 @@ import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
 public interface AnimalService {
 
     Animal createAndSaveAnimal(QuestionnaireDTO questionnaireDto, AnimalCategory animalCategory, String token);
+
+    Animal createAndSaveAnimal(QuestionnaireDTO questionnaireDto, String token);
 }

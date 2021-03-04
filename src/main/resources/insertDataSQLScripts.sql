@@ -335,6 +335,13 @@ INSERT INTO pf_vendors (id, title) value
 (1, 'vendor title 1'),
 (2, 'vendor title 2');
 
+update pf_sku_items
+set
+large_img_path = "/img/large/",
+small_img_path = "/img/small/",
+img_name = "1.png"
+where id>0;
+
 
 INSERT INTO pf_sku_prices(id, base_price, selling_price, sku_item_id, vendor_id) VALUES
 (1,18.21,20.21,1,1),
