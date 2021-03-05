@@ -41,20 +41,8 @@ public class CheckoutController {
     public ResponseEntity postCheckoutAndPlaceOrder(@RequestHeader(AUTHORIZATION) String token, @RequestBody List<OrderSKUItemDTO> orderSKUItemDTOList) {
         BigDecimal totalOrderPrice = priceService.calculateTotalOrderPrice(orderSKUItemDTOList);
         Order order = orderService.saveOrder(token, totalOrderPrice);
-
-        List<SKUItem> skuItemList = orderSKUItemDTOList.stream()
-                .map(OrderSKUItemDTO::getSkuItemId)
-                .map(itemService::findSKUItemById)
-                .collect(Collectors.toList());
-
-        List<OrderSKUItemAmount> itemAmounts = skuItemList.stream()
-                .map(i -> skuItemAmountService
-                        .createAndSaveOrderSKUItemAmount(order, i, orderSKUItemDTOList
-                                .stream()
-                                .filter(d -> d.getSkuItemId().equals(i.getId()))
-                                .map(OrderSKUItemDTO::getQuantity)
-                                .findFirst().orElseThrow())).collect(Collectors.toList());
-
+        List<SKUItem> skuItemList = itemService.getSkuItemListFromOrderSKUItemDtos(orderSKUItemDTOList);
+        skuItemAmountService.createAndSaveOrderSKUItemsAmount(skuItemList, order, orderSKUItemDTOList);
         return ResponseEntity.ok(Map.of(totalOrderPrice, orderSKUItemDTOList));
     }
 }

@@ -1,6 +1,7 @@
 package ua.com.petfood.pf.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.SKUPrice;
+import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
 import ua.com.petfood.pf.repository.SKUItemRepository;
 import ua.com.petfood.pf.service.SKUItemService;
 import ua.com.petfood.pf.service.SKUPriceService;
@@ -26,8 +28,8 @@ public class SKUItemServiceImpl implements SKUItemService {
 
     @Override
     public SKUItem findRecommendedSKUItemForDog(final Long animalCategoryId, final String brand,
-            final String dogAdultType, final Long foodTypeId, final String animalSize, final double skuWeightKilos,
-            final boolean bestseller) {
+                                                final String dogAdultType, final Long foodTypeId, final String animalSize, final double skuWeightKilos,
+                                                final boolean bestseller) {
 
         return skuItemRepository
                 .getRecommendedSKUItemForDog(animalCategoryId, brand, dogAdultType, foodTypeId, animalSize, bestseller,
@@ -36,7 +38,7 @@ public class SKUItemServiceImpl implements SKUItemService {
 
     @Override
     public SKUItem findRecommendedSKUItemForCat(final Long animalCategoryId, final String brand,
-            final String dogAdultType, final Long foodTypeId, final double skuWeightKilos, final boolean bestseller) {
+                                                final String dogAdultType, final Long foodTypeId, final double skuWeightKilos, final boolean bestseller) {
 
         return skuItemRepository
                 .getRecommendedSKUItemForCat(animalCategoryId, brand, dogAdultType, foodTypeId, bestseller,
@@ -45,13 +47,13 @@ public class SKUItemServiceImpl implements SKUItemService {
 
     @Override
     public SKUItem findRecommendedSKUItemForOthers(Long animalCategoryId, String brand, double skuWeightKilos,
-            boolean bestseller) {
+                                                   boolean bestseller) {
         return skuItemRepository.getRecommendedSKUItemForOthers(animalCategoryId, brand, skuWeightKilos, bestseller);
     }
 
     @Override
     public Double findClosestSKUWeightForDog(final String brand, final double weight, final String animalAgeType,
-            final Long preferableFoodId, final String adultDogSize) {
+                                             final Long preferableFoodId, final String adultDogSize) {
         Double closestAndLargestSkuWeight = skuItemRepository
                 .findClosestAndLargestSkuWeight(brand, weight, animalAgeType, preferableFoodId, adultDogSize);
         Double closestAndLesserSkuWeight = skuItemRepository
@@ -62,7 +64,7 @@ public class SKUItemServiceImpl implements SKUItemService {
 
     @Override
     public Double findClosestSKUWeightForCat(final String brand, final double weight, final String animalAgeType,
-            final Long preferableFoodId) {
+                                             final Long preferableFoodId) {
         Double closestAndLargestSkuWeight = skuItemRepository
                 .findClosestAndLargestSkuWeightForCat(brand, weight, animalAgeType, preferableFoodId);
         Double closestAndLesserSkuWeight = skuItemRepository
@@ -73,7 +75,7 @@ public class SKUItemServiceImpl implements SKUItemService {
 
     @Override
     public Double findClosestSKUWeightForOthers(final Long animalCategoryId, final double severalDaysFoodAmountKilos,
-            final String brand) {
+                                                final String brand) {
         Double closestAndLargestSkuWeight = skuItemRepository
                 .findClosestAndLargestSkuWeightForOthers(animalCategoryId, severalDaysFoodAmountKilos, brand);
         Double closestAndLesserSkuWeight = skuItemRepository
@@ -84,9 +86,9 @@ public class SKUItemServiceImpl implements SKUItemService {
     }
 
     private Double getLargestOrLesserValue(Double closestAndLargestSkuWeight, Double closestAndLesserSkuWeight) {
-        if(closestAndLargestSkuWeight != null) {
+        if (closestAndLargestSkuWeight != null) {
             return closestAndLargestSkuWeight;
-        } else if(closestAndLesserSkuWeight != null) {
+        } else if (closestAndLesserSkuWeight != null) {
             return closestAndLesserSkuWeight;
         } else {
             throw new NotFoundException("SKU weight not found");
@@ -112,6 +114,14 @@ public class SKUItemServiceImpl implements SKUItemService {
     @Override
     public SKUItem findSKUItemById(Long id) {
         return skuItemRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public List<SKUItem> getSkuItemListFromOrderSKUItemDtos(List<OrderSKUItemDTO> orderSKUItemDTOList) {
+        return orderSKUItemDTOList.stream()
+                .map(OrderSKUItemDTO::getSkuItemId)
+                .map(this::findSKUItemById)
+                .collect(Collectors.toList());
     }
 
 }

@@ -10,9 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface SKUPriceRepository extends JpaRepository<SKUPrice, Long> {
-    Optional<SKUPrice> findById(Long id);
-
-    List<SKUPrice> findAllById(List<Long> ids);
 
     @Query(value = "SELECT * FROM pf_sku_prices "
             + "INNER JOIN pf_sku_items ON pf_sku_prices.sku_item_id = pf_sku_items.id "

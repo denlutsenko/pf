@@ -4,19 +4,20 @@ import java.util.List;
 
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.SKUPrice;
+import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
 
 public interface SKUItemService {
     SKUItem findRecommendedSKUItemForDog(Long animalCategoryId, String brand, String dogAdultType, Long foodTypeId,
-            String animalSize, double skuWeightKilos, boolean bestseller);
+                                         String animalSize, double skuWeightKilos, boolean bestseller);
 
     SKUItem findRecommendedSKUItemForCat(Long animalCategoryId, String brand, String dogAdultType, Long foodTypeId,
-            double skuWeightKilos, boolean bestseller);
+                                         double skuWeightKilos, boolean bestseller);
 
     SKUItem findRecommendedSKUItemForOthers(Long animalCategoryId, String brand, double skuWeightKilos,
-            boolean bestseller);
+                                            boolean bestseller);
 
     Double findClosestSKUWeightForDog(String brand, double weight, String animalAgeType, Long preferableFoodId,
-            String adultDogSize);
+                                      String adultDogSize);
 
     Double findClosestSKUWeightForCat(String brand, double weight, String animalAgeType, Long preferableFoodId);
 
@@ -29,4 +30,6 @@ public interface SKUItemService {
     List<SKUPrice> getSKUItemsWithPricesByAnimalCategory(Long animalCategoryId);
 
     SKUItem findSKUItemById(Long id);
+
+    List<SKUItem> getSkuItemListFromOrderSKUItemDtos(List<OrderSKUItemDTO> orderSKUItemDTOList);
 }
