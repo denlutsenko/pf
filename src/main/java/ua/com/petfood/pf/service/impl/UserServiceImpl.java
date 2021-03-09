@@ -1,5 +1,8 @@
 package ua.com.petfood.pf.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Role;
@@ -16,10 +20,6 @@ import ua.com.petfood.pf.model.UserStatus;
 import ua.com.petfood.pf.repository.UserRepository;
 import ua.com.petfood.pf.service.RoleService;
 import ua.com.petfood.pf.service.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -31,11 +31,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserHelper userHelper;
 
     @Autowired
-    public UserServiceImpl(
-            BCryptPasswordEncoder passwordEncoder,
-            UserRepository userRepository,
-            RoleService roleService,
-            UserHelper userHelper) {
+    public UserServiceImpl(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository,
+            RoleService roleService, UserHelper userHelper) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
@@ -53,7 +50,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User findByUsername(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email))
-                .orElseThrow(() -> new NotFoundException("user not found"));
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     @Override

@@ -50,10 +50,11 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
             "AND package_weight_kilos >= ?2 " +
             "AND pet_group = ?3 " +
             "AND food_type_id = ?4 " +
-            "AND animal_size = ?5  " +
+            "AND animal_size = ?5 " +
+            "AND animal_category_id = ?6 " +
             "ORDER BY package_weight_kilos LIMIT 1", nativeQuery = true)
     Double findClosestAndLargestSkuWeight(String brand, double weight, String pet_group, Long food_type_id,
-            String animal_size);
+            String animal_size, Long animalCategoryId);
 
 
     //CAT Find the closest and LARGEST value similar to SKU weight in kilos in either direction:
@@ -62,8 +63,10 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
             "AND package_weight_kilos >= ?2 " +
             "AND pet_group = ?3 " +
             "AND food_type_id = ?4 " +
+            "AND animal_category_id = ?5 " +
             "ORDER BY package_weight_kilos LIMIT 1", nativeQuery = true)
-    Double findClosestAndLargestSkuWeightForCat(String brand, double weight, String pet_group, Long food_type_id);
+    Double findClosestAndLargestSkuWeightForCat(String brand, double weight, String pet_group, Long food_type_id,
+            Long animalCategoryId);
 
 
     //OTHERS Find the closest and LARGEST value similar to SKU weight in kilos in either direction:
@@ -91,9 +94,10 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
             "AND pet_group = ?3 " +
             "AND food_type_id = ?4 " +
             "AND animal_size = ?5 " +
+            "AND animal_category_id = ?6 " +
             "ORDER BY package_weight_kilos DESC LIMIT 1", nativeQuery = true)
     Double findClosestAndLesserSkuWeightForDog(String brand, double weight, String pet_group, Long food_type_id,
-            String animal_size);
+            String animal_size, Long animalCategoryId);
 
     //CAT Find the closest and LESSER value similar to SKU weight in kilos in either direction:
     @Query(value = "SELECT package_weight_kilos FROM pf_sku_items " +
@@ -101,8 +105,10 @@ public interface SKUItemRepository extends JpaRepository<SKUItem, Long> {
             "AND package_weight_kilos <= ?2 " +
             "AND pet_group = ?3 " +
             "AND food_type_id = ?4 " +
+            "AND animal_category_id = ?5 " +
             "ORDER BY package_weight_kilos DESC LIMIT 1", nativeQuery = true)
-    Double findClosestAndLesserSkuWeightForCat(String brand, double weight, String pet_group, Long food_type_id);
+    Double findClosestAndLesserSkuWeightForCat(String brand, double weight, String pet_group, Long food_type_id,
+            Long animalCategoryId);
 
 
     @Query(value = "SELECT DISTINCT(brand) FROM pf_sku_items WHERE animal_category_id = ?", nativeQuery = true)

@@ -1,6 +1,9 @@
 package ua.com.petfood.pf.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.Role;
 import ua.com.petfood.pf.model.RoleName;
@@ -16,7 +19,6 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository = roleRepository;
     }
 
-
     @Override
     public Role getAnonRole() {
         return findRoleByName(RoleName.ANONYMOUS);
@@ -24,12 +26,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role findRoleByName(final Enum name) {
-        Role role = roleRepository.findOneByName(name);
 
-        if (role == null) {
-            throw new NotFoundException("Role " + name.toString() + " not found");
-        }
-
-        return role;
+        return Optional.of(roleRepository.findOneByName(name))
+                .orElseThrow(() -> new NotFoundException("Role ".concat(name.toString()).concat(" not found")));
     }
 }

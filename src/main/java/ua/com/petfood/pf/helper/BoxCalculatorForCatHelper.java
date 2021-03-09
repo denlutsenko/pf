@@ -78,7 +78,8 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             final Long preferableFoodId, final double severalDaysFoodAmountKilos, String brand) {
 
         double closestSKUWeight = skuItemService
-                .findClosestSKUWeightForCat(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId); //TODO почему нет категории животного ???
+                .findClosestSKUWeightForCat(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId,
+                        animalCategoryId);
 
         SKUItem skuItem = skuItemService
                 .findRecommendedSKUItemForCat(animalCategoryId, brand, animalAgeType, preferableFoodId,

@@ -16,11 +16,14 @@ public class Constants {
     //USER
     public static final String MAIL_PATH = "@mail.com";
     public static final String USER_ID = "userId";
+    public static final String EMAIL = "email";
+    public static final String TOKEN = "token";
 
 
     //ANIMAL
     public static final String ANIMAL = "animal";
     public static final String ANIMAL_ID = "animalId";
+
 
     //OTHER
     public static final String PREFERABLE_FOOD = "preferableFood";

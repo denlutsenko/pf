@@ -5,8 +5,6 @@ public class OrderSKUItems {
     private Long skuItemId;
     private int quantity;
 
-    // TODO добавить id животного
-
     public OrderSKUItems() {
     }
 

@@ -7,6 +7,7 @@ import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
 
 public interface QuestionnaireService {
+
     Map<String, Object> getAllCatalogsForQuestionnaire();
 
     Map<String, List<SKUItem>> calculateRecommendedBoxes(QuestionnaireDTO questDto, String token);

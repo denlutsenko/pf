@@ -27,6 +27,7 @@ public class OrderSKUItemAmountServiceImpl implements OrderSKUItemAmountService 
         return repository.save(orderSKUItemAmount);
     }
 
+    @Override
     public List<OrderSKUItemAmount> createAndSaveOrderSKUItemsAmount(List<SKUItem> skuItemList, Order order,
             List<OrderSKUItems> orderSKUItemDTOList) {
         return skuItemList.stream().map(i -> createAndSaveOrderSKUItemAmount(order, i,

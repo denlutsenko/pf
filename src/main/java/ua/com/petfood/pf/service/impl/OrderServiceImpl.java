@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
-import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.Order;
@@ -49,5 +47,4 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderAmount(new BigDecimal(0.00));
         return order;
     }
-
 }

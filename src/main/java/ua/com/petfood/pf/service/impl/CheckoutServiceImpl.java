@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ua.com.petfood.pf.exception.BadRequestException;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.Order;
@@ -56,7 +57,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
             Order order = orderService.saveOrder(animal, bearerToken, totalOrderPrice);
 
-            List<SKUItem> skuItemList = itemService.getSkuItemListFromOrderSKUItemDtos(orderDTO.getOrderSkuItems());
+            List<SKUItem> skuItemList = itemService.getSkuItemListFromOrderSKUItemDTOs(orderDTO.getOrderSkuItems());
             List<OrderSKUItemAmount> orderedSkuItems = skuItemAmountService
                     .createAndSaveOrderSKUItemsAmount(skuItemList, order, orderDTO.getOrderSkuItems());
 
@@ -68,7 +69,7 @@ public class CheckoutServiceImpl implements CheckoutService {
 
             return result;
         } catch(Exception e) {
-            throw new NotFoundException("Can not save order");
+            throw new BadRequestException("Can not save order");
         }
     }
 }

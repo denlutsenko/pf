@@ -89,7 +89,7 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
 
         double closestSKUWeight = skuItemService
                 .findClosestSKUWeightForDog(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId,
-                        adultDogSize); //TODO почему нет категории животного ???
+                        adultDogSize, animalCategoryId);
         SKUItem skuItem = skuItemService
                 .findRecommendedSKUItemForDog(animalCategoryId, brand, animalAgeType, preferableFoodId, adultDogSize,
                         closestSKUWeight, true);

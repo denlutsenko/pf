@@ -24,7 +24,7 @@ public class CatalogController {
 
     @GetMapping(value = "/items/get/{id}")
     ResponseEntity getLineItemsForAnimalCategoryById(@PathVariable(name = "id") Long animalCategoryId) {
-        return ResponseEntity.ok(skuItemService.getSKUItemsByAnimalCategoryID(animalCategoryId));
+        return ResponseEntity.ok(skuItemService.getSKUItemsByAnimalCategoryId(animalCategoryId));
     }
 
     @GetMapping(value = "/catalog/get/{id}")
