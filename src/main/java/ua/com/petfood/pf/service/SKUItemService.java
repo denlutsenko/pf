@@ -4,7 +4,7 @@ import java.util.List;
 
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.SKUPrice;
-import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
+import ua.com.petfood.pf.model.dto.OrderSKUItems;
 
 public interface SKUItemService {
     SKUItem findRecommendedSKUItemForDog(Long animalCategoryId, String brand, String dogAdultType, Long foodTypeId,
@@ -31,5 +31,5 @@ public interface SKUItemService {
 
     SKUItem findSKUItemById(Long id);
 
-    List<SKUItem> getSkuItemListFromOrderSKUItemDtos(List<OrderSKUItemDTO> orderSKUItemDTOList);
+    List<SKUItem> getSkuItemListFromOrderSKUItemDtos(List<OrderSKUItems> orderSKUItemDTOList);
 }

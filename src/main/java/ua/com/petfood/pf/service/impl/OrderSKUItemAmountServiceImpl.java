@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.OrderSKUItemAmount;
 import ua.com.petfood.pf.model.SKUItem;
-import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
+import ua.com.petfood.pf.model.dto.OrderSKUItems;
 import ua.com.petfood.pf.repository.OrderSKUItemAmountRepository;
 import ua.com.petfood.pf.service.OrderSKUItemAmountService;
 
@@ -27,13 +27,11 @@ public class OrderSKUItemAmountServiceImpl implements OrderSKUItemAmountService 
         return repository.save(orderSKUItemAmount);
     }
 
-    public List<OrderSKUItemAmount> createAndSaveOrderSKUItemsAmount(List<SKUItem> skuItemList, Order order, List<OrderSKUItemDTO> orderSKUItemDTOList) {
-        return skuItemList.stream()
-                .map(i -> createAndSaveOrderSKUItemAmount(order, i, orderSKUItemDTOList
-                        .stream()
-                        .filter(d -> d.getSkuItemId().equals(i.getId()))
-                        .map(OrderSKUItemDTO::getQuantity)
-                        .findFirst().orElseThrow())).collect(Collectors.toList());
+    public List<OrderSKUItemAmount> createAndSaveOrderSKUItemsAmount(List<SKUItem> skuItemList, Order order,
+            List<OrderSKUItems> orderSKUItemDTOList) {
+        return skuItemList.stream().map(i -> createAndSaveOrderSKUItemAmount(order, i,
+                orderSKUItemDTOList.stream().filter(d -> d.getSkuItemId().equals(i.getId()))
+                        .map(OrderSKUItems::getQuantity).findFirst().orElseThrow())).collect(Collectors.toList());
     }
 
     private OrderSKUItemAmount createAndSaveOrderSKUItemAmount(Order order, SKUItem skuItem, int quantity) {

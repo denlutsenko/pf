@@ -9,4 +9,6 @@ public interface AnimalService {
     Animal createAndSaveAnimal(QuestionnaireDTO questionnaireDto, AnimalCategory animalCategory, String token);
 
     Animal createAndSaveAnimal(QuestionnaireDTO questionnaireDto, String token);
+
+    Animal findAnimalById(Long animalId);
 }

@@ -14,7 +14,8 @@ public class Order extends PersistentEntity<Long> {
     @ManyToOne
     private User user;
 
-    //TODO Add id Animal One-to-One
+    @ManyToOne
+    private Animal animal;
 
     private BigDecimal orderAmount;
 
@@ -54,5 +55,13 @@ public class Order extends PersistentEntity<Long> {
 
     public void setOrderTime(final Date orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(final Animal animal) {
+        this.animal = animal;
     }
 }

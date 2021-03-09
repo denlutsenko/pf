@@ -3,7 +3,7 @@ package ua.com.petfood.pf.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.model.SKUPrice;
-import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
+import ua.com.petfood.pf.model.dto.OrderSKUItems;
 import ua.com.petfood.pf.repository.SKUPriceRepository;
 import ua.com.petfood.pf.service.SKUPriceService;
 
@@ -33,21 +33,22 @@ public class SKUPriceServiceImpl implements SKUPriceService {
         return skuPriceRepository.findAllById(ids);
     }
 
-    public BigDecimal calculateTotalOrderPrice(List<OrderSKUItemDTO> dtos) {
+    public BigDecimal calculateTotalOrderPrice(List<OrderSKUItems> dtos) {
         List<SKUPrice> skuPrices = getPriceForMultipleItems(dtos
                 .stream()
-                .map(OrderSKUItemDTO::getSkuItemId)
+                .map(OrderSKUItems::getSkuItemId)
                 .collect(Collectors.toList()));
-        BigDecimal totalPrice = new BigDecimal("0.0");
+        BigDecimal totalPrice = new BigDecimal(0.00);
 
-        for (OrderSKUItemDTO dto : dtos) {
+        for (OrderSKUItems dto : dtos) {
             Long skuItemId = dto.getSkuItemId();
             int quantity = dto.getQuantity();
             totalPrice = totalPrice.add(skuPrices.stream()
                     .filter(p -> p.getSkuItem().getId() != null && p.getSkuItem().getId().equals(skuItemId))
                     .map(p -> p.getSellingPrice().multiply(new BigDecimal(quantity)))
-                    .findFirst().orElseGet(() -> new BigDecimal("0.0")));
+                    .findFirst().orElseGet(() -> new BigDecimal(0.00)));
         }
+
         return totalPrice;
     }
 

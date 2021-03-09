@@ -1,7 +1,7 @@
 package ua.com.petfood.pf.service;
 
 import ua.com.petfood.pf.model.SKUPrice;
-import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
+import ua.com.petfood.pf.model.dto.OrderSKUItems;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -12,7 +12,7 @@ public interface SKUPriceService {
 
     List<SKUPrice> getPriceForMultipleItems(List<Long> ids);
 
-    BigDecimal calculateTotalOrderPrice(List<OrderSKUItemDTO> dtos);
+    BigDecimal calculateTotalOrderPrice(List<OrderSKUItems> dtos);
 
     List<SKUPrice> findSKUItemsWithPricesByAnimalCategory(Long animalCategoryId);
 }

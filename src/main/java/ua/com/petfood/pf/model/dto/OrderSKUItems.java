@@ -1,13 +1,13 @@
 package ua.com.petfood.pf.model.dto;
 
-public class OrderSKUItemDTO {
+public class OrderSKUItems {
 
     private Long skuItemId;
     private int quantity;
 
     // TODO добавить id животного
 
-    public OrderSKUItemDTO() {
+    public OrderSKUItems() {
     }
 
     public Long getSkuItemId() {

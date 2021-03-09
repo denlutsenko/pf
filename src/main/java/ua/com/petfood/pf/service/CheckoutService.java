@@ -1,12 +1,11 @@
 package ua.com.petfood.pf.service;
 
-import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
+import java.util.Map;
 
-import java.math.BigDecimal;
-import java.util.List;
+import ua.com.petfood.pf.model.dto.OrderDTO;
 
 public interface CheckoutService {
 
-    BigDecimal calculatePriceAndPlaceOrder(String token, List<OrderSKUItemDTO> orderSKUItemDTOList);
+    Map<String, Object> checkoutAndSaveOrder(final String bearerToken, final OrderDTO orderDTO);
 
 }

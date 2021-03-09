@@ -15,6 +15,12 @@ public class Constants {
 
     //USER
     public static final String MAIL_PATH = "@mail.com";
+    public static final String USER_ID = "userId";
+
+
+    //ANIMAL
+    public static final String ANIMAL = "animal";
+    public static final String ANIMAL_ID = "animalId";
 
     //OTHER
     public static final String PREFERABLE_FOOD = "preferableFood";
@@ -22,7 +28,10 @@ public class Constants {
     public static final String PURCHASE_FREQUENCY = "purchaseFrequency";
     public static final String SEVERAL_DAYS_FOOD_AMOUNT = "severalDaysFoodAmount";
     public static final String UNDERSCORE = "_";
-    public static final String ANIMAL = "animal";
+    public static final String ORDER_ID = "orderId";
+    public static final String ORDER_TOTAL_AMOUNT = "orderTotalAmount";
+    public static final String SKU_ITEMS = "skuItems";
+
 
     public static final String ANIMAL_CATEGORIES = "animalCategories";
     public static final String FOOD_TYPES = "foodTypes";

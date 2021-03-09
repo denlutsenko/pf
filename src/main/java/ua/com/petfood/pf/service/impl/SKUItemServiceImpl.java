@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.SKUPrice;
-import ua.com.petfood.pf.model.dto.OrderSKUItemDTO;
+import ua.com.petfood.pf.model.dto.OrderSKUItems;
 import ua.com.petfood.pf.repository.SKUItemRepository;
 import ua.com.petfood.pf.service.SKUItemService;
 import ua.com.petfood.pf.service.SKUPriceService;
@@ -117,9 +117,9 @@ public class SKUItemServiceImpl implements SKUItemService {
     }
 
     @Override
-    public List<SKUItem> getSkuItemListFromOrderSKUItemDtos(List<OrderSKUItemDTO> orderSKUItemDTOList) {
+    public List<SKUItem> getSkuItemListFromOrderSKUItemDtos(List<OrderSKUItems> orderSKUItemDTOList) {
         return orderSKUItemDTOList.stream()
-                .map(OrderSKUItemDTO::getSkuItemId)
+                .map(OrderSKUItems::getSkuItemId)
                 .map(this::findSKUItemById)
                 .collect(Collectors.toList());
     }

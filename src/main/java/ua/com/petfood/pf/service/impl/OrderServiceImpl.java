@@ -6,7 +6,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
+import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.repository.OrderRepository;
@@ -28,25 +31,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order createOrder(final User user) {
-        Order order = getOrderWithoutPrice(user);
-        order.setOrderAmount(new BigDecimal(0.00));
-        return orderRepository.save(order);
-    }
-
-    @Override
-    public Order saveOrder(String token, BigDecimal totalOrderPrice) {
+    public Order saveOrder(Animal animal, String token, BigDecimal totalOrderPrice) {
         String email = userHelper.getUserEmailFromToken(token);
         User user = userService.findByUsername(email);
-        Order order = getOrderWithoutPrice(user);
+
+        Order order = createEmptyOrder();
+        order.setUser(user);
+        order.setAnimal(animal);
         order.setOrderAmount(totalOrderPrice);
+
         return orderRepository.save(order);
     }
 
-    private Order getOrderWithoutPrice(User user) {
+    private Order createEmptyOrder() {
         Order order = new Order();
         order.setOrderTime(new Date());
-        order.setUser(user);
+        order.setOrderAmount(new BigDecimal(0.00));
         return order;
     }
+
 }

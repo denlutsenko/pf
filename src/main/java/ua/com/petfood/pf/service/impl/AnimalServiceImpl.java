@@ -1,8 +1,11 @@
 package ua.com.petfood.pf.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.AnimalCategory;
@@ -49,7 +52,12 @@ public class AnimalServiceImpl implements AnimalService {
         return createAndSaveAnimal(questDto, animalCategory, bearerToken);
     }
 
+    @Override
+    public Animal findAnimalById(final Long animalId) {
+        return animalRepository.findById(animalId).orElseThrow(()-> new NotFoundException("Animal not found"));
+    }
+
     private Animal saveAnimal(Animal animal) {
-        return animalRepository.save(animal); //TODO probably add error here
+        return animalRepository.save(animal);
     }
 }
