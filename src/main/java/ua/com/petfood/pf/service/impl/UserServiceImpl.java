@@ -1,5 +1,7 @@
 package ua.com.petfood.pf.service.impl;
 
+import static ua.com.petfood.pf.helper.constants.Constants.DEFAULT_TMP_PASSWORD;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,8 @@ import ua.com.petfood.pf.service.RoleService;
 import ua.com.petfood.pf.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
-    private static final String DEFAULT_TMP_PASSWORD = "PASSWORD";
+public class UserServiceImpl implements UserService{
+
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;

@@ -41,4 +41,6 @@ public class Constants {
     public static final String DOG_SIZE = "dogSize";
     public static final String RECOMMENDED_BOXES = "recommendedBoxes";
     public static final String PRICE_LIST = "priceList";
+
+    public static final String DEFAULT_TMP_PASSWORD = "PASSWORD";
 }

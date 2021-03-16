@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ua.com.petfood.pf.exception.BadRequestException;
-import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.OrderSKUItemAmount;
@@ -50,7 +48,6 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Transactional
     public Map<String, Object> checkoutAndSaveOrder(final String bearerToken, final OrderDTO orderDTO) {
-        try {
             Map<String, Object> result = new HashMap<>();
             BigDecimal totalOrderPrice = priceService.calculateTotalOrderPrice(orderDTO.getOrderSkuItems());
             Animal animal = animalService.findAnimalById(orderDTO.getAnimalId());
@@ -68,8 +65,5 @@ public class CheckoutServiceImpl implements CheckoutService {
             result.put(SKU_ITEMS, orderedSkuItems);
 
             return result;
-        } catch(Exception e) {
-            throw new BadRequestException("Can not save order");
-        }
     }
 }
