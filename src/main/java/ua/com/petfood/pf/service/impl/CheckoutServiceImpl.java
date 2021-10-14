@@ -62,7 +62,7 @@ public class CheckoutServiceImpl implements CheckoutService {
             result.put(ORDER_TOTAL_AMOUNT, totalOrderPrice);
             result.put(USER_ID, order.getUser().getId());
             result.put(ANIMAL_ID, order.getAnimal().getId());
-            result.put(SKU_ITEMS, orderedSkuItems);
+            result.put(SKU_ITEMS, orderedSkuItems);  // TODO - do we need it ?
 
             return result;
     }
