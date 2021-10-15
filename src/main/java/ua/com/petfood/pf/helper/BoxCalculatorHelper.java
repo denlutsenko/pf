@@ -6,7 +6,9 @@ import static ua.com.petfood.pf.helper.constants.Constants.THIRTY_DAYS_FREQUENCY
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -46,15 +48,18 @@ public class BoxCalculatorHelper {
         return divide.doubleValue();
     }
 
-    public List<SKUItem> adjustRecommendedSKUWeight(final double targetWeight, final SKUItem skuItem) {
-        List<SKUItem> result = new ArrayList<>();
-        result.add(skuItem);
+    public Map<String, Object> adjustRecommendedSKUWeight(final double targetWeight, final SKUItem skuItem) {
+        Map<String, Object> result = new HashMap<>();
+        int lineItemCount = 1;
         double currentWeight = skuItem.getPackageWeightKilos();
 
         while(currentWeight < targetWeight) {
-            result.add(skuItem);
+            lineItemCount++;
             currentWeight += skuItem.getPackageWeightKilos();
         }
+
+        result.put("count", lineItemCount);
+        result.put("lineItem", skuItem);
 
         return result;
     }

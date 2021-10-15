@@ -13,8 +13,7 @@ INSERT INTO pf_animal_categories (id, name) VALUES
 
 INSERT INTO pf_food_types(id, type, code) VALUES
 (1, 'Сухой', 1),
-(2, 'Жидкий', 2),
-(3, 'Смешанный', 3);
+(2, 'Жидкий', 2);
 
 INSERT INTO pf_dog_sizes(id, name, short_name, min_weight_kg, max_weight_kg) VALUES
 (1, 'Карликовая','XS','0','2'),

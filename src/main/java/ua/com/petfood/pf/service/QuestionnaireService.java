@@ -10,5 +10,5 @@ public interface QuestionnaireService {
 
     Map<String, Object> getAllCatalogsForQuestionnaire();
 
-    Map<String, List<SKUItem>> calculateRecommendedBoxes(QuestionnaireDTO questDto, String token);
+    Map<String, List<Map>> calculateRecommendedBoxes(QuestionnaireDTO questDto, String token);
 }
