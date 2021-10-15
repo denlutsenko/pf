@@ -58,11 +58,11 @@ public class CheckoutServiceImpl implements CheckoutService {
             List<OrderSKUItemAmount> orderedSkuItems = skuItemAmountService
                     .createAndSaveOrderSKUItemsAmount(skuItemList, order, orderDTO.getOrderSkuItems());
 
-            result.put(ORDER_ID, order.getId());
+            result.put(ORDER_ID, order.getOrder_id());
             result.put(ORDER_TOTAL_AMOUNT, totalOrderPrice);
             result.put(USER_ID, order.getUser().getId());
             result.put(ANIMAL_ID, order.getAnimal().getId());
-            result.put(SKU_ITEMS, orderedSkuItems);  // TODO - do we need it ?
+           // result.put(SKU_ITEMS, orderedSkuItems);  // TODO - do we need it ?
 
             return result;
     }

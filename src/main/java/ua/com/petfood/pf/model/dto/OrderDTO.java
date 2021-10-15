@@ -1,6 +1,5 @@
 package ua.com.petfood.pf.model.dto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class OrderDTO {

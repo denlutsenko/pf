@@ -21,6 +21,8 @@ public class Order extends PersistentEntity<Long> {
 
     private Date orderTime;
 
+    private String order_id;
+
     public Order() {
         //Hibernate needs a default constructor
     }
@@ -31,6 +33,14 @@ public class Order extends PersistentEntity<Long> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(final String order_id) {
+        this.order_id = order_id;
     }
 
     public User getUser() {

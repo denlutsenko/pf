@@ -21,7 +21,8 @@ public class BoxCalculatorHelper {
 
     // частота покупки
     public int definePurchasingFrequency(final int purchaseFrequencyId) {
-        return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
+//        return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
+        return THIRTY_DAYS_FREQUENCY;
     }
 
     // возраст животного

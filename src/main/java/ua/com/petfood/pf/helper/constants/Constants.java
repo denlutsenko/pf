@@ -35,6 +35,8 @@ public class Constants {
     public static final String ORDER_TOTAL_AMOUNT = "orderTotalAmount";
     public static final String SKU_ITEMS = "skuItems";
     public static final String DATA = "data";
+    public static final String ORDER_PREFIX = "o";
+
 
 
     public static final String ANIMAL_CATEGORIES = "animalCategories";
