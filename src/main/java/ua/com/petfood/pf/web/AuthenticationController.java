@@ -35,12 +35,7 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-//    @GetMapping
-//    public ResponseEntity test() {
-//        return ResponseEntity.ok().build();
-//    }
-
-    @PostMapping(value = "/anon/login")
+    @PostMapping(value = "/api/login")
     public ResponseEntity<Map<String, String>> login(@Valid @RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         try {
             String username = authenticationRequestDTO.getUsername();
