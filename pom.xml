@@ -130,6 +130,12 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
+        <!-- Password validation utils-->
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>1.6.1</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>

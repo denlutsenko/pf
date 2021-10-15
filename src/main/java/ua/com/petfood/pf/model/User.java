@@ -1,8 +1,10 @@
 package ua.com.petfood.pf.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +16,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "pf_users")
+@EntityListeners(AuditingEntityListener.class)
 public class User extends PersistentEntity<Long> implements UserDetails {
 
     @JsonIgnore
@@ -31,7 +34,7 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @Column(name = "password")
