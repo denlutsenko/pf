@@ -27,9 +27,9 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
         this.skuItemService = skuItemService;
     }
 
-    public Map<String, List<SKUItem>> calculateRecommendedBoxForCat(final QuestionnaireDTO questDto,
+    public Map<String, List<Map>> calculateRecommendedBoxForCat(final QuestionnaireDTO questDto,
             final AnimalCategory animalCategory) {
-        Map<String, List<SKUItem>> result = new HashMap<>();
+        Map<String, List<Map>> result = new HashMap<>();
 
         Long preferableFoodId = questDto.getPreferableFoodId();
         String preferableFood = adjustPreferableFood(preferableFoodId.intValue());
@@ -48,17 +48,19 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
                     dailyFoodAmount);
 
             for(String brand : skuBrandsByPetCategory) {
-                result.put(brand, createRecommendedBoxForCat(animalCategory.getId(), animalAgeType, preferableFoodId,
-                        severalDaysFoodAmountKilos, brand));
+                List<Map> recommendedBoxForCat = List
+                        .of(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType, preferableFoodId,
+                                severalDaysFoodAmountKilos, brand));
+                result.put(brand, recommendedBoxForCat);
             }
         }
 
         return result;
     }
 
-    private List<SKUItem> calculateRecommendedBoxWithMixedItems(final AnimalCategory animalCategory,
+    private List<Map> calculateRecommendedBoxWithMixedItems(final AnimalCategory animalCategory,
             final String animalAgeType, final int purchaseFrequency, String brand) {
-        List<SKUItem> result = new ArrayList<>();
+        List<Map> result = new ArrayList<>();
         for(FoodType foodType : foodTypeService.getFoodTypes()) {
             Long foodTypeId = foodType.getId() != null ? foodType.getId() : 1L;
 
@@ -66,15 +68,15 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             int dailyFoodAmount = adjustFoodAmountForOneDay(animalCategory.getName(), animalAgeType, preferableFood);
             double severalDaysFoodAmountKilos =
                     adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency, dailyFoodAmount) / 2;
-            List<SKUItem> recommendedMixedBox = createRecommendedBoxForCat(animalCategory.getId(), animalAgeType,
+            Map<String, Object> recommendedMixedBox = createRecommendedBoxForCat(animalCategory.getId(), animalAgeType,
                     foodTypeId, severalDaysFoodAmountKilos, brand);
 
-            result.addAll(recommendedMixedBox);
+            result.add(recommendedMixedBox);
         }
         return result;
     }
 
-    private List<SKUItem> createRecommendedBoxForCat(final Long animalCategoryId, final String animalAgeType,
+    private Map<String, Object> createRecommendedBoxForCat(final Long animalCategoryId, final String animalAgeType,
             final Long preferableFoodId, final double severalDaysFoodAmountKilos, String brand) {
 
         double closestSKUWeight = skuItemService

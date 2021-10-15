@@ -52,8 +52,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     @Override
-    public Map<String, List<SKUItem>> calculateRecommendedBoxes(final QuestionnaireDTO questDto, final String token) {
-        Map<String, List<SKUItem>> result = new HashMap<>();
+    public Map<String, List<Map>> calculateRecommendedBoxes(final QuestionnaireDTO questDto, final String token) {
+        Map<String, List<Map>> result = new HashMap<>();
         AnimalCategory animalCategory = animalCategoryService.getAnimalCategoryById(questDto.getPetCategoryId());
 
         if(DOG.equalsIgnoreCase(animalCategory.getName())) {
