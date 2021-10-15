@@ -35,11 +35,6 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-//    @GetMapping
-//    public ResponseEntity test() {
-//        return ResponseEntity.ok().build();
-//    }
-
     @PostMapping(value = "/api/login")
     public ResponseEntity<Map<String, String>> login(@Valid @RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         try {

@@ -10,7 +10,6 @@ public class ErrorResponse {
     private HttpStatus status;
     private String timestamp;
     private List<ErrorDetails> errors;
-    private String path;
 
     @Data
     public static class ErrorDetails {
