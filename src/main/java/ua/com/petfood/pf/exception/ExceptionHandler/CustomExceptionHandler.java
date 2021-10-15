@@ -1,4 +1,4 @@
-package ua.com.petfood.pf.exception;
+package ua.com.petfood.pf.exception.ExceptionHandler;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -8,12 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import ua.com.petfood.pf.helper.constants.Constants;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.Email;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +21,9 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-
         List<FieldError> errors = ex.getBindingResult().getFieldErrors();
-
         List<ErrorResponse.ErrorDetails> errorDetails = new ArrayList<>();
+
         for (FieldError fieldError : errors) {
             ErrorResponse.ErrorDetails error = new ErrorResponse.ErrorDetails();
             error.setFieldName(fieldError.getField());
@@ -47,8 +42,6 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleException(DataIntegrityViolationException ex, HttpServletRequest request) {
-
-
         ErrorResponse.ErrorDetails error = new ErrorResponse.ErrorDetails();
         error.setMessage(ex.getMostSpecificCause().getMessage());
 

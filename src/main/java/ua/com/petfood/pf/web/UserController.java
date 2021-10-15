@@ -1,23 +1,18 @@
 package ua.com.petfood.pf.web;
 
-import static ua.com.petfood.pf.helper.constants.Constants.EMAIL;
-import static ua.com.petfood.pf.helper.constants.Constants.TOKEN;
-import static ua.com.petfood.pf.helper.constants.Constants.CREATED;
-import static ua.com.petfood.pf.helper.constants.Constants.STATUS;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.UserDTO;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
 import ua.com.petfood.pf.service.UserService;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+
+import static ua.com.petfood.pf.helper.constants.Constants.*;
 
 @RestController
 @CrossOrigin
@@ -52,6 +47,7 @@ public class UserController {
     @PostMapping(value = "/api/registration")
     public ResponseEntity createUser(@Valid @RequestBody UserDTO userDTO) {
         User user = userService.createUser(userDTO);
+
         Map<Object, Object> response = new HashMap<>();
         response.put(EMAIL, user.getEmail());
         response.put(CREATED, user.getCreated());

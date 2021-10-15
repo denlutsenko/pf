@@ -34,7 +34,7 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")

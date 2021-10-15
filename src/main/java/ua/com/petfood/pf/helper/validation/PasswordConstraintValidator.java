@@ -4,13 +4,10 @@ import org.passay.*;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
-
 
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
@@ -46,7 +43,6 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 .disableDefaultConstraintViolation();
 
         return false;
-
     }
 
     @Override
