@@ -7,12 +7,12 @@ import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.FoodType;
 import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
+import ua.com.petfood.pf.model.dto.response.recommendedbox.Box;
 import ua.com.petfood.pf.service.DailyFoodAmountService;
 import ua.com.petfood.pf.service.FoodTypeService;
 import ua.com.petfood.pf.service.SKUItemService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,10 +30,10 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
         this.skuItemService = skuItemService;
     }
 
-    public Map<String, List<Map>> calculateRecommendedBoxForDog(final QuestionnaireDTO questDto,
+    public List<Box> calculateRecommendedBoxForDog(final QuestionnaireDTO questDto,
             final AnimalCategory animalCategory) {
-        Map<String, List<Map>> result = new HashMap<>();
-
+        List<Box> boxes = new ArrayList<>();
+        Box box = new Box();
         Long preferableFoodId = questDto.getPreferableFoodId();
         String preferableFood = adjustPreferableFood(preferableFoodId.intValue());
         String animalAgeType = adjustAnimalAgeType(questDto.getAge());
@@ -43,7 +43,7 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
 
         if(preferableFood == null) {
             for(String brand : skuBrandsByPetCategory) {
-                result.put(brand, calculateRecommendedBoxWithMixedItems(animalCategory, adultDogSize, animalAgeType,
+                boxes.addAll(calculateRecommendedBoxWithMixedItems(animalCategory, adultDogSize, animalAgeType,
                         purchaseFrequency, brand));
             }
         } else {
@@ -53,20 +53,23 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
                     dailyFoodAmount);
 
             for(String brand : skuBrandsByPetCategory) {
-                List<Map> recommendedBox = List
-                        .of(createRecommendedBox(animalCategory.getId(), animalAgeType, preferableFoodId, adultDogSize,
+                box.getLineItems()
+                        .add(createRecommendedBox(animalCategory.getId(), animalAgeType, preferableFoodId, adultDogSize,
                                 severalDaysFoodAmountKilos, brand));
 
-                result.put(brand,recommendedBox);
+                box.setBrand(brand);
+                boxes.add(box);
             }
         }
 
-        return result;
+        return boxes;
     }
 
-    private List<Map> calculateRecommendedBoxWithMixedItems(final AnimalCategory animalCategory,
+    private List<Box> calculateRecommendedBoxWithMixedItems(final AnimalCategory animalCategory,
             final String adultDogSize, final String animalAgeType, final int purchaseFrequency, String brand) {
-        List<Map> result = new ArrayList<>();
+        List<Box> result = new ArrayList<>();
+        Box box = new Box();
+        box.setBrand(brand);
 
         for(FoodType foodType : foodTypeService.getFoodTypes()) {
             Long foodTypeId = foodType.getId() != null ? foodType.getId() : 1L;
@@ -76,11 +79,12 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
                     preferableFood);
             double severalDaysFoodAmountKilos =
                     adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency, dailyFoodAmount) / 2;
-            Map<String, Object> recommendedMixedBox = createRecommendedBox(animalCategory.getId(), animalAgeType, foodTypeId,
-                    adultDogSize, severalDaysFoodAmountKilos, brand);
 
-            result.add(recommendedMixedBox);
+            box.getLineItems().add(createRecommendedBox(animalCategory.getId(), animalAgeType, foodTypeId, adultDogSize,
+                    severalDaysFoodAmountKilos, brand));
         }
+
+        result.add(box);
 
         return result;
     }
@@ -102,7 +106,7 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
                             adultDogSize, closestSKUWeight, false);
         }
 
-        return adjustRecommendedSKUWeight(severalDaysFoodAmountKilos, skuItem);
+        return adjustRecommendedSKUWItems(severalDaysFoodAmountKilos, skuItem);
     }
 
     // норма еды в день для животного

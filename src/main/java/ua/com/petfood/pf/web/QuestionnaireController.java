@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
+import ua.com.petfood.pf.model.dto.response.recommendedbox.RecommendedBoxResponse;
 import ua.com.petfood.pf.service.QuestionnaireService;
 
 @RestController
@@ -33,8 +34,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping(value = "/meal/recommend")
-    ResponseEntity getRecommendedBoxes(@RequestHeader(AUTHORIZATION) String token,
-            @RequestBody QuestionnaireDTO questionnaireDto) {
-        return ResponseEntity.ok(questionnaireService.calculateRecommendedBoxes(questionnaireDto, token));
+    ResponseEntity getRecommendedBoxes(@RequestBody QuestionnaireDTO questionnaireDto) {
+        return ResponseEntity.ok(questionnaireService.calculateRecommendedBoxes(questionnaireDto));
     }
 }

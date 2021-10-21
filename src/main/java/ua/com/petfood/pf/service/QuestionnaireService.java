@@ -1,14 +1,13 @@
 package ua.com.petfood.pf.service;
 
-import java.util.List;
 import java.util.Map;
 
-import ua.com.petfood.pf.model.SKUItem;
 import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
+import ua.com.petfood.pf.model.dto.response.recommendedbox.RecommendedBoxResponse;
 
 public interface QuestionnaireService {
 
     Map<String, Object> getAllCatalogsForQuestionnaire();
 
-    Map<String, List<Map>> calculateRecommendedBoxes(QuestionnaireDTO questDto, String token);
+    RecommendedBoxResponse calculateRecommendedBoxes(QuestionnaireDTO questDto);
 }

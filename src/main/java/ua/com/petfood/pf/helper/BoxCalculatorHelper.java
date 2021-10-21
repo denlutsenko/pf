@@ -1,6 +1,5 @@
 package ua.com.petfood.pf.helper;
 
-import static ua.com.petfood.pf.helper.constants.Constants.SEVEN_DAYS_FREQUENCY;
 import static ua.com.petfood.pf.helper.constants.Constants.THIRTY_DAYS_FREQUENCY;
 
 import java.math.BigDecimal;
@@ -14,16 +13,17 @@ import org.springframework.stereotype.Component;
 
 import ua.com.petfood.pf.model.Group;
 import ua.com.petfood.pf.model.SKUItem;
+import ua.com.petfood.pf.model.dto.response.recommendedbox.Box;
 
 @Component
 public class BoxCalculatorHelper {
 
-    public BoxCalculatorHelper(){}
-
+    public BoxCalculatorHelper() {
+    }
 
     // частота покупки
     public int definePurchasingFrequency(final int purchaseFrequencyId) {
-//        return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
+        //        return purchaseFrequencyId == 1 ? SEVEN_DAYS_FREQUENCY : THIRTY_DAYS_FREQUENCY;
         return THIRTY_DAYS_FREQUENCY;
     }
 
@@ -48,8 +48,9 @@ public class BoxCalculatorHelper {
         return divide.doubleValue();
     }
 
-    public Map<String, Object> adjustRecommendedSKUWeight(final double targetWeight, final SKUItem skuItem) {
-        Map<String, Object> result = new HashMap<>();
+    public Map<String, Object> adjustRecommendedSKUWItems(final double targetWeight, final SKUItem skuItem) {
+      Map<String, Object> lineItems = new HashMap<>();
+
         int lineItemCount = 1;
         double currentWeight = skuItem.getPackageWeightKilos();
 
@@ -58,9 +59,9 @@ public class BoxCalculatorHelper {
             currentWeight += skuItem.getPackageWeightKilos();
         }
 
-        result.put("count", lineItemCount);
-        result.put("lineItem", skuItem);
+        lineItems.put("count", lineItemCount);
+        lineItems.put("lineItem", skuItem);
 
-        return result;
+        return lineItems;
     }
 }
