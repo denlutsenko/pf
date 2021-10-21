@@ -62,6 +62,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     public RecommendedBoxResponse calculateRecommendedBoxes(final QuestionnaireDTO questDto) {
         RecommendedBoxResponse response = new RecommendedBoxResponse();
 
+        if(questDto.getPreferableFoodId() == null){
+            questDto.setPreferableFoodId(999L);
+        }
+
         AnimalCategory animalCategory = animalCategoryService.getAnimalCategoryById(questDto.getPetCategoryId());
 
         if(DOG.equalsIgnoreCase(animalCategory.getName())) {
