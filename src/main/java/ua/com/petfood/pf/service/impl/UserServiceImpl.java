@@ -16,14 +16,16 @@ import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Role;
+import ua.com.petfood.pf.model.RoleName;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.UserStatus;
+import ua.com.petfood.pf.model.dto.UserDTO;
 import ua.com.petfood.pf.repository.UserRepository;
 import ua.com.petfood.pf.service.RoleService;
 import ua.com.petfood.pf.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 
     private final BCryptPasswordEncoder passwordEncoder;
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     public UserServiceImpl(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository,
-            RoleService roleService, UserHelper userHelper) {
+                           RoleService roleService, UserHelper userHelper) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
@@ -67,5 +69,11 @@ public class UserServiceImpl implements UserService{
         List<GrantedAuthority> list = new ArrayList<>();
         list.add(new SimpleGrantedAuthority(userRole.getName().toString()));
         return list;
+    }
+
+    public User createUser(UserDTO userDTO) {
+        Role role = roleService.findRoleByName(RoleName.USER);
+        User user = new User(role, userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()));
+        return userRepository.save(user);
     }
 }

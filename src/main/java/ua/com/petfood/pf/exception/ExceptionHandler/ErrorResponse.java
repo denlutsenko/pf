@@ -1,4 +1,4 @@
-package ua.com.petfood.pf.exception;
+package ua.com.petfood.pf.exception.ExceptionHandler;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

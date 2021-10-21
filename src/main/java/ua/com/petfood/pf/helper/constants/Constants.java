@@ -18,6 +18,8 @@ public class Constants {
     public static final String USER_ID = "userId";
     public static final String EMAIL = "email";
     public static final String TOKEN = "token";
+    public static final String CREATED = "created";
+    public static final String STATUS = "status";
 
 
     //ANIMAL

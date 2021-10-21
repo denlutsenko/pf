@@ -1,5 +1,6 @@
-package ua.com.petfood.pf.exception;
+package ua.com.petfood.pf.exception.ExceptionHandler;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,10 +21,9 @@ public class CustomExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse handleException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-
         List<FieldError> errors = ex.getBindingResult().getFieldErrors();
-
         List<ErrorResponse.ErrorDetails> errorDetails = new ArrayList<>();
+
         for (FieldError fieldError : errors) {
             ErrorResponse.ErrorDetails error = new ErrorResponse.ErrorDetails();
             error.setFieldName(fieldError.getField());
@@ -34,6 +34,21 @@ public class CustomExceptionHandler {
         errorResponse.setStatus(HttpStatus.BAD_REQUEST);
         errorResponse.setTimestamp(LocalDateTime.now().toString());
         errorResponse.setErrors(errorDetails);
+
+        return errorResponse;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse handleException(DataIntegrityViolationException ex, HttpServletRequest request) {
+        ErrorResponse.ErrorDetails error = new ErrorResponse.ErrorDetails();
+        error.setMessage(ex.getMostSpecificCause().getMessage());
+
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST);
+        errorResponse.setTimestamp(LocalDateTime.now().toString());
+        errorResponse.setErrors(List.of(error));
 
         return errorResponse;
     }
