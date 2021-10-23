@@ -1,5 +1,8 @@
 package ua.com.petfood.pf.model;
 
+import static ua.com.petfood.pf.helper.constants.Constants.WAITING_PAYMENT;
+import static ua.com.petfood.pf.model.OrderSubscriptionStatus.INACTIVE;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -18,10 +21,12 @@ public class Order extends PersistentEntity<Long> {
     private Animal animal;
 
     private BigDecimal orderAmount;
-
-    private Date orderTime;
-
+    private Date orderCreationDate;
+    private Date orderPaymentDate;
     private String order_id;
+    private boolean subscription = false;
+    private OrderSubscriptionStatus subscriptionStatus = INACTIVE;
+    private String paymentStatus = WAITING_PAYMENT;
 
     public Order() {
         //Hibernate needs a default constructor
@@ -59,12 +64,12 @@ public class Order extends PersistentEntity<Long> {
         this.orderAmount = orderAmount;
     }
 
-    public Date getOrderTime() {
-        return orderTime;
+    public Date getOrderCreationDate() {
+        return orderCreationDate;
     }
 
-    public void setOrderTime(final Date orderTime) {
-        this.orderTime = orderTime;
+    public void setOrderCreationDate(final Date orderCreationDate) {
+        this.orderCreationDate = orderCreationDate;
     }
 
     public Animal getAnimal() {
@@ -73,5 +78,37 @@ public class Order extends PersistentEntity<Long> {
 
     public void setAnimal(final Animal animal) {
         this.animal = animal;
+    }
+
+    public boolean isSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(final boolean subscription) {
+        this.subscription = subscription;
+    }
+
+    public OrderSubscriptionStatus getSubscriptionStatus() {
+        return subscriptionStatus;
+    }
+
+    public void setSubscriptionStatus(final OrderSubscriptionStatus subscriptionStatus) {
+        this.subscriptionStatus = subscriptionStatus;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(final String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Date getOrderPaymentDate() {
+        return orderPaymentDate;
+    }
+
+    public void setOrderPaymentDate(final Date orderPaymentDate) {
+        this.orderPaymentDate = orderPaymentDate;
     }
 }

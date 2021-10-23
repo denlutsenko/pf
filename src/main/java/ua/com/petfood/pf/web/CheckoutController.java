@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ua.com.petfood.pf.helper.OrderHelper;
 import ua.com.petfood.pf.model.OrderPaymentInfo;
 import ua.com.petfood.pf.model.dto.OrderDTO;
 import ua.com.petfood.pf.service.CheckoutService;
 import ua.com.petfood.pf.service.OrderPaymentInfoService;
+import ua.com.petfood.pf.service.OrderService;
 
 @RestController
 @CrossOrigin
@@ -27,14 +27,14 @@ public class CheckoutController {
 
     private final CheckoutService checkoutService;
     private final OrderPaymentInfoService orderPaymentInfoService;
-    private final OrderHelper orderHelper;
+    private final OrderService orderService;
 
     @Autowired
     public CheckoutController(final CheckoutService checkoutService,
-            final OrderPaymentInfoService orderPaymentInfoService, final OrderHelper orderHelper) {
+            final OrderPaymentInfoService orderPaymentInfoService, final OrderService orderService) {
         this.checkoutService = checkoutService;
         this.orderPaymentInfoService = orderPaymentInfoService;
-        this.orderHelper = orderHelper;
+        this.orderService = orderService;
     }
 
     @PostMapping(value = "/anon/checkout/placeOrder")
@@ -47,8 +47,8 @@ public class CheckoutController {
     @PostMapping(value = "/api/liqpay/payment/result", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public void receiveLiqPayPaymentResponse(@RequestParam Map<String, String> body) {
-        OrderPaymentInfo orderPaymentInfo = orderHelper.getLiqPayOrderResultStatus(body.get(DATA));
-        orderPaymentInfoService.saveOrderPaymentInfo(orderPaymentInfo);
+        OrderPaymentInfo orderPaymentInfo = orderService.populateLiqPayOrderPaymentInfo(body.get(DATA));
+        orderPaymentInfoService.saveOrderPaymentInfoAndUpdatePaymentStatus(orderPaymentInfo);
     }
 
 
