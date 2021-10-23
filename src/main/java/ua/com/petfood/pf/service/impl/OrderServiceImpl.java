@@ -8,9 +8,11 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ua.com.petfood.pf.helper.OrderHelper;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.Order;
+import ua.com.petfood.pf.model.OrderPaymentInfo;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.repository.OrderRepository;
 import ua.com.petfood.pf.service.OrderService;
@@ -22,12 +24,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final UserHelper userHelper;
+    private final OrderHelper orderHelper;
 
     @Autowired
-    private OrderServiceImpl(OrderRepository orderRepository, UserService userService, UserHelper userHelper) {
+    private OrderServiceImpl(OrderRepository orderRepository, UserService userService, UserHelper userHelper, OrderHelper orderHelper) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.userHelper = userHelper;
+        this.orderHelper = orderHelper;
     }
 
     @Override
@@ -46,6 +50,21 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
+    @Override
+    public OrderPaymentInfo populateLiqPayOrderPaymentInfo(final String data){
+        return orderHelper.mapLiqPayOrderPaymentInfo(data);
+    }
+
+    @Override
+    public void updateOrderPaymentStatus(final String orderId, final String paymentStatus, final Date paymentDate){
+        Order order = orderRepository.getOrderByOrderId(orderId);
+
+        order.setPaymentStatus(paymentStatus.toUpperCase());
+        order.setOrderPaymentDate(paymentDate);
+
+        orderRepository.save(order);
+    }
+
     private String createOrderId(final Long id){
         Long dateMillis = new Date().getTime();
         String subId = String.valueOf(dateMillis).substring(10);
@@ -55,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order createEmptyOrder() {
         Order order = new Order();
-        order.setOrderTime(new Date());
+        order.setOrderCreationDate(new Date());
         order.setOrderAmount(new BigDecimal(0.00));
 
         return order;

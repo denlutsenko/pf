@@ -14,7 +14,7 @@ public class OrderHelper {
 
     public OrderHelper(){}
 
-    public OrderPaymentInfo getLiqPayOrderResultStatus(final String data) {
+    public OrderPaymentInfo mapLiqPayOrderPaymentInfo(final String data) {
         String decodedString = decodeStringData(data);
 
         ObjectMapper objectMapper = new ObjectMapper();

@@ -27,6 +27,12 @@ public class Constants {
     public static final String ANIMAL_ID = "animalId";
 
 
+    //ORDER
+    // Order paymentStatus
+     public static final String  WAITING_PAYMENT = "WAITING_PAYMENT";
+     public static final String  PAYMENT_SUCCESS = "SUCCESS";
+
+
     //OTHER
     public static final String PREFERABLE_FOOD = "preferableFood";
     public static final String ANIMAL__AGE_TYPE = "animalAgeType";
