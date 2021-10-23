@@ -31,7 +31,6 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
     public List<Box> calculateRecommendedBoxForCat(final QuestionnaireDTO questDto,
             final AnimalCategory animalCategory) {
         List<Box> boxes = new ArrayList<>();
-        Box box = new Box();
 
         Long preferableFoodId = questDto.getPreferableFoodId();
         String preferableFood = adjustPreferableFood(preferableFoodId.intValue());
@@ -50,9 +49,11 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
                     dailyFoodAmount);
 
             for(String brand : skuBrandsByPetCategory) {
+                Box box = new Box();
                 box.getLineItems()
                         .add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType, preferableFoodId,
                                 severalDaysFoodAmountKilos, brand));
+                box.setBrand(brand);
                 boxes.add(box);
             }
         }
@@ -74,9 +75,10 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
 
             box.getLineItems().add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType,
                     foodTypeId, severalDaysFoodAmountKilos, brand));
-
+            box.setBrand(brand);
             result.add(box);
         }
+
         return result;
     }
 
@@ -114,7 +116,3 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
         return foodTypeService.getFoodTypeByCode(code);
     }
 }
-
-
-
-

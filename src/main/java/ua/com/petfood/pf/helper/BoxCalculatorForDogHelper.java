@@ -33,7 +33,7 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
     public List<Box> calculateRecommendedBoxForDog(final QuestionnaireDTO questDto,
             final AnimalCategory animalCategory) {
         List<Box> boxes = new ArrayList<>();
-        Box box = new Box();
+
         Long preferableFoodId = questDto.getPreferableFoodId();
         String preferableFood = adjustPreferableFood(preferableFoodId.intValue());
         String animalAgeType = adjustAnimalAgeType(questDto.getAge());
@@ -53,10 +53,10 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
                     dailyFoodAmount);
 
             for(String brand : skuBrandsByPetCategory) {
+                Box box = new Box();
                 box.getLineItems()
                         .add(createRecommendedBox(animalCategory.getId(), animalAgeType, preferableFoodId, adultDogSize,
                                 severalDaysFoodAmountKilos, brand));
-
                 box.setBrand(brand);
                 boxes.add(box);
             }

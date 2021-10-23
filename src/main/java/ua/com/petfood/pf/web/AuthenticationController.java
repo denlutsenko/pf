@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,11 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
+        @GetMapping
+        public ResponseEntity test() {
+            return ResponseEntity.ok().build();
+        }
+
     @PostMapping(value = "/api/login")
     public ResponseEntity<Map<String, String>> login(@Valid @RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
         try {
@@ -45,6 +51,7 @@ public class AuthenticationController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, authenticationRequestDTO.getPassword()));
             User user = userService.findByUsername(username);
             String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole());
+
             Map<String, String> response = new HashMap<>();
             response.put(EMAIL, username);
             response.put(TOKEN, token);
@@ -53,7 +60,6 @@ public class AuthenticationController {
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");
         }
-
     }
 }
 
