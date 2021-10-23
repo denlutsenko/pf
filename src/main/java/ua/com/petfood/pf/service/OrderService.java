@@ -12,5 +12,5 @@ public interface OrderService {
 
     Order saveOrder(Animal animal, String token, BigDecimal totalOrderPrice);
     OrderPaymentInfo populateLiqPayOrderPaymentInfo(String data);
-    void updateOrderPaymentStatus(String orderId, String paymentStatus, Date paymentDate);
+    void updateOrderPaymentStatus(OrderPaymentInfo orderPaymentInfo);
 }

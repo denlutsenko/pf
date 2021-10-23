@@ -1,6 +1,7 @@
 package ua.com.petfood.pf.service.impl;
 
 import static ua.com.petfood.pf.helper.constants.Constants.ORDER_PREFIX;
+import static ua.com.petfood.pf.helper.constants.Constants.SUBSCRIBED_STATUS;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -56,13 +57,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderPaymentStatus(final String orderId, final String paymentStatus, final Date paymentDate){
-        Order order = orderRepository.getOrderByOrderId(orderId);
+    public void updateOrderPaymentStatus(final OrderPaymentInfo orderPaymentInfo){
+        String paymentStatus = orderPaymentInfo.getStatus();
+        Order order = orderRepository.getOrderByOrderId(orderPaymentInfo.getOrder_id());
 
-        order.setPaymentStatus(paymentStatus.toUpperCase());
-        order.setOrderPaymentDate(paymentDate);
+        if(order != null){
+            String status = paymentStatus.toUpperCase();
+            order.setPaymentStatus(status);
+            order.setOrderPaymentDate(orderPaymentInfo.getCreate_date());
+            updateSubscriptionStatusForOrder(order, status);
 
-        orderRepository.save(order);
+            orderRepository.save(order);
+        }
+    }
+
+    private void updateSubscriptionStatusForOrder(final Order order, final String status){
+        if(SUBSCRIBED_STATUS.equalsIgnoreCase(status)){
+            order.setSubscription(true);
+            order.setSubscriptionStatus(status);
+        }
     }
 
     private String createOrderId(final Long id){
