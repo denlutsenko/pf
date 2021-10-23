@@ -23,10 +23,9 @@ public class OrderPaymentInfoServiceImpl implements OrderPaymentInfoService {
 
     @Override
     public void saveOrderPaymentInfoAndUpdatePaymentStatus(final OrderPaymentInfo orderPaymentInfo) {
-        if(orderPaymentInfo != null) {
+        if(orderPaymentInfo != null && orderPaymentInfo.getOrder_id() != null) {
             orderPaymentInfoRepository.save(orderPaymentInfo);
-            orderService.updateOrderPaymentStatus(orderPaymentInfo.getOrder_id(), orderPaymentInfo.getStatus(),
-                    orderPaymentInfo.getCreate_date());
+            orderService.updateOrderPaymentStatus(orderPaymentInfo);
         }
     }
 }

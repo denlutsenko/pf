@@ -31,6 +31,7 @@ public class Constants {
     // Order paymentStatus
      public static final String  WAITING_PAYMENT = "WAITING_PAYMENT";
      public static final String  PAYMENT_SUCCESS = "SUCCESS";
+     public static final String  SUBSCRIBED_STATUS = "SUBSCRIBED";
 
 
     //OTHER

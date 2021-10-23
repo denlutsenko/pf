@@ -1,7 +1,6 @@
 package ua.com.petfood.pf.model;
 
 import static ua.com.petfood.pf.helper.constants.Constants.WAITING_PAYMENT;
-import static ua.com.petfood.pf.model.OrderSubscriptionStatus.INACTIVE;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -25,7 +24,7 @@ public class Order extends PersistentEntity<Long> {
     private Date orderPaymentDate;
     private String order_id;
     private boolean subscription = false;
-    private OrderSubscriptionStatus subscriptionStatus = INACTIVE;
+    private String subscriptionStatus;
     private String paymentStatus = WAITING_PAYMENT;
 
     public Order() {
@@ -88,11 +87,11 @@ public class Order extends PersistentEntity<Long> {
         this.subscription = subscription;
     }
 
-    public OrderSubscriptionStatus getSubscriptionStatus() {
+    public String getSubscriptionStatus() {
         return subscriptionStatus;
     }
 
-    public void setSubscriptionStatus(final OrderSubscriptionStatus subscriptionStatus) {
+    public void setSubscriptionStatus(final String subscriptionStatus) {
         this.subscriptionStatus = subscriptionStatus;
     }
 
