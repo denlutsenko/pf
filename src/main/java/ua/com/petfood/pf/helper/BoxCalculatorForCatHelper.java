@@ -65,6 +65,8 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             final String animalAgeType, final int purchaseFrequency, String brand) {
         List<Box> result = new ArrayList<>();
         Box box = new Box();
+        box.setBrand(brand);
+
         for(FoodType foodType : foodTypeService.getFoodTypes()) {
             Long foodTypeId = foodType.getId() != null ? foodType.getId() : 1L;
 
@@ -75,9 +77,9 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
 
             box.getLineItems().add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType,
                     foodTypeId, severalDaysFoodAmountKilos, brand));
-            box.setBrand(brand);
-            result.add(box);
         }
+
+        result.add(box);
 
         return result;
     }
