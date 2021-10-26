@@ -5,35 +5,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.com.petfood.pf.external.novaposhta.NovaPoshtaApiService;
+import ua.com.petfood.pf.service.impl.NovaPoshtaApiServiceImpl;
 
 @RestController
 @CrossOrigin
 public class NovaPoshtaApiController {
 
-    private final NovaPoshtaApiService novaPoshtaApiService;
+    private final NovaPoshtaApiServiceImpl novaPoshtaApiServiceImpl;
 
     @Autowired
-    public NovaPoshtaApiController(NovaPoshtaApiService novaPoshtaApiService) {
-        this.novaPoshtaApiService = novaPoshtaApiService;
+    public NovaPoshtaApiController(NovaPoshtaApiServiceImpl novaPoshtaApiServiceImpl) {
+        this.novaPoshtaApiServiceImpl = novaPoshtaApiServiceImpl;
     }
 
 
     @GetMapping(value = "/admin/regions")
     public ResponseEntity<String> getRegions() {
-        return novaPoshtaApiService.getRegions();
+        return novaPoshtaApiServiceImpl.getRegions();
 
     }
 
     @GetMapping(value = "/admin/cities")
     public ResponseEntity<String> getCities() {
-        return novaPoshtaApiService.getCities();
+        return novaPoshtaApiServiceImpl.getCities();
 
     }
 
     @GetMapping(value = "/admin/branches")
     public ResponseEntity<String> getBranches() {
-        return novaPoshtaApiService.getBranches();
+        return novaPoshtaApiServiceImpl.getBranches();
 
     }
 }

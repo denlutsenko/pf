@@ -1,4 +1,4 @@
-package ua.com.petfood.pf.external.novaposhta;
+package ua.com.petfood.pf.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 @Component
-public class NovaPoshtaApiService {
+public class NovaPoshtaApiServiceImpl {
     @Value("${api.novaposhta.uri}")
     private String URI;
     @Value("${api.novaposhta.hostname}")
@@ -40,29 +40,19 @@ public class NovaPoshtaApiService {
 
 
     @Autowired
-    public NovaPoshtaApiService(ObjectMapper objectMapper, RegionRepository regionRepository,
-                                CityRepository cityRepository, BranchRepository branchRepository) {
-
+    public NovaPoshtaApiServiceImpl(ObjectMapper objectMapper, RegionRepository regionRepository,
+                                    CityRepository cityRepository, BranchRepository branchRepository) {
         this.objectMapper = objectMapper;
         this.regionRepository = regionRepository;
         this.cityRepository = cityRepository;
         this.branchRepository = branchRepository;
-
     }
 
 
     public ResponseEntity<String> getRegions() {
-
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentLength(145);
-        httpHeaders.setConnection("keep-alive");
-        httpHeaders.setHost(new InetSocketAddress(HOSTNAME, PORT));
-
-        HttpEntity<String> request = new HttpEntity<>(REGIONS_BODY, httpHeaders);
+        HttpEntity<String> request = new HttpEntity<>(REGIONS_BODY, getHeaders());
         ResponseEntity<String> response = restTemplate.postForEntity(URI, request, String.class);
-
-
         try {
             RegionDTO regions = objectMapper.readValue(response.getBody(), RegionDTO.class);
 
@@ -74,29 +64,20 @@ public class NovaPoshtaApiService {
             e.printStackTrace();
             //TODO find the right exception and way to log it
         }
-
-
         return response;
     }
 
     public ResponseEntity<String> getCities() {
-
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentLength(145);
-        httpHeaders.setConnection("keep-alive");
-        httpHeaders.setHost(new InetSocketAddress(HOSTNAME, PORT));
-
-        HttpEntity<String> request = new HttpEntity<>(CITIES_BODY, httpHeaders);
+        HttpEntity<String> request = new HttpEntity<>(CITIES_BODY, getHeaders());
         ResponseEntity<String> response = restTemplate.postForEntity(URI, request, String.class);
-
-
         try {
             CitiesDTO cities = objectMapper.readValue(response.getBody(), CitiesDTO.class);
 
             cities.getCityDataLoad().stream()
                     .map(this::mapCitiesDTOToCityEntity)
                     .forEach(cityRepository::save);
+
         } catch (IOException e) {
             e.printStackTrace();
             //TODO find the right exception and way to log it
@@ -107,15 +88,8 @@ public class NovaPoshtaApiService {
 
     public ResponseEntity<String> getBranches() {
         RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentLength(145);
-        httpHeaders.setConnection("keep-alive");
-        httpHeaders.setHost(new InetSocketAddress(HOSTNAME, PORT));
-
-        HttpEntity<String> request = new HttpEntity<>(BRANCHES_BODY, httpHeaders);
+        HttpEntity<String> request = new HttpEntity<>(BRANCHES_BODY, getHeaders());
         ResponseEntity<String> response = restTemplate.postForEntity(URI, request, String.class);
-
-
         try {
             BranchDTO branches = objectMapper.readValue(response.getBody(), BranchDTO.class);
 
@@ -146,5 +120,12 @@ public class NovaPoshtaApiService {
         return modelMapper.map(branchDataLoad, BranchData.class);
     }
 
+    private HttpHeaders getHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentLength(145);
+        httpHeaders.setConnection("keep-alive");
+        httpHeaders.setHost(new InetSocketAddress(HOSTNAME, PORT));
+        return httpHeaders;
+    }
 
 }
