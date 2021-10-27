@@ -51,14 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String email) {
-        return Optional.ofNullable(userRepository.findByEmail(email))
-                .orElseThrow(() -> new NotFoundException("User not found"));
+    public Optional<User> findByUsername(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email));
+
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        User user = findByUsername(email);
+        User user = findByUsername(email).orElseThrow(() -> new NotFoundException("User not found"));
         user.setUserStatus(UserStatus.ACTIVE);
         user.setAuthorities(mapToGrantedAuthorities(user.getRole()));
 

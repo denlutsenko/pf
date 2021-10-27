@@ -9,6 +9,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.OrderHelper;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.Animal;
@@ -38,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order saveOrder(Animal animal, String token, BigDecimal totalOrderPrice) {
         String email = userHelper.getUserEmailFromToken(token);
-        User user = userService.findByUsername(email);
+        User user = userService.findByUsername(email).orElseThrow(() -> new NotFoundException("User not found"));
 
         Order order = orderRepository.save(createEmptyOrder());
         Long externalOrderId = order.getId();

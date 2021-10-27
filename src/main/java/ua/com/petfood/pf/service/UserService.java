@@ -6,9 +6,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.UserDTO;
 
+import java.util.Optional;
+
 public interface UserService extends UserDetailsService {
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     User createAnonUser();
 
