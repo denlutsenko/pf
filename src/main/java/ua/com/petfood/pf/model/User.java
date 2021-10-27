@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "pf_users")
@@ -28,10 +29,10 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "email", unique = true)
@@ -59,6 +60,9 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     private boolean enabled;
 
     private Date lastPasswordResetDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    private List<DeliveryAddress> deliveryAddressList;
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
