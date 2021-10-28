@@ -3,6 +3,7 @@ package ua.com.petfood.pf.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.UserDTO;
 
@@ -17,4 +18,6 @@ public interface UserService extends UserDetailsService {
     UserDetails loadUserByUsername(String var1);
 
     User createUser(UserDTO userDTO);
+
+    User updateUserFromDeliveryAddress(User userAnon, DeliveryAddress deliveryAddress);
 }

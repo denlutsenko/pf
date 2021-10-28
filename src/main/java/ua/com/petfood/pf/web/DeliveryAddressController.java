@@ -23,9 +23,9 @@ public class DeliveryAddressController {
     public ResponseEntity postDeliveryAddress(@RequestHeader(AUTHORIZATION) String bearerToken, @RequestBody DeliveryAddressDTO deliveryAddressDTO) {
         return ResponseEntity.ok(deliveryAddressService.saveDeliveryAddress(bearerToken, deliveryAddressDTO));
     }
-    @GetMapping(value = "/api/checkout/get_delivery_address/{email}")
-    public ResponseEntity getDeliveryAddress(@RequestHeader(AUTHORIZATION) String bearerToken, @PathVariable String email) {
-        return ResponseEntity.ok(deliveryAddressService.getDeliveryAddressesForUser(email));
-    }
+//    @GetMapping(value = "/api/checkout/get_delivery_address/{email}")
+//    public ResponseEntity getDeliveryAddress(@RequestHeader(AUTHORIZATION) String bearerToken, @PathVariable String email) {
+//        return ResponseEntity.ok(deliveryAddressService.getDeliveryAddressesForUser(email));
+//    }
 
 }

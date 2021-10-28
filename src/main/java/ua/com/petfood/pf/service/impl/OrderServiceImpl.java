@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.OrderHelper;
 import ua.com.petfood.pf.helper.UserHelper;
-import ua.com.petfood.pf.model.Animal;
-import ua.com.petfood.pf.model.Order;
-import ua.com.petfood.pf.model.OrderPaymentInfo;
-import ua.com.petfood.pf.model.User;
+import ua.com.petfood.pf.model.*;
 import ua.com.petfood.pf.repository.OrderRepository;
 import ua.com.petfood.pf.service.OrderService;
 import ua.com.petfood.pf.service.UserService;
@@ -70,6 +67,13 @@ public class OrderServiceImpl implements OrderService {
 
             orderRepository.save(order);
         }
+    }
+
+    @Override
+    public void updateOrderDeliveryAddress(DeliveryAddress deliveryAddress) {
+        Order order = orderRepository.getOrderByOrderId(deliveryAddress.getOrderId());
+        order.setDeliveryAddress(deliveryAddress);
+        orderRepository.save(order);
     }
 
     private void updateSubscriptionStatusForOrder(final Order order, final String status){

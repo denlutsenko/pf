@@ -60,9 +60,6 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     private boolean enabled;
 
     private Date lastPasswordResetDate;
-    @JsonIgnore
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
-    private List<DeliveryAddress> deliveryAddressList;
 
     @Transient
     private Collection<? extends GrantedAuthority> authorities;

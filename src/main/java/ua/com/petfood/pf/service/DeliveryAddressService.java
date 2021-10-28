@@ -10,5 +10,4 @@ import java.util.Map;
 public interface DeliveryAddressService {
     Map<String, Object> saveDeliveryAddress(String bearerToken, DeliveryAddressDTO deliveryAddressDTO);
 
-    List<DeliveryAddress> getDeliveryAddressesForUser(String userId);
 }

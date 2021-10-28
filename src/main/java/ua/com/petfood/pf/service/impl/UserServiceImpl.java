@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
-import ua.com.petfood.pf.model.Role;
-import ua.com.petfood.pf.model.RoleName;
-import ua.com.petfood.pf.model.User;
-import ua.com.petfood.pf.model.UserStatus;
+import ua.com.petfood.pf.model.*;
 import ua.com.petfood.pf.model.dto.UserDTO;
 import ua.com.petfood.pf.repository.UserRepository;
 import ua.com.petfood.pf.service.RoleService;
@@ -76,5 +73,16 @@ public class UserServiceImpl implements UserService {
         User user = new User(role, userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()));
         user.setEnabled(true);
         return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUserFromDeliveryAddress(User userAnon, DeliveryAddress deliveryAddress) {
+
+        userAnon.setEmail(deliveryAddress.getEmail());
+        userAnon.setPhone(deliveryAddress.getPhoneNumber());
+        userAnon.setFirstName(deliveryAddress.getFirstName());
+        userAnon.setLastName(deliveryAddress.getLastName());
+        userAnon.setEnabled(true);
+       return userRepository.save(userAnon);
     }
 }

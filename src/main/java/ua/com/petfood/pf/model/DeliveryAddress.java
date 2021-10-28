@@ -27,5 +27,4 @@ public class DeliveryAddress extends PersistentEntity<Long> {
 
     private String orderId;
 
-    private Long userId;
 }
