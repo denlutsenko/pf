@@ -1,12 +1,6 @@
 package ua.com.petfood.pf.security.jwt;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,15 +9,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 import ua.com.petfood.pf.model.Role;
 import ua.com.petfood.pf.service.UserService;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 
 @Component
@@ -75,11 +68,16 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    public Date getExpirationDate(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getExpiration();
+    }
+
+
     public String resolveToken(HttpServletRequest req) {
         return resolveToken(req.getHeader(AUTHORIZATION));
     }
 
-    public String resolveToken(final String bearerToken){
+    public String resolveToken(final String bearerToken) {
         if (bearerToken != null && bearerToken.startsWith(BEARER)) {
             return bearerToken.substring(TOKEN_SUBSTRING);
         }

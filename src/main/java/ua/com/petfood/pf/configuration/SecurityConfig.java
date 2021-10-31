@@ -9,15 +9,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import ua.com.petfood.pf.repository.JwtBlackListRepository;
 import ua.com.petfood.pf.security.jwt.JwtConfigurer;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
-import ua.com.petfood.pf.service.UserService;
 
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtBlackListRepository jwtBlackListRepository;
     //Any request are permitted
     private static final String NO_TOKEN_ENDPOINT_INDEX = "/";
     private static final String NO_TOKEN_ENDPOINT_API = "/api/**";
@@ -33,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ADMIN_ENDPOINT = "/admin/**";
 
     @Autowired
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, JwtBlackListRepository jwtBlackListRepository) {
         this.jwtTokenProvider = jwtTokenProvider;
-
+        this.jwtBlackListRepository = jwtBlackListRepository;
     }
 
     @Bean
@@ -45,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        return new CustomLogoutSuccessHandler(jwtTokenProvider);
+        return new CustomLogoutSuccessHandler(jwtTokenProvider, jwtBlackListRepository);
     }
 
     @Override
@@ -68,10 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider))
                 .and()
-                .logout().permitAll()
+                .logout()
                 .logoutUrl("/perform_logout")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies("YIICSRFTOKEN", "PHPSESSID")
                 .logoutSuccessHandler(logoutSuccessHandler());
     }
 }
