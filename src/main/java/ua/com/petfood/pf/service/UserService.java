@@ -1,5 +1,6 @@
 package ua.com.petfood.pf.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -15,4 +16,6 @@ public interface UserService extends UserDetailsService {
     UserDetails loadUserByUsername(String var1);
 
     User createUser(UserDTO userDTO);
+
+    Authentication getAuthentication(String email);
 }

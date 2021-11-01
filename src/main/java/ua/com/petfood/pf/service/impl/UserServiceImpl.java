@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -76,5 +78,10 @@ public class UserServiceImpl implements UserService {
         User user = new User(role, userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()));
         user.setEnabled(true);
         return userRepository.save(user);
+    }
+
+    public Authentication getAuthentication(String email) {
+        UserDetails userDetails = loadUserByUsername(email);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 }

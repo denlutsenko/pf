@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ua.com.petfood.pf.model.Role;
+import ua.com.petfood.pf.repository.JwtBlackListRepository;
 import ua.com.petfood.pf.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -32,7 +33,14 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
 
-    private UserService userService;
+
+    private final JwtBlackListRepository jwtBlackListRepository;
+
+    public JwtTokenProvider(JwtBlackListRepository jwtBlackListRepository) {
+        this.jwtBlackListRepository = jwtBlackListRepository;
+    }
+
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -59,10 +67,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userService.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
 
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
@@ -90,17 +94,13 @@ public class JwtTokenProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
-           // throw new JwtAuthenticationException("JWT token is expired or invalid");
-           return false;
+            // throw new JwtAuthenticationException("JWT token is expired or invalid");
+            return false;
         }
     }
 
-    public UserService getUserService() {
-        return userService;
+    public boolean isInBlackList(String token){
+        return jwtBlackListRepository.existsByToken(token);
     }
 
-    @Autowired
-    public void setUserService(final UserService userService) {
-        this.userService = userService;
-    }
 }

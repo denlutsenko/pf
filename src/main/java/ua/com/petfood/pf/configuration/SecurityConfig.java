@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import ua.com.petfood.pf.repository.JwtBlackListRepository;
 import ua.com.petfood.pf.security.jwt.JwtConfigurer;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
+import ua.com.petfood.pf.service.UserService;
 
 
 @Configuration
@@ -19,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtBlackListRepository jwtBlackListRepository;
+    private final UserService userService;
     //Any request are permitted
     private static final String NO_TOKEN_ENDPOINT_INDEX = "/";
     private static final String NO_TOKEN_ENDPOINT_API = "/api/**";
@@ -34,9 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ADMIN_ENDPOINT = "/admin/**";
 
     @Autowired
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider, JwtBlackListRepository jwtBlackListRepository) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, JwtBlackListRepository jwtBlackListRepository, UserService userService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.jwtBlackListRepository = jwtBlackListRepository;
+        this.userService = userService;
     }
 
     @Bean
@@ -44,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new CustomLogoutSuccessHandler(jwtTokenProvider, jwtBlackListRepository);
@@ -67,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider))
+                .apply(new JwtConfigurer(userService, jwtTokenProvider))
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")
