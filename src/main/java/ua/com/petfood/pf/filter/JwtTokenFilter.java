@@ -1,9 +1,13 @@
 package ua.com.petfood.pf.filter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
+import ua.com.petfood.pf.service.UserService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,13 +16,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-
+@Component
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
+    @Autowired
+    public JwtTokenFilter(UserService userService, JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
     }
 
     @Override
@@ -26,8 +33,9 @@ public class JwtTokenFilter extends GenericFilterBean {
             throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) req);
 
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication auth = jwtTokenProvider.getAuthentication(token);
+        if (token != null && jwtTokenProvider.validateToken(token) && !jwtTokenProvider.isInBlackList(token)) {
+            String email = jwtTokenProvider.getUsername(token);
+            Authentication auth = userService.getAuthentication(email);
 
             if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -36,4 +44,5 @@ public class JwtTokenFilter extends GenericFilterBean {
 
         filterChain.doFilter(req, res);
     }
+
 }

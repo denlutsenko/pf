@@ -7,4 +7,5 @@ import ua.com.petfood.pf.model.JwtBlacklist;
 @Repository
 public interface JwtBlackListRepository extends JpaRepository<JwtBlacklist, Long> {
 
+    boolean existsByToken(String token);
 }
