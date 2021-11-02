@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.AuthenticationRequestDTO;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
@@ -49,7 +50,7 @@ public class AuthenticationController {
         try {
             String username = authenticationRequestDTO.getUsername();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, authenticationRequestDTO.getPassword()));
-            User user = userService.findByUsername(username);
+            User user = userService.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
             String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole());
 
             Map<String, String> response = new HashMap<>();

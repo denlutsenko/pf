@@ -37,7 +37,7 @@ public class AnimalServiceImpl implements AnimalService {
     public Animal createAndSaveAnimal(final QuestionnaireDTO questionnaireDto, final AnimalCategory animalCategory,
             final String bearerToken) {
         String email = userHelper.getUserEmailFromToken(bearerToken);
-        User user = userService.findByUsername(email);
+        User user = userService.findByUsername(email).orElseThrow(() -> new NotFoundException("User not found"));
 
         Animal animal = new Animal(animalCategory, user, questionnaireDto.getName(),
                 questionnaireDto.getSubCategoryName(), questionnaireDto.getAge(), questionnaireDto.getAdultDogSize());

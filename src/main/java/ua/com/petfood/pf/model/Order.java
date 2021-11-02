@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +19,9 @@ public class Order extends PersistentEntity<Long> {
 
     @ManyToOne
     private Animal animal;
+
+    @OneToOne
+    private DeliveryAddress deliveryAddress;
 
     private BigDecimal orderAmount;
     private Date orderCreationDate;
@@ -109,5 +113,13 @@ public class Order extends PersistentEntity<Long> {
 
     public void setOrderPaymentDate(final Date orderPaymentDate) {
         this.orderPaymentDate = orderPaymentDate;
+    }
+
+    public DeliveryAddress getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 }
