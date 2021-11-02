@@ -61,6 +61,10 @@ public class SKUItem extends PersistentEntity<Long> {
     @JsonIgnore
     private String animalSize;
 
+    @OneToMany (mappedBy = "skuItemForDog")
+    @JsonManagedReference
+    private List<AnimalSizeType> animalSizes;
+
     @JsonIgnore
     private Boolean grainLess;
     @JsonIgnore
@@ -312,5 +316,13 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setPetAgeGroups(final List<PetAgeGroup> petAgeGroups) {
         this.petAgeGroups = petAgeGroups;
+    }
+
+    public List<AnimalSizeType> getAnimalSizes() {
+        return animalSizes;
+    }
+
+    public void setAnimalSizes(final List<AnimalSizeType> animalSizes) {
+        this.animalSizes = animalSizes;
     }
 }
