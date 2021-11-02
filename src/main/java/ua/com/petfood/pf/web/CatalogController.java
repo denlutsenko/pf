@@ -23,12 +23,12 @@ public class CatalogController {
     }
 
     @GetMapping(value = "/items/get/{id}")
-    ResponseEntity getLineItemsForAnimalCategoryById(@PathVariable(name = "id") Long animalCategoryId) {
+    ResponseEntity<?> getLineItemsForAnimalCategoryById(@PathVariable(name = "id") Long animalCategoryId) {
         return ResponseEntity.ok(skuItemService.getSKUItemsByAnimalCategoryId(animalCategoryId));
     }
 
     @GetMapping(value = "/catalog/get/{id}")
-    ResponseEntity getItemsWithPriceByAnimalCategory(@PathVariable(name = "id") Long animalCategoryId) {
+    ResponseEntity<?> getItemsWithPriceByAnimalCategory(@PathVariable(name = "id") Long animalCategoryId) {
         return ResponseEntity.ok(skuItemService.getSKUItemsWithPricesByAnimalCategory(animalCategoryId));
     }
 }

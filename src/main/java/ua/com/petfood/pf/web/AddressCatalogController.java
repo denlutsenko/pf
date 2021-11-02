@@ -41,6 +41,7 @@ public class AddressCatalogController {
         return ResponseEntity.ok(addressCatalogService.getBranchesInCityList(cityCode));
 
     }
+
     @GetMapping(value = "/api/branch_by_code")
     public ResponseEntity<BranchData> getBranchByBranchCode(@RequestBody String branchCode) {
         return ResponseEntity.ok(addressCatalogService.getBranchByID(branchCode));

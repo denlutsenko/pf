@@ -21,7 +21,7 @@ import ua.com.petfood.pf.service.QuestionnaireService;
 @RequestMapping(value = "/anon")
 public class QuestionnaireController {
 
-    private QuestionnaireService questionnaireService;
+    private final QuestionnaireService questionnaireService;
 
     @Autowired
     public QuestionnaireController(QuestionnaireService questionnaireService) {
@@ -29,12 +29,12 @@ public class QuestionnaireController {
     }
 
     @GetMapping(value = "/questions/catalogs/all")
-    ResponseEntity getCatalogsForQuestionnaire() {
+    ResponseEntity<?> getCatalogsForQuestionnaire() {
         return ResponseEntity.ok(questionnaireService.getAllCatalogsForQuestionnaire());
     }
 
     @PostMapping(value = "/meal/recommend")
-    ResponseEntity getRecommendedBoxes(@RequestBody QuestionnaireDTO questionnaireDto) {
+    ResponseEntity<?> getRecommendedBoxes(@RequestBody QuestionnaireDTO questionnaireDto) {
         return ResponseEntity.ok(questionnaireService.calculateRecommendedBoxes(questionnaireDto));
     }
 }

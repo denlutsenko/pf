@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/api/initialUser/create")
-    public ResponseEntity createAnonUser() {
+    public ResponseEntity<?> createAnonUser() {
         User user = userService.createAnonUser();
         String email = user.getEmail();
         String token = jwtTokenProvider.createToken(email, user.getRole());
@@ -39,13 +39,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/anon/testCallAnonOnly")
-    public ResponseEntity testCallForAnon() {
+    public ResponseEntity<?> testCallForAnon() {
         return ResponseEntity.ok().build();
     }
 
 
     @PostMapping(value = "/api/registration")
-    public ResponseEntity createUser(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO) {
         User user = userService.createUser(userDTO);
 
         Map<Object, Object> response = new HashMap<>();

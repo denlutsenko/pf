@@ -2,6 +2,7 @@ package ua.com.petfood.pf.model;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 @Getter
@@ -25,6 +26,7 @@ public class DeliveryAddress extends PersistentEntity<Long> {
 
     private String email;
 
+    @Column(name = "orderId", unique = true)
     private String orderId;
 
 }

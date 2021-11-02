@@ -60,6 +60,7 @@ public class SKUItem extends PersistentEntity<Long> {
      */
     @JsonIgnore
     private String animalSize;
+
     @JsonIgnore
     private Boolean grainLess;
     @JsonIgnore

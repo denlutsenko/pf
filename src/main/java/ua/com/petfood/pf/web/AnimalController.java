@@ -27,7 +27,7 @@ public class AnimalController {
     }
 
     @PostMapping(value = "/animal/create")
-    ResponseEntity getRecommendedBoxes(@RequestHeader(AUTHORIZATION) String token,
+    ResponseEntity<?> getRecommendedBoxes(@RequestHeader(AUTHORIZATION) String token,
             @RequestBody QuestionnaireDTO questionnaireDto) {
         return ResponseEntity.ok(animalService.createAndSaveAnimal(questionnaireDto, token));
     }

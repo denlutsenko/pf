@@ -39,7 +39,7 @@ public class CheckoutController {
     }
 
     @PostMapping(value = "/anon/checkout/placeOrder")
-    public ResponseEntity postCheckoutAndPlaceOrder(@RequestHeader(AUTHORIZATION) String bearerToken,
+    public ResponseEntity<?> postCheckoutAndPlaceOrder(@RequestHeader(AUTHORIZATION) String bearerToken,
             @RequestBody OrderDTO orderDTO) {
 
         return ResponseEntity.ok(checkoutService.checkoutAndSaveOrder(bearerToken, orderDTO));

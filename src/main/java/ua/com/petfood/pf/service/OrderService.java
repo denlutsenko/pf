@@ -3,6 +3,7 @@ package ua.com.petfood.pf.service;
 import java.math.BigDecimal;
 
 import ua.com.petfood.pf.model.Animal;
+import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.OrderPaymentInfo;
 

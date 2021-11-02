@@ -41,7 +41,7 @@ public class AuthenticationController {
     }
 
         @GetMapping
-        public ResponseEntity test() {
+        public ResponseEntity<?> test() {
             return ResponseEntity.ok().build();
         }
 
