@@ -1,9 +1,15 @@
 package ua.com.petfood.pf.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "pf_sku_items")
@@ -20,25 +26,30 @@ public class SKUItem extends PersistentEntity<Long> {
     private String brand;
     private String skuName;
     private String taste;
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
-
 
     @OneToOne
     private AnimalCategory animalCategory;
 
-    @Enumerated(EnumType.STRING)
-    @JsonIgnore
-    private Group petGroup;
+    @OneToMany (mappedBy = "skuItem")
+    @JsonManagedReference
+    private List<AnimalSubCategory> animalSubCategories;
+
+    @OneToMany (mappedBy = "sku")
+    @JsonManagedReference
+    private List<PetAgeGroup> petAgeGroups;
 
     @OneToOne
-    @JsonIgnore
     private FoodType foodType;
+
+    @OneToOne
+    private FoodSubType foodSubType;
 
     private double packageWeightKilos;
 
     /*
-    Will be used only for dos SKU:
+    Will be used only for dog SKU:
         DEFAULT_VALUE ("0"), kg
         SMALL ("0 - 2.00"), kg
         MIDDLE ("2.01 - 10.00"), kg
@@ -64,7 +75,7 @@ public class SKUItem extends PersistentEntity<Long> {
     @JsonIgnore
     private Boolean bestseller;
     @JsonIgnore
-    private Integer bestBeforeMonths;
+    private Integer bestBeforeMonths; // ???
 
     private String smallImgPath;
     private String largeImgPath;
@@ -148,14 +159,6 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setAnimalCategory(AnimalCategory animalCategory) {
         this.animalCategory = animalCategory;
-    }
-
-    public Group getPetGroup() {
-        return petGroup;
-    }
-
-    public void setPetGroup(Group petGroup) {
-        this.petGroup = petGroup;
     }
 
     public FoodType getFoodType() {
@@ -254,7 +257,6 @@ public class SKUItem extends PersistentEntity<Long> {
         this.bestseller = bestseller;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -285,5 +287,29 @@ public class SKUItem extends PersistentEntity<Long> {
 
     public void setImgName(final String imgName) {
         this.imgName = imgName;
+    }
+
+    public FoodSubType getFoodSubType() {
+        return foodSubType;
+    }
+
+    public void setFoodSubType(final FoodSubType foodSubType) {
+        this.foodSubType = foodSubType;
+    }
+
+    public List<AnimalSubCategory> getAnimalSubCategories() {
+        return animalSubCategories;
+    }
+
+    public void setAnimalSubCategories(final List<AnimalSubCategory> animalSubCategories) {
+        this.animalSubCategories = animalSubCategories;
+    }
+
+    public List<PetAgeGroup> getPetAgeGroups() {
+        return petAgeGroups;
+    }
+
+    public void setPetAgeGroups(final List<PetAgeGroup> petAgeGroups) {
+        this.petAgeGroups = petAgeGroups;
     }
 }

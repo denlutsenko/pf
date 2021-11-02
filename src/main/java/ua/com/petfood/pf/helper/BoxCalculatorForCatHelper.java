@@ -17,12 +17,12 @@ import java.util.*;
 @Component
 public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
 
-    private FoodTypeService foodTypeService;
-    private DailyFoodAmountService dailyFoodAmountService;
-    private SKUItemService skuItemService;
+    private final FoodTypeService foodTypeService;
+    private final DailyFoodAmountService dailyFoodAmountService;
+    private final SKUItemService skuItemService;
 
-    public BoxCalculatorForCatHelper(FoodTypeService foodTypeService, DailyFoodAmountService dailyFoodAmountService,
-            SKUItemService skuItemService) {
+    public BoxCalculatorForCatHelper(final FoodTypeService foodTypeService,
+            final DailyFoodAmountService dailyFoodAmountService, final SKUItemService skuItemService) {
         this.foodTypeService = foodTypeService;
         this.dailyFoodAmountService = dailyFoodAmountService;
         this.skuItemService = skuItemService;
@@ -75,8 +75,8 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             double severalDaysFoodAmountKilos =
                     adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency, dailyFoodAmount) / 2;
 
-            box.getLineItems().add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType,
-                    foodTypeId, severalDaysFoodAmountKilos, brand));
+            box.getLineItems().add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType, foodTypeId,
+                    severalDaysFoodAmountKilos, brand));
         }
 
         result.add(box);
@@ -84,21 +84,18 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
         return result;
     }
 
-    private  Map<String, Object> createRecommendedBoxForCat(final Long animalCategoryId, final String animalAgeType,
+    private Map<String, Object> createRecommendedBoxForCat(final Long animalCategoryId, final String animalAgeType,
             final Long preferableFoodId, final double severalDaysFoodAmountKilos, String brand) {
 
-        double closestSKUWeight = skuItemService
-                .findClosestSKUWeightForCat(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId,
-                        animalCategoryId);
+        double closestSKUWeight = skuItemService.findClosestSKUWeightForCat(brand, severalDaysFoodAmountKilos,
+                animalAgeType, preferableFoodId, animalCategoryId);
 
-        SKUItem skuItem = skuItemService
-                .findRecommendedSKUItemForCat(animalCategoryId, brand, animalAgeType, preferableFoodId,
-                        closestSKUWeight, true);
+        SKUItem skuItem = skuItemService.findRecommendedSKUItemForCat(animalCategoryId, brand, animalAgeType,
+                preferableFoodId, closestSKUWeight, true);
 
         if(skuItem == null) {
-            skuItem = skuItemService
-                    .findRecommendedSKUItemForCat(animalCategoryId, brand, animalAgeType, preferableFoodId,
-                            closestSKUWeight, false);
+            skuItem = skuItemService.findRecommendedSKUItemForCat(animalCategoryId, brand, animalAgeType,
+                    preferableFoodId, closestSKUWeight, false);
         }
 
         return adjustRecommendedSKUWItems(severalDaysFoodAmountKilos, skuItem);
@@ -109,7 +106,7 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             final String preferableFood) {
 
         return Optional.ofNullable(
-                dailyFoodAmountService.getDailyFoodAmountForCat(animalCategory, animalAgeType, preferableFood))
+                        dailyFoodAmountService.getDailyFoodAmountForCat(animalCategory, animalAgeType, preferableFood))
                 .orElseThrow(() -> new NotFoundException("Can't find daily food amount value"));
     }
 

@@ -3,6 +3,7 @@ package ua.com.petfood.pf.web;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static ua.com.petfood.pf.helper.constants.Constants.DATA;
 
+import java.util.Base64;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,6 @@ public class CheckoutController {
         OrderPaymentInfo orderPaymentInfo = orderService.populateLiqPayOrderPaymentInfo(body.get(DATA));
         orderPaymentInfoService.saveOrderPaymentInfoAndUpdatePaymentStatus(orderPaymentInfo);
     }
-
 
 
 
