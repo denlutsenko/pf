@@ -32,9 +32,8 @@ public class SKUItem extends PersistentEntity<Long> {
     @OneToOne
     private AnimalCategory animalCategory;
 
-    @OneToMany (mappedBy = "skuItem")
-    @JsonManagedReference
-    private List<AnimalSubCategory> animalSubCategories;
+    @OneToOne
+    private AnimalSubCategory animalSubCategory;
 
     @OneToMany (mappedBy = "sku")
     @JsonManagedReference
@@ -302,12 +301,12 @@ public class SKUItem extends PersistentEntity<Long> {
         this.foodSubType = foodSubType;
     }
 
-    public List<AnimalSubCategory> getAnimalSubCategories() {
-        return animalSubCategories;
+    public AnimalSubCategory getAnimalSubCategory() {
+        return animalSubCategory;
     }
 
-    public void setAnimalSubCategories(final List<AnimalSubCategory> animalSubCategories) {
-        this.animalSubCategories = animalSubCategories;
+    public void setAnimalSubCategory(final AnimalSubCategory animalSubCategory) {
+        this.animalSubCategory = animalSubCategory;
     }
 
     public List<PetAgeGroup> getPetAgeGroups() {

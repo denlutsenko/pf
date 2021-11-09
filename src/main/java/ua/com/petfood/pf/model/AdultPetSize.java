@@ -1,9 +1,12 @@
 package ua.com.petfood.pf.model;
 
 public enum AdultPetSize {
-    YOUNG_DOG("0-1"),
-    ADULT_DOG("1-6"),
-    OLD_DOG("6-20");
+    YOUNG_DOG("0 - 1"),
+    ADULT_DOG("1 - 6"),
+    OLD_DOG("6 - 20"),
+    YOUNG_CAT("0 - 1"),
+    ADULT_CAT("1 - 6"),
+    OLD_CAT("6 - 20");
 
     public final String label;
 

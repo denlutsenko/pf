@@ -33,18 +33,16 @@ public class SKUItemServiceImpl implements SKUItemService {
             final String dogAdultType, final Long foodTypeId, final String animalSize, final double skuWeightKilos,
             final boolean bestseller) {
 
-        return skuItemRepository
-                .getRecommendedSKUItemForDog(animalCategoryId, brand, dogAdultType, foodTypeId, animalSize, bestseller,
-                        skuWeightKilos);
+        return skuItemRepository.getRecommendedSKUItemForDog(animalCategoryId, brand, dogAdultType, foodTypeId,
+                animalSize, bestseller, skuWeightKilos);
     }
 
     @Override
     public SKUItem findRecommendedSKUItemForCat(final Long animalCategoryId, final String brand,
             final String dogAdultType, final Long foodTypeId, final double skuWeightKilos, final boolean bestseller) {
 
-        return skuItemRepository
-                .getRecommendedSKUItemForCat(animalCategoryId, brand, dogAdultType, foodTypeId, bestseller,
-                        skuWeightKilos);
+        return skuItemRepository.getRecommendedSKUItemForCat(animalCategoryId, brand, dogAdultType, foodTypeId,
+                bestseller, skuWeightKilos);
     }
 
     @Override
@@ -57,12 +55,10 @@ public class SKUItemServiceImpl implements SKUItemService {
     public Double findClosestSKUWeightForDog(final String brand, final double weight, final String animalAgeType,
             final Long preferableFoodId, final String adultDogSize, final Long animalCategoryId) {
 
-        Double closestAndLargestSkuWeight = skuItemRepository
-                .findClosestAndLargestSkuWeight(brand, weight, animalAgeType, preferableFoodId, adultDogSize,
-                        animalCategoryId);
-        Double closestAndLesserSkuWeight = skuItemRepository
-                .findClosestAndLesserSkuWeightForDog(brand, weight, animalAgeType, preferableFoodId, adultDogSize,
-                        animalCategoryId);
+        Double closestAndLargestSkuWeight = skuItemRepository.findClosestAndLargestSkuWeight(brand, weight,
+                animalAgeType, preferableFoodId, adultDogSize, animalCategoryId);
+        Double closestAndLesserSkuWeight = skuItemRepository.findClosestAndLesserSkuWeightForDog(brand, weight,
+                animalAgeType, preferableFoodId, adultDogSize, animalCategoryId);
 
         return getLargestOrLesserValue(closestAndLargestSkuWeight, closestAndLesserSkuWeight);
     }
@@ -70,10 +66,10 @@ public class SKUItemServiceImpl implements SKUItemService {
     @Override
     public Double findClosestSKUWeightForCat(final String brand, final double weight, final String animalAgeType,
             final Long preferableFoodId, Long animalCategoryId) {
-        Double closestAndLargestSkuWeight = skuItemRepository
-                .findClosestAndLargestSkuWeightForCat(brand, weight, animalAgeType, preferableFoodId, animalCategoryId);
-        Double closestAndLesserSkuWeight = skuItemRepository
-                .findClosestAndLesserSkuWeightForCat(brand, weight, animalAgeType, preferableFoodId, animalCategoryId);
+        Double closestAndLargestSkuWeight = skuItemRepository.findClosestAndLargestSkuWeightForCat(brand, weight,
+                animalAgeType, preferableFoodId, animalCategoryId);
+        Double closestAndLesserSkuWeight = skuItemRepository.findClosestAndLesserSkuWeightForCat(brand, weight,
+                animalAgeType, preferableFoodId, animalCategoryId);
 
         return getLargestOrLesserValue(closestAndLargestSkuWeight, closestAndLesserSkuWeight);
     }
@@ -81,10 +77,10 @@ public class SKUItemServiceImpl implements SKUItemService {
     @Override
     public Double findClosestSKUWeightForOthers(final Long animalCategoryId, final double severalDaysFoodAmountKilos,
             final String brand) {
-        Double closestAndLargestSkuWeight = skuItemRepository
-                .findClosestAndLargestSkuWeightForOthers(animalCategoryId, severalDaysFoodAmountKilos, brand);
-        Double closestAndLesserSkuWeight = skuItemRepository
-                .findClosestAndLesserSkuWeightForOthers(animalCategoryId, severalDaysFoodAmountKilos, brand);
+        Double closestAndLargestSkuWeight = skuItemRepository.findClosestAndLargestSkuWeightForOthers(animalCategoryId,
+                severalDaysFoodAmountKilos, brand);
+        Double closestAndLesserSkuWeight = skuItemRepository.findClosestAndLesserSkuWeightForOthers(animalCategoryId,
+                severalDaysFoodAmountKilos, brand);
 
         return getLargestOrLesserValue(closestAndLargestSkuWeight, closestAndLesserSkuWeight);
 
@@ -96,7 +92,7 @@ public class SKUItemServiceImpl implements SKUItemService {
         } else if(closestAndLesserSkuWeight != null) {
             return closestAndLesserSkuWeight;
         } else {
-            throw new NotFoundException("SKU weight not found");
+            return 0.00;
         }
     }
 

@@ -50,11 +50,17 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
 
             for(String brand : skuBrandsByPetCategory) {
                 Box box = new Box();
-                box.getLineItems()
-                        .add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType, preferableFoodId,
-                                severalDaysFoodAmountKilos, brand));
-                box.setBrand(brand);
-                boxes.add(box);
+                Map<String, Object> recommendedBoxForCat = createRecommendedBoxForCat(animalCategory.getId(),
+                        animalAgeType, preferableFoodId, severalDaysFoodAmountKilos, brand);
+
+                if(!recommendedBoxForCat.isEmpty()) {
+                    box.getLineItems().add(recommendedBoxForCat);
+                }
+
+                if(isLineItemsPresent(box)) {
+                    box.setBrand(brand);
+                    boxes.add(box);
+                }
             }
         }
 
@@ -65,7 +71,6 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             final String animalAgeType, final int purchaseFrequency, String brand) {
         List<Box> result = new ArrayList<>();
         Box box = new Box();
-        box.setBrand(brand);
 
         for(FoodType foodType : foodTypeService.getFoodTypes()) {
             Long foodTypeId = foodType.getId() != null ? foodType.getId() : 1L;
@@ -75,11 +80,18 @@ public class BoxCalculatorForCatHelper extends BoxCalculatorHelper {
             double severalDaysFoodAmountKilos =
                     adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency, dailyFoodAmount) / 2;
 
-            box.getLineItems().add(createRecommendedBoxForCat(animalCategory.getId(), animalAgeType, foodTypeId,
-                    severalDaysFoodAmountKilos, brand));
+            Map<String, Object> recommendedBoxForCat = createRecommendedBoxForCat(animalCategory.getId(), animalAgeType,
+                    foodTypeId, severalDaysFoodAmountKilos, brand);
+
+            if(!recommendedBoxForCat.isEmpty()) {
+                box.getLineItems().add(recommendedBoxForCat);
+            }
         }
 
-        result.add(box);
+        if(isLineItemsPresent(box)) {
+            box.setBrand(brand);
+            result.add(box);
+        }
 
         return result;
     }

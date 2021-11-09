@@ -54,11 +54,17 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
 
             for(String brand : skuBrandsByPetCategory) {
                 Box box = new Box();
-                box.getLineItems()
-                        .add(createRecommendedBox(animalCategory.getId(), animalAgeType, preferableFoodId, adultDogSize,
-                                severalDaysFoodAmountKilos, brand));
-                box.setBrand(brand);
-                boxes.add(box);
+                Map<String, Object> recommendedBox = createRecommendedBox(animalCategory.getId(), animalAgeType,
+                        preferableFoodId, adultDogSize, severalDaysFoodAmountKilos, brand);
+
+                if(!recommendedBox.isEmpty()) {
+                    box.getLineItems().add(recommendedBox);
+                }
+
+                if(isLineItemsPresent(box)) {
+                    box.setBrand(brand);
+                    boxes.add(box);
+                }
             }
         }
 
@@ -69,7 +75,6 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
             final String adultDogSize, final String animalAgeType, final int purchaseFrequency, String brand) {
         List<Box> result = new ArrayList<>();
         Box box = new Box();
-        box.setBrand(brand);
 
         for(FoodType foodType : foodTypeService.getFoodTypes()) {
             Long foodTypeId = foodType.getId() != null ? foodType.getId() : 1L;
@@ -79,12 +84,19 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
                     preferableFood);
             double severalDaysFoodAmountKilos =
                     adjustFoodAmountForSeveralDaysInKilos(purchaseFrequency, dailyFoodAmount) / 2;
+            Map<String, Object> recommendedBox = createRecommendedBox(animalCategory.getId(), animalAgeType, foodTypeId,
+                    adultDogSize, severalDaysFoodAmountKilos, brand);
 
-            box.getLineItems().add(createRecommendedBox(animalCategory.getId(), animalAgeType, foodTypeId, adultDogSize,
-                    severalDaysFoodAmountKilos, brand));
+            if(!recommendedBox.isEmpty()) {
+                box.getLineItems().add(recommendedBox);
+            }
         }
 
-        result.add(box);
+
+        if(isLineItemsPresent(box)) {
+            box.setBrand(brand);
+            result.add(box);
+        }
 
         return result;
     }
@@ -93,17 +105,14 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
             final Long preferableFoodId, final String adultDogSize, final double severalDaysFoodAmountKilos,
             final String brand) {
 
-        double closestSKUWeight = skuItemService
-                .findClosestSKUWeightForDog(brand, severalDaysFoodAmountKilos, animalAgeType, preferableFoodId,
-                        adultDogSize, animalCategoryId);
-        SKUItem skuItem = skuItemService
-                .findRecommendedSKUItemForDog(animalCategoryId, brand, animalAgeType, preferableFoodId, adultDogSize,
-                        closestSKUWeight, true);
+        double closestSKUWeight = skuItemService.findClosestSKUWeightForDog(brand, severalDaysFoodAmountKilos,
+                animalAgeType, preferableFoodId, adultDogSize, animalCategoryId);
+        SKUItem skuItem = skuItemService.findRecommendedSKUItemForDog(animalCategoryId, brand, animalAgeType,
+                preferableFoodId, adultDogSize, closestSKUWeight, true);
 
         if(skuItem == null) {
-            skuItem = skuItemService
-                    .findRecommendedSKUItemForDog(animalCategoryId, brand, animalAgeType, preferableFoodId,
-                            adultDogSize, closestSKUWeight, false);
+            skuItem = skuItemService.findRecommendedSKUItemForDog(animalCategoryId, brand, animalAgeType,
+                    preferableFoodId, adultDogSize, closestSKUWeight, false);
         }
 
         return adjustRecommendedSKUWItems(severalDaysFoodAmountKilos, skuItem);
@@ -113,9 +122,9 @@ public class BoxCalculatorForDogHelper extends BoxCalculatorHelper {
     private int adjustFoodAmountForOneDay(final String animalCategory, final String adultAnimalSize,
             final String animalAgeType, final String preferableFood) {
 
-        return Optional.ofNullable(dailyFoodAmountService
-                .getDailyFoodAmountForDog(animalCategory, adultAnimalSize, animalAgeType, preferableFood))
-                .orElseThrow(() -> new NotFoundException("Can't find daily food amount value"));
+        return Optional.ofNullable(
+                dailyFoodAmountService.getDailyFoodAmountForDog(animalCategory, adultAnimalSize, animalAgeType,
+                        preferableFood)).orElseThrow(() -> new NotFoundException("Can't find daily food amount value"));
     }
 
     // тип корма (сухой, жидкий, смешанный)
