@@ -40,7 +40,7 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-        @GetMapping
+        @GetMapping(value = "/")
         public ResponseEntity<?> test() {
             return ResponseEntity.ok().build();
         }
