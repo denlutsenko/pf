@@ -7,10 +7,18 @@ import lombok.Data;
 public class DeliveryAddressDTO {
     @JsonProperty("regionRef")
     private String regionRef;
+    @JsonProperty("region")
+    private String region;
     @JsonProperty("cityRef")
     private String cityRef;
+    @JsonProperty("city")
+    private String city;
     @JsonProperty("branchRef")
     private String branchRef;
+    @JsonProperty("branch")
+    private String branch;
+    @JsonProperty("description")
+    private String description;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")

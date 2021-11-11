@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.RoleName;
 import ua.com.petfood.pf.model.User;
@@ -42,7 +44,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
         this.deliveryAddressRepository = deliveryAddressRepository;
     }
 
-    //@Transactional ???
+    @Transactional
     @Override
     public Map<String, Object> saveDeliveryAddress(String bearerToken, DeliveryAddressDTO deliveryAddressDTO) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -55,6 +57,7 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
             Optional<User> userAnon = userService.findByUsername(email);
             userAnon.ifPresent(value -> userService.updateUserFromDeliveryAddress(value, deliveryAddress));
         }
+
         String token = jwtTokenProvider.createToken(deliveryAddress.getEmail(), roleService.findRoleByName(RoleName.USER));
         deliveryAddressRepository.save(deliveryAddress);
         orderService.updateOrderDeliveryAddress(deliveryAddress);

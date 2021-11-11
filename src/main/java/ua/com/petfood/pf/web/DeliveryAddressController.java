@@ -19,7 +19,7 @@ public class DeliveryAddressController {
     }
 
 
-    @PostMapping(value = "/api/checkout/delivery_address")
+    @PostMapping(value = "/anon/checkout/delivery_address")
     public ResponseEntity<?> postDeliveryAddress(@RequestHeader(AUTHORIZATION) String bearerToken, @RequestBody DeliveryAddressDTO deliveryAddressDTO) {
         return ResponseEntity.ok(deliveryAddressService.saveDeliveryAddress(bearerToken, deliveryAddressDTO));
     }
