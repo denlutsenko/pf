@@ -27,6 +27,7 @@ public class User extends PersistentEntity<Long> implements UserDetails {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
+    @JsonIgnore
     private Role role;
 
     @Column(name = "first_name")
@@ -40,28 +41,35 @@ public class User extends PersistentEntity<Long> implements UserDetails {
 
     @Column(name = "password")
     @Size(max = 350)
+    @JsonIgnore
     private String password;
 
     @Column(name = "created")
     @CreatedDate
+    @JsonIgnore
     private Date created;
 
     @Column(name = "updated")
     @LastModifiedDate
+    @JsonIgnore
     private Date updated;
 
     @Column(name = "address")
     @Size(max = 350)
+    @JsonIgnore
     private String address;
 
     @Column(name = "phone")
     private String phone;
 
+    @JsonIgnore
     private boolean enabled;
 
+    @JsonIgnore
     private Date lastPasswordResetDate;
 
     @Transient
+    @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
 
 

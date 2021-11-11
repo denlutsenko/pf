@@ -80,12 +80,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserFromDeliveryAddress(User userAnon, DeliveryAddress deliveryAddress) {
-
         userAnon.setEmail(deliveryAddress.getEmail());
         userAnon.setPhone(deliveryAddress.getPhoneNumber());
         userAnon.setFirstName(deliveryAddress.getFirstName());
         userAnon.setLastName(deliveryAddress.getLastName());
         userAnon.setEnabled(true);
+
+        Role role = roleService.findRoleByName(RoleName.USER);
+        userAnon.setRole(role);
+
        return userRepository.save(userAnon);
     }
 

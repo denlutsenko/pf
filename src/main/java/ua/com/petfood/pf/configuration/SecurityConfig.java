@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(NO_TOKEN_ENDPOINT_INDEX).permitAll()
                 .antMatchers(NO_TOKEN_ENDPOINT_API).permitAll()
                 .antMatchers(NO_TOKEN_ENDPOINT_IMG).permitAll()
-                .antMatchers(ANONYMOUS_ENDPOINT).hasAuthority("ANONYMOUS")
+                .antMatchers(ANONYMOUS_ENDPOINT).hasAnyAuthority("ANONYMOUS", "USER")
                 .antMatchers(USER_ENDPOINT).hasAuthority("USER")
                 .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
                 .anyRequest().authenticated()
