@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     User updateUserFromDeliveryAddress(User userAnon, DeliveryAddress deliveryAddress);
 
     Authentication getAuthentication(String email);
+
+    User updateUserPassword(String token, UserDTO userId);
 }

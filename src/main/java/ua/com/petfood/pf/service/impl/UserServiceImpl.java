@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ua.com.petfood.pf.exception.BadRequestException;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
 import ua.com.petfood.pf.model.*;
@@ -25,7 +26,6 @@ import ua.com.petfood.pf.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
-
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -70,14 +70,6 @@ public class UserServiceImpl implements UserService {
         return list;
     }
 
-    public User createUser(UserDTO userDTO) {
-        Role role = roleService.findRoleByName(RoleName.USER);
-        User user = new User(role, userDTO.getUsername(), passwordEncoder.encode(userDTO.getPassword()));
-        user.setEnabled(true);
-        return userRepository.save(user);
-    }
-
-
     @Override
     public User updateUserFromDeliveryAddress(User userAnon, DeliveryAddress deliveryAddress) {
         userAnon.setEmail(deliveryAddress.getEmail());
@@ -92,8 +84,35 @@ public class UserServiceImpl implements UserService {
        return userRepository.save(userAnon);
     }
 
+    @Override
+    public User updateUserPassword(final String token, final UserDTO  userDTO){
+        String email = userDTO.getUsername();
+        userHelper.validateEmailOwner(token, email);
+
+        User user = findByUsername(email).orElseThrow(() -> new NotFoundException("User not found"));
+
+        if(!userDTO.getPassword().equals(userDTO.getPasswordRepeat())){
+            throw new BadRequestException("Different passwords");
+        }
+
+        user.setPassword(encodePassword(userDTO.getPassword()));
+
+        return userRepository.save(user);
+    }
+
+    public User createUser(UserDTO userDTO) {
+        Role role = roleService.findRoleByName(RoleName.USER);
+        User user = new User(role, userDTO.getUsername(), encodePassword(userDTO.getPassword()));
+        user.setEnabled(true);
+        return userRepository.save(user);
+    }
+
     public Authentication getAuthentication(String email) {
         UserDetails userDetails = loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    private String encodePassword(final String password){
+        return passwordEncoder.encode(password);
     }
 }

@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ua.com.petfood.pf.exception.BadRequestException;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
 
@@ -25,6 +26,13 @@ public class UserHelper {
 
         return Optional.ofNullable(jwtTokenProvider.getUsername(token))
                 .orElseThrow(() -> new NotFoundException("user email not found"));
+    }
+
+    public void validateEmailOwner(final String token, final String emailFromRequest){
+        String emailFromToken = getUserEmailFromToken(token);
+        if(!emailFromToken.equalsIgnoreCase(emailFromRequest)){
+            throw new BadRequestException("User email corrupted");
+        }
     }
 
     public String createTmpEmailForAnonUser() {

@@ -17,4 +17,7 @@ public class UserDTO {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
+    @ValidPassword
+    @NotBlank(message = "Password is mandatory")
+    private String passwordRepeat;
 }
