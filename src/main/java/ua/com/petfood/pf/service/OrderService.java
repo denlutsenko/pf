@@ -13,4 +13,5 @@ public interface OrderService {
     OrderPaymentInfo populateLiqPayOrderPaymentInfo(String data);
     void updateOrderPaymentStatus(OrderPaymentInfo orderPaymentInfo);
     void updateOrderDeliveryAddress(DeliveryAddress deliveryAddress);
+    Order getSalesOrderById(String orderId);
 }

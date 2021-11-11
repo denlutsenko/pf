@@ -2,15 +2,15 @@ package ua.com.petfood.pf.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "sku_item_amount")
 public class OrderSKUItemAmount extends PersistentEntity<Long> {
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", nullable = false)
-    @JsonIgnore
+    @ManyToOne
+    @JsonBackReference
     private Order order;
 
     @ManyToOne(fetch = FetchType.EAGER)

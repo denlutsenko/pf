@@ -4,15 +4,33 @@ import static ua.com.petfood.pf.helper.constants.Constants.WAITING_PAYMENT;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "pf_orders")
-public class Order extends PersistentEntity<Long> {
+@Getter
+@Setter
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
+    protected Long id;
 
     @ManyToOne
     private User user;
@@ -22,6 +40,10 @@ public class Order extends PersistentEntity<Long> {
 
     @OneToOne
     private DeliveryAddress deliveryAddress;
+
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    private List<OrderSKUItemAmount> orderItems;
 
     private BigDecimal orderAmount;
     private Date orderCreationDate;
@@ -33,93 +55,5 @@ public class Order extends PersistentEntity<Long> {
 
     public Order() {
         //Hibernate needs a default constructor
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(final String order_id) {
-        this.order_id = order_id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public BigDecimal getOrderAmount() {
-        return orderAmount;
-    }
-
-    public void setOrderAmount(BigDecimal orderAmount) {
-        this.orderAmount = orderAmount;
-    }
-
-    public Date getOrderCreationDate() {
-        return orderCreationDate;
-    }
-
-    public void setOrderCreationDate(final Date orderCreationDate) {
-        this.orderCreationDate = orderCreationDate;
-    }
-
-    public Animal getAnimal() {
-        return animal;
-    }
-
-    public void setAnimal(final Animal animal) {
-        this.animal = animal;
-    }
-
-    public boolean isSubscription() {
-        return subscription;
-    }
-
-    public void setSubscription(final boolean subscription) {
-        this.subscription = subscription;
-    }
-
-    public String getSubscriptionStatus() {
-        return subscriptionStatus;
-    }
-
-    public void setSubscriptionStatus(final String subscriptionStatus) {
-        this.subscriptionStatus = subscriptionStatus;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(final String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public Date getOrderPaymentDate() {
-        return orderPaymentDate;
-    }
-
-    public void setOrderPaymentDate(final Date orderPaymentDate) {
-        this.orderPaymentDate = orderPaymentDate;
-    }
-
-    public DeliveryAddress getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
     }
 }

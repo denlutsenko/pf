@@ -81,6 +81,11 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    @Override
+    public Order getSalesOrderById(String orderId){
+       return orderRepository.getOrderByOrderId(orderId);
+    }
+
     private void updateSubscriptionStatusForOrder(final Order order, final String status){
         if(SUBSCRIBED_STATUS.equalsIgnoreCase(status)){
             order.setSubscription(true);
