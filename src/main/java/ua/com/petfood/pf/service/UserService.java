@@ -24,5 +24,5 @@ public interface UserService extends UserDetailsService {
 
     Authentication getAuthentication(String email);
 
-    User updateUserPassword(String token, UserDTO userId);
+    User createUserPassword(String token, UserDTO userId);
 }

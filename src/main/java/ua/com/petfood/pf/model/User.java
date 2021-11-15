@@ -1,19 +1,28 @@
 package ua.com.petfood.pf.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.UniqueElements;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pf_users")
@@ -68,10 +77,11 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     @JsonIgnore
     private Date lastPasswordResetDate;
 
+    private Boolean newUserFlag;
+
     @Transient
     @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
-
 
     public User() {
         //Hibernate needs a default constructor
@@ -81,6 +91,13 @@ public class User extends PersistentEntity<Long> implements UserDetails {
         this.role = role;
         this.email = email;
         this.password = password;
+    }
+
+    @PrePersist
+    public void initNewUserFlag() {
+        if(newUserFlag == null) {
+            newUserFlag = true;
+        }
     }
 
     @Override
@@ -212,5 +229,11 @@ public class User extends PersistentEntity<Long> implements UserDetails {
         this.authorities = authorities;
     }
 
+    public Boolean getNewUserFlag() {
+        return newUserFlag;
+    }
 
+    public void setNewUserFlag(final Boolean newUserFlag) {
+        this.newUserFlag = newUserFlag;
+    }
 }

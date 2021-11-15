@@ -57,9 +57,9 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping(value = "/anon/password/update")
-    public ResponseEntity<?> updateUserPassword(@RequestHeader(AUTHORIZATION) String token,
+    @PostMapping(value = "/anon/password/create")
+    public ResponseEntity<?> createUserPassword(@RequestHeader(AUTHORIZATION) String token,
             @Valid @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updateUserPassword(token, userDTO));
+        return ResponseEntity.ok(userService.createUserPassword(token, userDTO));
     }
 }

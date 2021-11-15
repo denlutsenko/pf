@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserPassword(final String token, final UserDTO  userDTO){
+    public User createUserPassword(final String token, final UserDTO  userDTO){
         String email = userDTO.getUsername();
         userHelper.validateEmailOwner(token, email);
 
@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(encodePassword(userDTO.getPassword()));
+        user.setNewUserFlag(false);
 
         return userRepository.save(user);
     }
