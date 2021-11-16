@@ -5,6 +5,7 @@ import static ua.com.petfood.pf.helper.constants.Constants.SUBSCRIBED_STATUS;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.OrderPaymentInfo;
 import ua.com.petfood.pf.model.User;
+import ua.com.petfood.pf.model.dto.OrderPaymentInfoDTO;
 import ua.com.petfood.pf.repository.OrderRepository;
 import ua.com.petfood.pf.service.OrderService;
 import ua.com.petfood.pf.service.UserService;
@@ -55,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderPaymentInfo populateLiqPayOrderPaymentInfo(final String data){
+    public OrderPaymentInfoDTO populateLiqPayOrderPaymentInfo(final String data){
         return orderHelper.mapLiqPayOrderPaymentInfo(data);
     }
 
@@ -84,6 +86,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getSalesOrderById(String orderId){
        return orderRepository.getOrderByOrderId(orderId);
+    }
+
+    @Override
+    public List<Order> getAllOneTimeOrders(){
+      return  orderRepository.findAllOneTimeOrders();
+    }
+
+    @Override
+    public List<Order> getAllSubscriptions() {
+        return orderRepository.findAllOrdersBySubscription();
     }
 
     private void updateSubscriptionStatusForOrder(final Order order, final String status){

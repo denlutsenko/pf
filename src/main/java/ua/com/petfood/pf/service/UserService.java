@@ -8,6 +8,7 @@ import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.UserDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
@@ -25,4 +26,10 @@ public interface UserService extends UserDetailsService {
     Authentication getAuthentication(String email);
 
     User createUserPassword(String token, UserDTO userId);
+
+    User createNewAdmin(UserDTO userDTO);
+
+    List<User> getAllRegisteredUsers();
+
+    List<User> getAllAnonUsers();
 }

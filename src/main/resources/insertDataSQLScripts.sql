@@ -95,3 +95,7 @@ INSERT INTO pf_daily_food_amount (id, pet_category, animal_age_type, food_type, 
 INSERT INTO pf_vendors (id, title) value
 (1, 'vendor title 1'),
 (2, 'vendor title 2');
+
+INSERT INTO pf_users (id, email, enabled, first_name, last_name, new_user_flag, password, status, role_id)
+VALUES(1, 'pf_admin@mail.com', true, 'Admin', 'Administrator', false, '$2a$10$d/Z9GVTGHWVgOb1eNuAs1eudeYGrftM6a9agLMmbJ7S1qj7w7U7VC', 'ACTIVE', 3);
+-- password Admin123!

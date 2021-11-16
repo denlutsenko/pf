@@ -72,7 +72,7 @@ public class User extends PersistentEntity<Long> implements UserDetails {
     private String phone;
 
     @JsonIgnore
-    private boolean enabled;
+    private boolean enabled = true;
 
     @JsonIgnore
     private Date lastPasswordResetDate;

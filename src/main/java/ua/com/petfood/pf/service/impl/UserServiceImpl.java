@@ -1,6 +1,9 @@
 package ua.com.petfood.pf.service.impl;
 
 import static ua.com.petfood.pf.helper.constants.Constants.DEFAULT_TMP_PASSWORD;
+import static ua.com.petfood.pf.helper.constants.Constants.USER_STATUS_ACTIVE;
+import static ua.com.petfood.pf.model.RoleName.ANONYMOUS;
+import static ua.com.petfood.pf.model.RoleName.USER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository,
-                           RoleService roleService, UserHelper userHelper) {
+            RoleService roleService, UserHelper userHelper) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleService = roleService;
@@ -58,7 +61,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String email) {
         User user = findByUsername(email).orElseThrow(() -> new NotFoundException("User not found"));
-        user.setUserStatus(UserStatus.ACTIVE);
         user.setAuthorities(mapToGrantedAuthorities(user.getRole()));
 
         return user;
@@ -76,22 +78,21 @@ public class UserServiceImpl implements UserService {
         userAnon.setPhone(deliveryAddress.getPhoneNumber());
         userAnon.setFirstName(deliveryAddress.getFirstName());
         userAnon.setLastName(deliveryAddress.getLastName());
-        userAnon.setEnabled(true);
 
-        Role role = roleService.findRoleByName(RoleName.USER);
+        Role role = roleService.findRoleByName(USER);
         userAnon.setRole(role);
 
-       return userRepository.save(userAnon);
+        return userRepository.save(userAnon);
     }
 
     @Override
-    public User createUserPassword(final String token, final UserDTO  userDTO){
+    public User createUserPassword(final String token, final UserDTO userDTO) {
         String email = userDTO.getUsername();
         userHelper.validateEmailOwner(token, email);
 
         User user = findByUsername(email).orElseThrow(() -> new NotFoundException("User not found"));
 
-        if(!userDTO.getPassword().equals(userDTO.getPasswordRepeat())){
+        if(!userDTO.getPassword().equals(userDTO.getPasswordRepeat())) {
             throw new BadRequestException("Different passwords");
         }
 
@@ -101,19 +102,43 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
     public User createUser(UserDTO userDTO) {
-        Role role = roleService.findRoleByName(RoleName.USER);
-        User user = new User(role, userDTO.getUsername(), encodePassword(userDTO.getPassword()));
-        user.setEnabled(true);
+        Role role = roleService.findRoleByName(USER);
+        User user = createBaseUser(userDTO, role);
         return userRepository.save(user);
     }
 
+    @Override
+    public User createNewAdmin(UserDTO userDTO) {
+        Role role = roleService.findRoleByName(RoleName.ADMIN);
+        User user = createBaseUser(userDTO, role);
+        return userRepository.save(user);
+    }
+
+    @Override
     public Authentication getAuthentication(String email) {
         UserDetails userDetails = loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    private String encodePassword(final String password){
+    @Override
+    public List<User> getAllRegisteredUsers() {
+        return userRepository.findAllUsersByRoleAndStatus(USER.name().toUpperCase(), USER_STATUS_ACTIVE);
+    }
+
+    @Override
+    public List<User> getAllAnonUsers() {
+        return userRepository.findAllUsersByRoleAndStatus(ANONYMOUS.name().toUpperCase(), USER_STATUS_ACTIVE);
+    }
+
+    private String encodePassword(final String password) {
         return passwordEncoder.encode(password);
+    }
+
+    private User createBaseUser(UserDTO userDTO, Role role) {
+        User user = new User(role, userDTO.getUsername(), encodePassword(userDTO.getPassword()));
+        user.setEnabled(true);
+        return user;
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ua.com.petfood.pf.model.OrderPaymentInfo;
 import ua.com.petfood.pf.model.dto.OrderDTO;
+import ua.com.petfood.pf.model.dto.OrderPaymentInfoDTO;
 import ua.com.petfood.pf.service.CheckoutService;
 import ua.com.petfood.pf.service.OrderPaymentInfoService;
 import ua.com.petfood.pf.service.OrderService;
@@ -48,7 +49,8 @@ public class CheckoutController {
     @PostMapping(value = "/api/liqpay/payment/result", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public void receiveLiqPayPaymentResponse(@RequestParam Map<String, String> body) {
-        OrderPaymentInfo orderPaymentInfo = orderService.populateLiqPayOrderPaymentInfo(body.get(DATA));
+        OrderPaymentInfoDTO orderPaymentInfo = orderService.populateLiqPayOrderPaymentInfo(body.get(DATA));
+
         orderPaymentInfoService.saveOrderPaymentInfoAndUpdatePaymentStatus(orderPaymentInfo);
     }
 

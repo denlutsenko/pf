@@ -62,4 +62,9 @@ public class UserController {
             @Valid @RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.createUserPassword(token, userDTO));
     }
+
+    @PostMapping(value = "/admin/create/new")
+    public ResponseEntity<?> createAdminUser(@Valid @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.createNewAdmin(userDTO));
+    }
 }

@@ -8,24 +8,27 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ua.com.petfood.pf.model.OrderPaymentInfo;
+import ua.com.petfood.pf.model.dto.OrderPaymentInfoDTO;
 
 @Component
 public class OrderHelper {
 
-    public OrderHelper(){}
+    public OrderHelper() {
+    }
 
-    public OrderPaymentInfo mapLiqPayOrderPaymentInfo(final String data) {
+    public OrderPaymentInfoDTO mapLiqPayOrderPaymentInfo(final String data) {
         String decodedString = decodeStringData(data);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        OrderPaymentInfo orderPaymentInfo = new OrderPaymentInfo();
+        OrderPaymentInfoDTO orderPaymentInfoDTO = new OrderPaymentInfoDTO();
 
         try {
-            orderPaymentInfo = objectMapper.readValue(decodedString, OrderPaymentInfo.class);
+            orderPaymentInfoDTO = objectMapper.readValue(decodedString, OrderPaymentInfoDTO.class);
         } catch(IOException e) {
             e.printStackTrace();//TODO как-то обработать. Возможно в будущем написать свой кастомный конвертер
         }
-        return orderPaymentInfo;
+
+        return orderPaymentInfoDTO;
     }
 
     private String decodeStringData(final String data) {
