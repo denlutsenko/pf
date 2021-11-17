@@ -73,6 +73,8 @@ public class OrderServiceImpl implements OrderService {
             updateSubscriptionStatusForOrder(order, status);
 
             orderRepository.save(order);
+        }else{
+            // TODO add logging
         }
     }
 
@@ -115,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
     private Order createEmptyOrder() {
         Order order = new Order();
         order.setOrderCreationDate(new Date());
-        order.setOrderAmount(new BigDecimal(0.00));
+        order.setOrderAmount(new BigDecimal("0.00"));
 
         return order;
     }

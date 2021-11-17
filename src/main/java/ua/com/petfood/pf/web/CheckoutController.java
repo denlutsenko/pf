@@ -49,9 +49,9 @@ public class CheckoutController {
     @PostMapping(value = "/api/liqpay/payment/result", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = {
             MediaType.APPLICATION_JSON_VALUE })
     public void receiveLiqPayPaymentResponse(@RequestParam Map<String, String> body) {
-        OrderPaymentInfoDTO orderPaymentInfo = orderService.populateLiqPayOrderPaymentInfo(body.get(DATA));
+        OrderPaymentInfoDTO orderPaymentInfoDTO = orderService.populateLiqPayOrderPaymentInfo(body.get(DATA));
 
-        orderPaymentInfoService.saveOrderPaymentInfoAndUpdatePaymentStatus(orderPaymentInfo);
+        orderPaymentInfoService.saveOrderPaymentInfoAndUpdatePaymentStatus(orderPaymentInfoDTO);
     }
 
 
