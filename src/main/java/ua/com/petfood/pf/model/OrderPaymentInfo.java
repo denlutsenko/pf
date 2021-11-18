@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
+
+import ua.com.petfood.pf.model.dto.OrderProcessStatus;
 
 @Entity
 @Table(name = "pf_order_payment_info")
@@ -96,8 +98,20 @@ public class OrderPaymentInfo extends PersistentEntity<Long> {
     @JsonIgnore
     private int transaction_id;
 
+    @Enumerated(EnumType.STRING)
+    private OrderProcessStatus orderProcessStatus =  OrderProcessStatus.NEW;
+
+
     public OrderPaymentInfo() {
         //constructor
+    }
+
+    public OrderProcessStatus getOrderProcessStatus() {
+        return orderProcessStatus;
+    }
+
+    public void setOrderProcessStatus(final OrderProcessStatus orderProcessStatus) {
+        this.orderProcessStatus = orderProcessStatus;
     }
 
     public String getOrder_id() {

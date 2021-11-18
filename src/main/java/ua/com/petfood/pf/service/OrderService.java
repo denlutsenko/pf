@@ -7,6 +7,7 @@ import ua.com.petfood.pf.model.Animal;
 import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.OrderPaymentInfo;
+import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.OrderPaymentInfoDTO;
 
 public interface OrderService {
@@ -24,4 +25,5 @@ public interface OrderService {
     List<Order> getAllOneTimeOrders();
 
     List<Order> getAllSubscriptions();
+    Order updateUserInfoInOrder(User user, String orderId);
 }

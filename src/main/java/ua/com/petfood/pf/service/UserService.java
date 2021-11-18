@@ -1,5 +1,8 @@
 package ua.com.petfood.pf.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,9 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.UserDTO;
-
-import java.util.List;
-import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
 
@@ -32,4 +32,6 @@ public interface UserService extends UserDetailsService {
     List<User> getAllRegisteredUsers();
 
     List<User> getAllAnonUsers();
+
+    void deleteUser(User user);
 }

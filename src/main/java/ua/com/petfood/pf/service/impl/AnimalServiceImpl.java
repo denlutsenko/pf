@@ -1,7 +1,5 @@
 package ua.com.petfood.pf.service.impl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +52,13 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     public Animal findAnimalById(final Long animalId) {
-        return animalRepository.findById(animalId).orElseThrow(()-> new NotFoundException("Animal not found"));
+        return animalRepository.findById(animalId).orElseThrow(() -> new NotFoundException("Animal not found"));
+    }
+
+    @Override
+    public void updateUserInfoInUserAnimal(final Animal animal, final User user) {
+        Animal animalToUpdate = findAnimalById(animal.getId());
+        animalToUpdate.setUser(user);
     }
 
     private Animal saveAnimal(Animal animal) {

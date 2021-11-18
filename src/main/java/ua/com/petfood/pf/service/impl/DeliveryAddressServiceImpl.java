@@ -1,5 +1,12 @@
 package ua.com.petfood.pf.service.impl;
 
+import static ua.com.petfood.pf.helper.constants.Constants.EMAIL;
+import static ua.com.petfood.pf.helper.constants.Constants.TOKEN;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,21 +16,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.petfood.pf.model.DeliveryAddress;
+import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.RoleName;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.DeliveryAddressDTO;
 import ua.com.petfood.pf.repository.DeliveryAddressRepository;
 import ua.com.petfood.pf.security.jwt.JwtTokenProvider;
+import ua.com.petfood.pf.service.AnimalService;
 import ua.com.petfood.pf.service.DeliveryAddressService;
 import ua.com.petfood.pf.service.OrderService;
 import ua.com.petfood.pf.service.UserService;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
-import static ua.com.petfood.pf.helper.constants.Constants.EMAIL;
-import static ua.com.petfood.pf.helper.constants.Constants.TOKEN;
 
 @Service
 public class DeliveryAddressServiceImpl implements DeliveryAddressService {
@@ -33,15 +35,18 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
     private final RoleServiceImpl roleService;
     private final OrderService orderService;
     private final DeliveryAddressRepository deliveryAddressRepository;
-
+    private final AnimalService animalService;
 
     @Autowired
-    public DeliveryAddressServiceImpl(UserService userService, JwtTokenProvider jwtTokenProvider, RoleServiceImpl roleService, OrderService orderService, DeliveryAddressRepository deliveryAddressRepository) {
+    public DeliveryAddressServiceImpl(UserService userService, JwtTokenProvider jwtTokenProvider,
+            RoleServiceImpl roleService, OrderService orderService, DeliveryAddressRepository deliveryAddressRepository,
+            AnimalService animalService) {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.roleService = roleService;
         this.orderService = orderService;
         this.deliveryAddressRepository = deliveryAddressRepository;
+        this.animalService = animalService;
     }
 
     @Transactional
@@ -50,28 +55,33 @@ public class DeliveryAddressServiceImpl implements DeliveryAddressService {
         Map<String, Object> responseMap = new HashMap<>();
         Optional<User> user = userService.findByUsername(deliveryAddressDTO.getEmail());
         DeliveryAddress deliveryAddress = mapDeliveryAddressDTOToDeliveryAddressEntity(deliveryAddressDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Optional<User> userAnon = userService.findByUsername(email);
 
-        if (user.isEmpty()) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String email = authentication.getName();
-            Optional<User> userAnon = userService.findByUsername(email);
+        if(user.isEmpty()) {
             userAnon.ifPresent(value -> userService.updateUserFromDeliveryAddress(value, deliveryAddress));
+        } else {
+            Order order = orderService.updateUserInfoInOrder(user.get(), deliveryAddress.getOrderId());
+            animalService.updateUserInfoInUserAnimal(order.getAnimal(), user.get());
+            userAnon.ifPresent(userService::deleteUser);
         }
 
-        String token = jwtTokenProvider.createToken(deliveryAddress.getEmail(), roleService.findRoleByName(RoleName.USER));
-        deliveryAddressRepository.save(deliveryAddress);
-        orderService.updateOrderDeliveryAddress(deliveryAddress);
+        String token = jwtTokenProvider.createToken(deliveryAddress.getEmail(),
+                roleService.findRoleByName(RoleName.USER));
+        DeliveryAddress savedDeliveryAddress = deliveryAddressRepository.save(deliveryAddress);
+        orderService.updateOrderDeliveryAddress(savedDeliveryAddress);
+
         responseMap.put(EMAIL, deliveryAddress.getEmail());
         responseMap.put(TOKEN, token);
+
         return responseMap;
     }
 
     private DeliveryAddress mapDeliveryAddressDTOToDeliveryAddressEntity(DeliveryAddressDTO deliveryAddressDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper.map(deliveryAddressDTO, DeliveryAddress.class);
     }
-
 
 }

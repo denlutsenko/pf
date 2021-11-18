@@ -21,7 +21,10 @@ import org.springframework.stereotype.Service;
 import ua.com.petfood.pf.exception.BadRequestException;
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.UserHelper;
-import ua.com.petfood.pf.model.*;
+import ua.com.petfood.pf.model.DeliveryAddress;
+import ua.com.petfood.pf.model.Role;
+import ua.com.petfood.pf.model.RoleName;
+import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.UserDTO;
 import ua.com.petfood.pf.repository.UserRepository;
 import ua.com.petfood.pf.service.RoleService;
@@ -130,6 +133,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllAnonUsers() {
         return userRepository.findAllUsersByRoleAndStatus(ANONYMOUS.name().toUpperCase(), USER_STATUS_ACTIVE);
+    }
+
+    @Override
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 
     private String encodePassword(final String password) {

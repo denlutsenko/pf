@@ -12,10 +12,9 @@ import org.springframework.stereotype.Service;
 
 import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.helper.OrderHelper;
-import ua.com.petfood.pf.helper.OrderHelper;
 import ua.com.petfood.pf.helper.UserHelper;
-import ua.com.petfood.pf.model.*;
 import ua.com.petfood.pf.model.Animal;
+import ua.com.petfood.pf.model.DeliveryAddress;
 import ua.com.petfood.pf.model.Order;
 import ua.com.petfood.pf.model.OrderPaymentInfo;
 import ua.com.petfood.pf.model.User;
@@ -33,7 +32,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderHelper orderHelper;
 
     @Autowired
-    private OrderServiceImpl(OrderRepository orderRepository, UserService userService, UserHelper userHelper, OrderHelper orderHelper) {
+    private OrderServiceImpl(OrderRepository orderRepository, UserService userService, UserHelper userHelper,
+            OrderHelper orderHelper) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.userHelper = userHelper;
@@ -57,23 +57,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderPaymentInfoDTO populateLiqPayOrderPaymentInfo(final String data){
+    public OrderPaymentInfoDTO populateLiqPayOrderPaymentInfo(final String data) {
         return orderHelper.mapLiqPayOrderPaymentInfo(data);
     }
 
     @Override
-    public void updateOrderPaymentStatus(final OrderPaymentInfo orderPaymentInfo){
+    public void updateOrderPaymentStatus(final OrderPaymentInfo orderPaymentInfo) {
         String paymentStatus = orderPaymentInfo.getStatus();
         Order order = orderRepository.getOrderByOrderId(orderPaymentInfo.getOrder_id());
 
-        if(order != null){
+        if(order != null) {
             String status = paymentStatus.toUpperCase();
             order.setPaymentStatus(status);
             order.setOrderPaymentDate(orderPaymentInfo.getCreate_date());
             updateSubscriptionStatusForOrder(order, status);
 
             orderRepository.save(order);
-        }else{
+        } else {
             // TODO add logging
         }
     }
@@ -86,13 +86,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getSalesOrderById(String orderId){
-       return orderRepository.getOrderByOrderId(orderId);
+    public Order updateUserInfoInOrder(User user, String orderId) {
+        Order order = orderRepository.getOrderByOrderId(orderId);
+        order.setUser(user);
+        return orderRepository.save(order);
     }
 
     @Override
-    public List<Order> getAllOneTimeOrders(){
-      return  orderRepository.findAllOneTimeOrders();
+    public Order getSalesOrderById(String orderId) {
+        return orderRepository.getOrderByOrderId(orderId);
+    }
+
+    @Override
+    public List<Order> getAllOneTimeOrders() {
+        return orderRepository.findAllOneTimeOrders();
     }
 
     @Override
@@ -100,14 +107,14 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAllOrdersBySubscription();
     }
 
-    private void updateSubscriptionStatusForOrder(final Order order, final String status){
-        if(SUBSCRIBED_STATUS.equalsIgnoreCase(status)){
+    private void updateSubscriptionStatusForOrder(final Order order, final String status) {
+        if(SUBSCRIBED_STATUS.equalsIgnoreCase(status)) {
             order.setSubscription(true);
             order.setSubscriptionStatus(status);
         }
     }
 
-    private String createOrderId(final Long id){
+    private String createOrderId(final Long id) {
         Long dateMillis = new Date().getTime();
         String subId = String.valueOf(dateMillis).substring(10);
 
