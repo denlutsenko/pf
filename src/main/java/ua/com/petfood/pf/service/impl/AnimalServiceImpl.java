@@ -14,6 +14,8 @@ import ua.com.petfood.pf.service.AnimalCategoryService;
 import ua.com.petfood.pf.service.AnimalService;
 import ua.com.petfood.pf.service.UserService;
 
+import java.util.List;
+
 @Service
 public class AnimalServiceImpl implements AnimalService {
 
@@ -59,6 +61,11 @@ public class AnimalServiceImpl implements AnimalService {
     public void updateUserInfoInUserAnimal(final Animal animal, final User user) {
         Animal animalToUpdate = findAnimalById(animal.getId());
         animalToUpdate.setUser(user);
+    }
+
+    @Override
+    public List<Animal> findAnimalsByUser(User user) {
+        return animalRepository.findAnimalsByUser(user);
     }
 
     private Animal saveAnimal(Animal animal) {

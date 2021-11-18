@@ -16,9 +16,13 @@ public class UserProfileController {
     }
 
 
-    @GetMapping(value = "/api/get_user_profile/{email}")
-    public ResponseEntity<?> getUserInfo(@RequestHeader(AUTHORIZATION) String bearerToken, @PathVariable String email) {
-        return ResponseEntity.ok(userProfileService.getUserInfoDTO(email));
+    @GetMapping(value = "/user/get_user_profile/{email}")
+    public ResponseEntity<?> getUserProfile(@RequestHeader(AUTHORIZATION) String bearerToken, @PathVariable String email) {
+        return ResponseEntity.ok(userProfileService.getUserProfileDTO(email));
+    }
+    @GetMapping(value = "/user/get_user_animals/{email}")
+    public ResponseEntity<?> getUserAnimals(@RequestHeader(AUTHORIZATION) String bearerToken, @PathVariable String email) {
+        return ResponseEntity.ok(userProfileService.getUserAnimals(email));
     }
 }
 

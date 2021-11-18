@@ -5,6 +5,8 @@ import ua.com.petfood.pf.model.AnimalCategory;
 import ua.com.petfood.pf.model.User;
 import ua.com.petfood.pf.model.dto.QuestionnaireDTO;
 
+import java.util.List;
+
 public interface AnimalService {
 
     Animal createAndSaveAnimal(QuestionnaireDTO questionnaireDto, AnimalCategory animalCategory, String token);
@@ -14,4 +16,6 @@ public interface AnimalService {
     Animal findAnimalById(Long animalId);
 
     void updateUserInfoInUserAnimal(Animal animal, User user);
+
+    List<Animal> findAnimalsByUser(User user);
 }
