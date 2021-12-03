@@ -2,11 +2,13 @@ package ua.com.petfood.pf.service.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ua.com.petfood.pf.exception.NotFoundException;
 import ua.com.petfood.pf.model.SKUPrice;
 import ua.com.petfood.pf.model.dto.OrderSKUItems;
 import ua.com.petfood.pf.repository.SKUPriceRepository;
@@ -51,5 +53,14 @@ public class SKUPriceServiceImpl implements SKUPriceService {
     public List<SKUPrice> findSKUItemsWithPricesByAnimalCategory(final Long animalCategoryId) {
 
         return skuPriceRepository.findSkuPricesByPetCategory(animalCategoryId);
+    }
+
+    public SKUPrice getSkuPriceItemBySkuId(final Long id) {
+        SKUPrice skuPriceBySkuId = skuPriceRepository.findSkuPriceBySkuId(id);
+        if(skuPriceBySkuId != null) {
+            return skuPriceBySkuId;
+        } else {
+            throw new NotFoundException("Sku item not found");
+        }
     }
 }

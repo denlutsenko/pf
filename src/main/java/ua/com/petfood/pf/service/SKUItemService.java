@@ -31,6 +31,8 @@ public interface SKUItemService {
 
     List<SKUPrice> getSKUItemsWithPricesByAnimalCategory(Long animalCategoryId);
 
+    SKUPrice getSkuItemDetailsWithPrice(Long skuItemId);
+
     SKUItem findSKUItemById(Long id);
 
     List<SKUItem> getSkuItemListFromOrderSKUItemDTOs(List<OrderSKUItems> orderSKUItemDTOList);

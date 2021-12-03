@@ -15,4 +15,6 @@ public interface SKUPriceService {
     BigDecimal calculateTotalOrderPrice(List<OrderSKUItems> dtos);
 
     List<SKUPrice> findSKUItemsWithPricesByAnimalCategory(Long animalCategoryId);
+
+    SKUPrice getSkuPriceItemBySkuId(final Long id);
 }

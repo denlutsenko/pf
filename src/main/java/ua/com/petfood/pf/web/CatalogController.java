@@ -31,4 +31,9 @@ public class CatalogController {
     ResponseEntity<?> getItemsWithPriceByAnimalCategory(@PathVariable(name = "id") Long animalCategoryId) {
         return ResponseEntity.ok(skuItemService.getSKUItemsWithPricesByAnimalCategory(animalCategoryId));
     }
+
+    @GetMapping(value="/catalog/item/{id}")
+    ResponseEntity<?> getSkuItemDetailsById(@PathVariable(name="id") Long id){
+        return ResponseEntity.ok(skuItemService.getSkuItemDetailsWithPrice(id));
+    }
 }

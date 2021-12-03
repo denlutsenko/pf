@@ -112,6 +112,10 @@ public class SKUItemServiceImpl implements SKUItemService {
         return skuPriceService.findSKUItemsWithPricesByAnimalCategory(animalCategoryId);
     }
 
+    public SKUPrice getSkuItemDetailsWithPrice(Long skuItemId){
+        return skuPriceService.getSkuPriceItemBySkuId(skuItemId);
+    }
+
     @Override
     public SKUItem findSKUItemById(Long id) {
         return skuItemRepository.findById(id).orElseThrow(() -> new NotFoundException("SKU Item not found"));
